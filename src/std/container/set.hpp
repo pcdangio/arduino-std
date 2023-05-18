@@ -1,5 +1,5 @@
-/// \file std/set.hpp
-/// \brief Defines the set::set class.
+/// \file std/container/set.hpp
+/// \brief Defines the std::set class.
 #ifndef STD___SET_H
 #define STD___SET_H
 
