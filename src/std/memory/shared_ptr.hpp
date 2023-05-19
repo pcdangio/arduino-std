@@ -102,21 +102,34 @@ public:
         shared_ptr::m_reference_count = nullptr;
     }
     /// \brief Copies ownership from another shared_ptr.
+    /// \param other The other shared_ptr to copy ownership from.
+    /// \return A reference to this shared_ptr.
+    shared_ptr<object_type>& operator=(const shared_ptr& other)
+    {
+        // Copy assign.
+        shared_ptr::copy_assign(other.m_instance, other.m_reference_count);
+
+        return *this;
+    }
+    /// \brief Copies ownership from another shared_ptr.
     /// \tparam other_type The object type of the other shared_ptr. If different from this shared_ptr, the object type must be implicitly convertible.
     /// \param other The other shared_ptr to copy ownership from.
     /// \return A reference to this shared_ptr.
     template <class other_type>
     shared_ptr<object_type>& operator=(const shared_ptr<other_type>& other)
     {
-        // Decrement prior reference count.
-        shared_ptr::decrement();
+        // Copy assign.
+        shared_ptr::copy_assign(other.m_instance, other.m_reference_count);
 
-        // Copy new instance/reference count
-        shared_ptr::m_instance = other.m_instance;
-        shared_ptr::m_reference_count = other.m_reference_count;
-
-        // Increment new reference count.
-        shared_ptr::increment();
+        return *this;
+    }
+    /// \brief Moves ownership from another shared_ptr.
+    /// \param other The other shared_ptr to move ownership from.
+    /// \return A reference to this shared_ptr.
+    shared_ptr<object_type>& operator=(shared_ptr&& other)
+    {
+        // Move assign.
+        shared_ptr::move_assign(other.m_instance, other.m_reference_count);
 
         return *this;
     }
@@ -127,18 +140,8 @@ public:
     template <class other_type>
     shared_ptr<object_type>& operator=(shared_ptr<other_type>&& other)
     {
-        // Decrement prior reference count.
-        shared_ptr::decrement();
-
-        // Copy new instance/reference count
-        shared_ptr::m_instance = other.m_instance;
-        shared_ptr::m_reference_count = other.m_reference_count;
-
-        // Remove instance/reference count from other.
-        other.m_instance = nullptr;
-        other.m_reference_count = nullptr;
-
-        // No increment required as ownership was moved.
+        // Move assign.
+        shared_ptr::move_assign(other.m_instance, other.m_reference_count);
 
         return *this;
     }
@@ -225,6 +228,40 @@ private:
         }
     }
     
+    // ASSIGNMENT
+    /// \brief Copy assigns another shared_ptr instance.
+    /// \param instance The instance from the other shared_ptr.
+    /// \param reference_count The reference_ount from the other shared_ptr.
+    void copy_assign(object_type* instance, size_t* reference_count)
+    {
+        // Decrement prior reference count.
+        shared_ptr::decrement();
+
+        // Copy source instance/reference count.
+        shared_ptr::m_instance = instance;
+        shared_ptr::m_reference_count = reference_count;
+
+        // Increment new reference count.
+        shared_ptr::increment();
+    }
+    /// \brief Move assigns another shared_ptr instance.
+    /// \param instance The instance from the other shared_ptr.
+    /// \param reference_count The reference_ount from the other shared_ptr.
+    void move_assign(object_type*& instance, size_t*& reference_count)
+    {
+        // Decrement prior reference count.
+        shared_ptr::decrement();
+
+        // Copy new instance/reference count
+        shared_ptr::m_instance = instance;
+        shared_ptr::m_reference_count = reference_count;
+
+        // Clear the source instance / reference count.
+        instance = nullptr;
+        reference_count = nullptr;
+
+        // No increment required as ownership was moved.
+    }
 };
 
 }
