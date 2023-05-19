@@ -193,7 +193,13 @@ public:
     {
         return shared_ptr::m_instance != nullptr;
     }
-    
+    /// \brief Checks if the shared_ptr has a valid object instance.
+    /// \return TRUE if the object instance is valid, FALSE if the object instance is nullptr.
+    bool valid() const
+    {
+        return shared_ptr::m_instance != nullptr;
+    }
+
 private:
     // FRIENDSHIP
     template <class other_type>
