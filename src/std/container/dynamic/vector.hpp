@@ -1,25 +1,25 @@
-/// \file std/container/vector.hpp
+/// \file std/container/dynamic/vector.hpp
 /// \brief Defines the std::vector class.
 #ifndef STD___VECTOR_H
 #define STD___VECTOR_H
 
 // std
-#include <std/container/container.hpp>
+#include <std/container/dynamic/dynamic.hpp>
 
 namespace std {
 
-/// \brief A vector for storing a variable length array.
+/// \brief A dynamically-sized array container.
 /// \tparam object_type 
 template <typename object_type>
 class vector
-    : public std::container<object_type>
+    : public std::container::dynamic<object_type>
 {
 public:
     // CONSTRUCTORS
     /// \brief Constructs a new vector.
     /// \param capacity The maximum capacity of the vector.
     vector(size_t capacity)
-        : std::container<object_type>(capacity)
+        : std::container::dynamic<object_type>(capacity)
     {}
 
     // MODIFIERS
@@ -28,7 +28,7 @@ public:
     /// \return TRUE if the value was added, FALSE if the vector is at capacity.
     bool push_back(const object_type& value)
     {
-        // Check if there is space to add the object.
+        // Check if there is space to add the value.
         if(vector::m_end == vector::m_capacity)
         {
             return false;
@@ -53,54 +53,54 @@ public:
     }
 
     // ACCESS
-    /// \brief Gets a reference to the object at a specified index.
-    /// \param index The index of the object to get.
-    /// \return A reference to the object.
+    /// \brief Gets a reference to the value at a specified index.
+    /// \param index The index of the value to get.
+    /// \return A reference to the value.
     object_type& operator[](size_t index)
     {
         return *(vector::m_begin + index);
     }
-    /// \brief Gets a const reference to the object at a specified index.
-    /// \param index The index of the object to get.
-    /// \return A const reference to the object.
+    /// \brief Gets a const reference to the value at a specified index.
+    /// \param index The index of the value to get.
+    /// \return A const reference to the value.
     const object_type& operator[](size_t index) const
     {
         return *(vector::m_begin + index);
     }
-    /// \brief Gets a reference to the object at a specified index.
-    /// \param index The index of the object to get.
-    /// \return A reference to the object.
+    /// \brief Gets a reference to the value at a specified index.
+    /// \param index The index of the value to get.
+    /// \return A reference to the value.
     object_type& at(size_t index)
     {
         return *(vector::m_begin + index);
     }
-    /// \brief Gets a const reference to the object at a specified index.
-    /// \param index The index of the object to get.
-    /// \return A const reference to the object.
+    /// \brief Gets a const reference to the value at a specified index.
+    /// \param index The index of the value to get.
+    /// \return A const reference to the value.
     const object_type& at(size_t index) const
     {
         return *(vector::m_begin + index);
     }
-    /// \brief Gets a reference to the first object in the vector.
-    /// \return A reference to the first object.
+    /// \brief Gets a reference to the first value in the vector.
+    /// \return A reference to the first value.
     object_type& front()
     {
         return *vector::m_begin;
     }
-    /// \brief Gets a const reference to the first object in the vector.
-    /// \return A const reference to the first object.
+    /// \brief Gets a const reference to the first value in the vector.
+    /// \return A const reference to the first value.
     const object_type& front() const
     {
         return *vector::m_begin;
     }
-    /// \brief Gets a reference to the last object in the vector.
-    /// \return A reference to the last object.
+    /// \brief Gets a reference to the last value in the vector.
+    /// \return A reference to the last value.
     object_type& back()
     {
         return *vector::m_end;
     }
-    /// \brief Gets a const reference to the last object in the vector.
-    /// \return A const reference to the last object.
+    /// \brief Gets a const reference to the last value in the vector.
+    /// \return A const reference to the last value.
     const object_type& back() const
     {
         return *vector::m_end;

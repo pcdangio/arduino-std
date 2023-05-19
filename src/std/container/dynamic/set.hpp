@@ -1,10 +1,10 @@
-/// \file std/container/set.hpp
+/// \file std/container/dynamic/set.hpp
 /// \brief Defines the std::set class.
 #ifndef STD___SET_H
 #define STD___SET_H
 
 // std
-#include <std/container/container.hpp>
+#include <std/container/dynamic/dynamic.hpp>
 
 namespace std {
 
@@ -12,14 +12,14 @@ namespace std {
 /// \tparam object_type The type of object stored in the set.
 template <typename object_type>
 class set
-    : public std::container<object_type>
+    : public std::container::dynamic<object_type>
 {
 public:
     // CONSTRUCTORS
     /// \brief Creates a new set instance.
     /// \param capacity The maximum capacity of the set.
     set(size_t capacity)
-        : std::container<object_type>(capacity)
+        : std::container::dynamic<object_type>(capacity)
     {}
 
     // MODIFIERS
@@ -66,9 +66,9 @@ public:
         }
 
         // Erase at position.
-        std::container<object_type>::erase(entry);
+        std::container::dynamic<object_type>::erase(entry);
     }
-    using std::container<object_type>::erase;
+    using std::container::dynamic<object_type>::erase;
 };
 
 }

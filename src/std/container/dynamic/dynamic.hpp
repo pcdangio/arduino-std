@@ -1,7 +1,7 @@
-/// \file std/container/container.hpp
-/// \brief Defines the std::container class.
-#ifndef STD___CONTAINER_H
-#define STD___CONTAINER_H
+/// \file std/container/dynamic/dynamic.hpp
+/// \brief Defines the std::dynamic::dynamic class.
+#ifndef STD___CONTAINER___DYNAMIC_H
+#define STD___CONTAINER___DYNAMIC_H
 
 // container
 #include <std/container/iterator.hpp>
@@ -10,45 +10,46 @@
 #include <Arduino.h>
 
 namespace std {
+namespace container {
 
-/// \brief A container for storing an array of objects.
+/// \brief A dynamic-sized container.
 /// \tparam object_type The object type stored in the container.
 template <typename object_type>
-class container
+class dynamic
 {
 public:
-    // CONSTRUCTORSposition
-    /// \brief Constructs a new container instance.
+    // CONSTRUCTORS
+    /// \brief Constructs a new dynamic container instance.
     /// \param capacity The maximum capacity of the container.
-    container(size_t capacity)
+    dynamic(size_t capacity)
         : m_begin(new object_type[capacity]),
           m_end(m_begin),
           m_capacity(m_begin + capacity),
           capacity(capacity)
     {}
-    ~container()
+    ~dynamic()
     {
         // Free container data.
-        delete [] container::m_begin;
+        delete [] dynamic::m_begin;
     }
 
     // MODIFIERS
-    /// \brief Inserts a new element into the container.
-    /// \param position The position to insert the element into.
+    /// \brief Inserts a new value into the container.
+    /// \param position The position to insert the value into.
     /// \param value The value to insert.
     bool insert(std::iterator<object_type> position, const object_type& value)
     {
         // Check for space.
-        if(container::m_end == container::m_capacity)
+        if(dynamic::m_end == dynamic::m_capacity)
         {
             return false;
         }
 
         // Update end position.
-        ++container::m_end;
+        ++dynamic::m_end;
 
         // Move remaining entries backward.
-        for(object_type* entry = container::m_end; entry != position; --entry)
+        for(object_type* entry = dynamic::m_end; entry != position; --entry)
         {
             *entry = *(entry - 1);
         }
@@ -58,24 +59,24 @@ public:
 
         return true;
     }
-    /// \brief Erases an object at a specified position in the container.
-    /// \param position The position to erase.
+    /// \brief Erases a value at a specified position in the container.
+    /// \param position The position of the value to erase.
     void erase(std::iterator<object_type> position)
     {
         // Move remaining entries forward.
-        for(++position; position != container::m_end; ++position)
+        for(++position; position != dynamic::m_end; ++position)
         {
             *(position - 1) = *position;
         }
 
         // Update end position.
-        --container::m_end;
+        --dynamic::m_end;
     }
-    /// \brief Clears all objects from the container.
+    /// \brief Clears all values from the container.
     void clear()
     {
         // Reset array end.
-        container::m_end = container::m_begin;
+        dynamic::m_end = dynamic::m_begin;
     }
 
     // ACCESS
@@ -83,25 +84,25 @@ public:
     /// \return The begin iterator.
     std::iterator<object_type> begin() const
     {
-        return container::m_begin;
+        return dynamic::m_begin;
     }
     /// \brief Gets an iterator to the end of the container.
     /// \return The end iterator.
     std::iterator<object_type> end() const
     {
-        return container::m_end;
+        return dynamic::m_end;
     }
     /// \brief Gets a const_iterator to the beginning of the container.
     /// \return The begin const_iterator.
     std::const_iterator<object_type> cbegin() const
     {
-        return container::m_begin;
+        return dynamic::m_begin;
     }
     /// \brief Gets a const_iterator to the end of the container.
     /// \return The end const_iterator.
     std::const_iterator<object_type> cend() const
     {
-        return container::m_end;
+        return dynamic::m_end;
     }
 
     // INSPECTION
@@ -111,7 +112,7 @@ public:
     bool contains(const object_type& object) const
     {
         // Iterate through container.
-        for(auto entry = container::m_begin; entry != container::m_end; ++entry)
+        for(auto entry = dynamic::m_begin; entry != dynamic::m_end; ++entry)
         {
             // Check if entry is equal to object.
             if(*entry == object)
@@ -131,25 +132,25 @@ public:
     /// \return The current size.
     size_t size() const
     {
-        return container::m_end - container::m_begin;
+        return dynamic::m_end - dynamic::m_begin;
     }
     /// \brief Checks if the container is empty.
     /// \return TRUE if the container is empty, otherwise FALSE.
     bool empty() const
     {
-        return container::m_begin == container::m_end;
+        return dynamic::m_begin == dynamic::m_end;
     }
 
 protected:
     // ENTRIES
     /// \brief A pointer to the beginning of the container array.
-    object_type* m_begin;
+    object_type* const m_begin;
     /// \brief A pointer to the end of the existing data in the container array.
     object_type* m_end;
     /// \brief A pointer to the end of the the container array.
-    object_type* m_capacity;
+    object_type* const m_capacity;
 };
 
-}
+}}
 
 #endif
