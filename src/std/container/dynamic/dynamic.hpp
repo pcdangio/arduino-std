@@ -140,6 +140,12 @@ public:
     {
         return dynamic::m_begin == dynamic::m_end;
     }
+    /// \brief Checks if the container is full.
+    /// \return TRUE if the container is at capacity, otherwise FALSE.
+    bool full() const
+    {
+        return dynamic::m_end == dynamic::m_capacity;
+    }
 
 protected:
     // ENTRIES
