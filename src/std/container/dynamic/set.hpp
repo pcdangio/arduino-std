@@ -47,7 +47,8 @@ public:
     }
     /// \brief Erases an object from the set.
     /// \param object The object to erase.
-    void erase(const object_type& object)
+    /// \return TRUE if the object was erased, FALSE if it did not exist in the set.
+    bool erase(const object_type& object)
     {
         // Search for object.
         auto entry = set::m_begin;
@@ -62,11 +63,13 @@ public:
         // Check if object was found.
         if(entry == set::m_end)
         {
-            return;
+            return false;
         }
 
         // Erase at position.
-        std::container::dynamic<object_type>::erase(entry);
+        set::erase(entry);
+
+        return true;
     }
     using std::container::dynamic<object_type>::erase;
 };
