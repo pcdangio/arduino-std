@@ -57,8 +57,16 @@ public:
     /// \return TRUE if the value was inserted, FALSE if the vector is at capacity.
     bool insert(std::iterator<object_type> position, const object_type& value)
     {
-        // Use range insert.
-        return vector::insert(position, &value, &value+1);
+        // Shift back-end subset backwards.
+        if(!vector::shift_backward(position, 1))
+        {
+            return false;
+        }
+
+        // Assign new value.
+        *position = value;
+
+        return true;
     }
     /// \brief Inserts a range of new values into the vector.
     /// \param position The position to insert the values into.
@@ -67,23 +75,11 @@ public:
     /// \return TRUE if the values were inserted, FALSE if there is not enough space in the vector.
     bool insert(std::iterator<object_type> position, std::const_iterator<object_type> begin, std::const_iterator<object_type> end)
     {
-        // Calculate new end position.
-        auto new_end = vector::m_end + (end - begin);
-
-        // Check for space.
-        if(new_end > vector::m_capacity)
+        // Shift back-end subset backwards.
+        if(!vector::shift_backward(position, end-begin))
         {
             return false;
         }
-
-        // Move entries backwards.
-        for(auto source = vector::m_end - 1, destination = new_end - 1; source >= position; --source, --destination)
-        {
-            *destination = *source;
-        }
-
-        // Update end position.
-        vector::m_end = new_end;
 
         // Copy entries.
         for(auto source = begin, destination = position; source != end; ++source, ++destination)
@@ -107,22 +103,16 @@ public:
     /// \param position The position of the value to erase.
     void erase(std::iterator<object_type> position)
     {
-        vector::erase(position, position+1);
+        // Shift back-end subset forward.
+        vector::shift_forward(position, 1);
     }
     /// @brief Erases a range of values from the vector.
     /// @param begin An iterator to the beginning of the range in the vector.
     /// @param end An iterator to the end of the range in the vector.
     void erase(std::iterator<object_type> begin, std::iterator<object_type> end)
     {
-        // Move remaining entries forward.
-        auto destination = begin;
-        for(auto source = end; source != vector::m_end; ++source, ++destination)
-        {
-            *destination = *source;
-        }
-
-        // Update end position.
-        vector::m_end = destination;
+        // Shift back-end subset forward.
+        vector::shift_forward(begin, end-begin);
     }
     /// \brief Resizes the vector to a specified size.
     /// \param size The new size to set.

@@ -72,12 +72,11 @@ public:
             return false;
         }
 
-        // Erase at position.
-        map::erase(entry);
+        // Shift subset at entry location forwards.
+        map::shift_forward(entry, 1);
 
         return true;
     }
-    using std::container::dynamic<std::container::key_value<key_type,value_type>>::erase;
 
     // ACCESS
     /// \brief Finds a key/value pair in the map.
@@ -155,7 +154,7 @@ public:
     /// \brief Checks if the map contains a specific key.
     /// \param key The key to check the map for.
     /// \return TRUE if the map contains the key, otherwise FALSE.
-    bool contains(const key_type& key)
+    bool contains(const key_type& key) const
     {
         // Try to find key.
         auto entry = map::find(key);

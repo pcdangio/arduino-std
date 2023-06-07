@@ -67,26 +67,6 @@ public:
         return dynamic::m_end;
     }
 
-    // INSPECTION
-    /// \brief Checks if the container contains an object.
-    /// \param object The object to check.
-    /// \return TRUE if the container contains the object, otherwise FALSE.
-    bool contains(const object_type& object) const
-    {
-        // Iterate through container.
-        for(auto entry = dynamic::m_begin; entry != dynamic::m_end; ++entry)
-        {
-            // Check if entry is equal to object.
-            if(*entry == object)
-            {
-                return true;
-            }
-        }
-
-        // If this point reached, object not present in container.
-        return false;
-    }
-
     // SIZE
     /// \brief The maximum capacity of the container.
     const size_t capacity;
@@ -117,6 +97,63 @@ protected:
     object_type* m_end;
     /// \brief A pointer to the end of the the container array.
     object_type* const m_capacity;
+
+    // SHIFT
+    /// \brief Shifts a back-end subset of values backwards, increasing the size of the container.
+    /// \param current_position The starting position of the back-end subset to shift backwards.
+    /// \param count The number of elements to shift the subset backwards.
+    /// \return TRUE if the shift succeeded, FALSE if the container does not have enough capacity.
+    bool shift_backward(std::iterator<object_type> current_position, size_t count)
+    {
+        // Validate count.
+        if(count == 0)
+        {
+            // No shift necessary.
+            return true;
+        }
+
+        // Calculate new end position.
+        auto new_end = (current_position + count) + (dynamic::m_end - current_position);
+
+        // Check for space.
+        if(new_end > dynamic::m_capacity)
+        {
+            return false;
+        }
+
+        // Move entries backwards.
+        for(auto source = dynamic::m_end - 1, destination = new_end - 1; source >= current_position; --source, --destination)
+        {
+            *destination = *source;
+        }
+
+        // Update end position.
+        dynamic::m_end = new_end;
+
+        return true;
+    }
+    /// \brief Shifts a back-end subset of values forwards, decreasing the size of the container.
+    /// \param current_position The starting position of the back-end subset to shift fowards.
+    /// \param count The number of elements to shift the subset forwards.
+    void shift_forward(std::iterator<object_type> current_position, size_t count)
+    {
+        // Validate count.
+        if(count == 0)
+        {
+            // No shift necessary.
+            return;
+        }
+
+        // Move remaining entries forward.
+        auto destination = current_position - count;
+        for(auto source = current_position; source != dynamic::m_end; ++source, ++destination)
+        {
+            *destination = *source;
+        }
+
+        // Update end position.
+        dynamic::m_end = destination;
+    }
 };
 
 }}
