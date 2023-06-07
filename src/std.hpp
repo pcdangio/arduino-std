@@ -14,6 +14,8 @@
 #include <std/container/dynamic/vector.hpp>
 
 // MEMORY
+#include <std/memory/smart_ptr.hpp>
 #include <std/memory/shared_ptr.hpp>
+#include <std/memory/unique_ptr.hpp>
 
 #endif
