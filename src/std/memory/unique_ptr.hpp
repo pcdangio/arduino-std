@@ -76,7 +76,7 @@ public:
     unique_ptr<object_type>& operator=(unique_ptr&& other)
     {
         // Move assign.
-        unique_ptr::move_assign(other.m_instance, other.m_reference_count);
+        unique_ptr::move_assign(other.m_instance);
 
         return *this;
     }
@@ -88,7 +88,7 @@ public:
     unique_ptr<object_type>& operator=(unique_ptr<other_type>&& other)
     {
         // Move assign.
-        unique_ptr::move_assign(other.m_instance, other.m_reference_count);
+        unique_ptr::move_assign(other.m_instance);
 
         return *this;
     }
@@ -101,7 +101,6 @@ private:
     // ASSIGNMENT
     /// \brief Move assigns another unique_ptr instance.
     /// \param instance The instance from the other unique_ptr.
-    /// \param reference_count The reference_ount from the other unique_ptr.
     void move_assign(object_type*& instance)
     {
         // Free prior instance.
