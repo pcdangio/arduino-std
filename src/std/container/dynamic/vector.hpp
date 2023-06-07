@@ -51,6 +51,56 @@ public:
         // Decrement end pointer.
         --vector::m_end;
     }
+    /// \brief Resizes the vector to a specified size.
+    /// \param size The new size to set.
+    /// \return TRUE if the resize succeeded, FALSE if vector does not have enough capacity.
+    /// \note Indeterminant values will fill the new space if size is increased.
+    bool resize(size_t size)
+    {
+        // Validate new size.
+        if(size > vector::capacity)
+        {
+            return false;
+        }
+
+        // Update end position.
+        vector::m_end = vector::m_begin + size;
+
+        return true;
+    }
+    /// \brief Resizes the vector to a specified size.
+    /// \param size The new size to set.
+    /// \param value The value to fill new space with if size is increased.
+    /// \return TRUE if the resize succeeded, FALSE if vector does not have enough capacity.
+    bool resize(size_t size, const object_type& value)
+    {
+        // Store original end position.
+        auto original_end = vector::m_end;
+
+        // Try to resize vector.
+        if(!vector::resize(size))
+        {
+            return false;
+        }
+
+        // Fill remaining portion of vector (if any).
+        for(auto destination = original_end; destination < vector::m_end; ++destination)
+        {
+            *destination = value;
+        }
+
+        return true;
+    }
+    /// \brief Fills the vector with a specified value.
+    /// \param value The value to fill the vector with.
+    void fill(const object_type& value)
+    {
+        // Iterate through vector and assign value at each position.
+        for(auto destination = vector::m_begin; destination != vector::m_end; ++destination)
+        {
+            *destination = value;
+        }
+    }
 
     // ACCESS
     /// \brief Gets a reference to the value at a specified index.
