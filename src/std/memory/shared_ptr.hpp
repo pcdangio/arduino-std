@@ -3,34 +3,34 @@
 #ifndef STD___SHARED_PTR_H
 #define STD___SHARED_PTR_H
 
-// arduino
-#include <Arduino.h>
+// std
+#include <std/memory/smart_ptr.hpp>
 
-/// \brief Contains all code for the Arduino Standard Library implementation.
 namespace std {
 
 /// \brief A smart pointer that retains shared ownership of an object through a pointer.
 /// \tparam object_type The managed object's type.
 template <class object_type>
 class shared_ptr
+    : public std::memory::smart_ptr<object_type>
 {
 public:
     // CONSTRUCTORS
     /// \brief Constructs an empty shared_ptr instance.
     shared_ptr()
-        : m_instance(nullptr),
+        : std::memory::smart_ptr<object_type>(nullptr),
           m_reference_count(nullptr)
     {}
     /// \brief Constructs a shared_ptr instance that takes ownership over an existing raw pointer.
     /// \param instance The existing raw pointer to take ownership over.
     shared_ptr(object_type* instance)
-        : m_instance(instance),
+        : std::memory::smart_ptr<object_type>(instance),
           m_reference_count(instance ? new size_t(1) : nullptr)
     {}
     /// \brief Copy-constructs a shared_ptr instance from another shared_ptr.
     /// \param other The other shared_ptr instance to copy from.
     shared_ptr(const shared_ptr<object_type>& other)
-        : m_instance(other.m_instance),
+        : std::memory::smart_ptr<object_type>(other.m_instance),
           m_reference_count(other.m_reference_count)
     {
         // Increment reference count.
@@ -41,7 +41,7 @@ public:
     /// \param other The other shared_ptr instance to copy from.
     template <class other_type>
     shared_ptr(const shared_ptr<other_type>& other)
-        : m_instance(other.m_instance),
+        : std::memory::smart_ptr<object_type>(other.m_instance),
           m_reference_count(other.m_reference_count)
     {
         // Increment reference count.
@@ -50,7 +50,7 @@ public:
     /// \brief Move-constructs a shared_ptr instance from another shared_ptr.
     /// \param other The other shared_ptr instance to move.
     shared_ptr(shared_ptr<object_type>&& other)
-        : m_instance(other.m_instance),
+        : std::memory::smart_ptr<object_type>(other.m_instance),
           m_reference_count(other.m_reference_count)
     {
         // Remove instance/reference count from other.
@@ -64,7 +64,7 @@ public:
     /// \param other The other shared_ptr instance to move.
     template <class other_type>
     shared_ptr(shared_ptr<other_type>&& other)
-        : m_instance(other.m_instance),
+        : std::memory::smart_ptr<object_type>(other.m_instance),
           m_reference_count(other.m_reference_count)
     {
         // Remove instance/reference count from other.
@@ -146,68 +146,10 @@ public:
         return *this;
     }
 
-    // ACCESS
-    /// \brief Gets the raw pointer that this shared_ptr manages.
-    /// \return The managed raw pointer.
-    object_type* get() const
-    {
-        return shared_ptr::m_instance;
-    }
-    /// \brief Dereferences the managed object.
-    /// \return A reference to the managed object.
-    object_type& operator*() const
-    {
-        return *shared_ptr::m_instance;
-    }
-    /// \brief Dereferences the managed object.
-    /// \return A pointer to the managed object.
-    object_type* operator->() const
-    {
-        return shared_ptr::m_instance;
-    }
-
-    // COMPARISON
-    /// \brief Checks if this shared_ptr manages the same object as another shared_ptr.
-    /// \tparam other_type The object type of the other shared_ptr. If different from this shared_ptr, the object type must be implicitly convertible.
-    /// \param other The other shared_ptr.
-    /// \return TRUE if both shared_ptrs manage the same object, otherwise FALSE.
-    template <class other_type>
-    bool operator==(const shared_ptr<other_type>& other)
-    {
-        return shared_ptr::m_instance == other.m_instance;
-    }
-    /// \brief Checks if this shared_ptr manages the a different object from another shared_ptr.
-    /// \tparam other_type The object type of the other shared_ptr. If different from this shared_ptr, the object type must be implicitly convertible.
-    /// \param other The other shared_ptr.
-    /// \return TRUE if the shared_ptrs manage different objects, otherwise FALSE.
-    template <class other_type>
-    bool operator!=(const shared_ptr<other_type>& other)
-    {
-        return shared_ptr::m_instance != other.m_instance;
-    }
-
-    // PROPERTIES
-    /// \brief Checks if the shared_ptr has a valid object instance.
-    /// \return TRUE if the object instance is valid, FALSE if the object instance is nullptr.
-    operator bool() const
-    {
-        return shared_ptr::m_instance != nullptr;
-    }
-    /// \brief Checks if the shared_ptr has a valid object instance.
-    /// \return TRUE if the object instance is valid, FALSE if the object instance is nullptr.
-    bool valid() const
-    {
-        return shared_ptr::m_instance != nullptr;
-    }
-
 private:
     // FRIENDSHIP
     template <class other_type>
     friend class shared_ptr;
-
-    // INSTANCE
-    /// \brief The shared raw pointer of the managed object instance.
-    object_type* m_instance;
     
     // REFERENCE COUNT
     /// \brief The shared raw pointer of the managed object's reference count.
