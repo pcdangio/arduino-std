@@ -106,9 +106,9 @@ public:
         // Shift back-end subset forward.
         vector::shift_forward(position, 1);
     }
-    /// @brief Erases a range of values from the vector.
-    /// @param begin An iterator to the beginning of the range in the vector.
-    /// @param end An iterator to the end of the range in the vector.
+    /// \brief Erases a range of values from the vector.
+    /// \param begin An iterator to the beginning of the range in the vector.
+    /// \param end An iterator to the end of the range in the vector.
     void erase(std::iterator<object_type> begin, std::iterator<object_type> end)
     {
         // Shift back-end subset forward.
