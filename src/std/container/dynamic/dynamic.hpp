@@ -34,69 +34,6 @@ public:
     }
 
     // MODIFIERS
-    /// \brief Inserts a new value into the container.
-    /// \param position The position to insert the value into.
-    /// \param value The value to insert.
-    /// \return TRUE if the value was inserted, FALSE if the container is at capacity.
-    bool insert(std::iterator<object_type> position, const object_type& value)
-    {
-        // Use range insert.
-        return dynamic::insert(position, &value, &value+1);
-    }
-    /// \brief Inserts a range of new values into the container.
-    /// \param position The position to insert the values into.
-    /// \param begin The begin iterator for the values to insert.
-    /// \param end The end iterator for the values to insert.
-    /// \return TRUE if the values were inserted, FALSE if there is not enough space in the container.
-    bool insert(std::iterator<object_type> position, std::const_iterator<object_type> begin, std::const_iterator<object_type> end)
-    {
-        // Calculate new end position.
-        auto new_end = dynamic::m_end + (end - begin);
-
-        // Check for space.
-        if(new_end > dynamic::m_capacity)
-        {
-            return false;
-        }
-
-        // Move entries backwards.
-        for(auto source = dynamic::m_end - 1, destination = new_end - 1; source >= position; --source, --destination)
-        {
-            *destination = *source;
-        }
-
-        // Update end position.
-        dynamic::m_end = new_end;
-
-        // Copy entries.
-        for(auto source = begin, destination = position; source != end; ++source, ++destination)
-        {
-            *destination = *source;
-        }
-
-        return true;
-    }
-    /// \brief Erases a value at a specified position in the container.
-    /// \param position The position of the value to erase.
-    void erase(std::iterator<object_type> position)
-    {
-        dynamic::erase(position, position+1);
-    }
-    /// @brief Erases a range of values from the container.
-    /// @param begin An iterator to the beginning of the range in the container.
-    /// @param end An iterator to the end of the range in the container.
-    void erase(std::iterator<object_type> begin, std::iterator<object_type> end)
-    {
-        // Move remaining entries forward.
-        auto destination = begin;
-        for(auto source = end; source != dynamic::m_end; ++source, ++destination)
-        {
-            *destination = *source;
-        }
-
-        // Update end position.
-        dynamic::m_end = destination;
-    }
     /// \brief Clears all values from the container.
     void clear()
     {

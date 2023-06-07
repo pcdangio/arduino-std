@@ -51,6 +51,79 @@ public:
         // Decrement end pointer.
         --vector::m_end;
     }
+    /// \brief Inserts a new value into the vector.
+    /// \param position The position to insert the value into.
+    /// \param value The value to insert.
+    /// \return TRUE if the value was inserted, FALSE if the vector is at capacity.
+    bool insert(std::iterator<object_type> position, const object_type& value)
+    {
+        // Use range insert.
+        return vector::insert(position, &value, &value+1);
+    }
+    /// \brief Inserts a range of new values into the vector.
+    /// \param position The position to insert the values into.
+    /// \param begin The begin iterator for the values to insert.
+    /// \param end The end iterator for the values to insert.
+    /// \return TRUE if the values were inserted, FALSE if there is not enough space in the vector.
+    bool insert(std::iterator<object_type> position, std::const_iterator<object_type> begin, std::const_iterator<object_type> end)
+    {
+        // Calculate new end position.
+        auto new_end = vector::m_end + (end - begin);
+
+        // Check for space.
+        if(new_end > vector::m_capacity)
+        {
+            return false;
+        }
+
+        // Move entries backwards.
+        for(auto source = vector::m_end - 1, destination = new_end - 1; source >= position; --source, --destination)
+        {
+            *destination = *source;
+        }
+
+        // Update end position.
+        vector::m_end = new_end;
+
+        // Copy entries.
+        for(auto source = begin, destination = position; source != end; ++source, ++destination)
+        {
+            *destination = *source;
+        }
+
+        return true;
+    }
+    /// \brief Fills the vector with a specified value.
+    /// \param value The value to fill the vector with.
+    void fill(const object_type& value)
+    {
+        // Iterate through vector and assign value at each position.
+        for(auto destination = vector::m_begin; destination != vector::m_end; ++destination)
+        {
+            *destination = value;
+        }
+    }
+    /// \brief Erases a value at a specified position in the vector.
+    /// \param position The position of the value to erase.
+    void erase(std::iterator<object_type> position)
+    {
+        vector::erase(position, position+1);
+    }
+    /// @brief Erases a range of values from the vector.
+    /// @param begin An iterator to the beginning of the range in the vector.
+    /// @param end An iterator to the end of the range in the vector.
+    void erase(std::iterator<object_type> begin, std::iterator<object_type> end)
+    {
+        // Move remaining entries forward.
+        auto destination = begin;
+        for(auto source = end; source != vector::m_end; ++source, ++destination)
+        {
+            *destination = *source;
+        }
+
+        // Update end position.
+        vector::m_end = destination;
+    }
     /// \brief Resizes the vector to a specified size.
     /// \param size The new size to set.
     /// \return TRUE if the resize succeeded, FALSE if vector does not have enough capacity.
@@ -90,16 +163,6 @@ public:
         }
 
         return true;
-    }
-    /// \brief Fills the vector with a specified value.
-    /// \param value The value to fill the vector with.
-    void fill(const object_type& value)
-    {
-        // Iterate through vector and assign value at each position.
-        for(auto destination = vector::m_begin; destination != vector::m_end; ++destination)
-        {
-            *destination = value;
-        }
     }
 
     // ACCESS
