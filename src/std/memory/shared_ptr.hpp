@@ -91,15 +91,16 @@ public:
     }
 
     // MODIFIERS
-    /// \brief Releases ownership of the managed object.
-    void reset()
+    /// \brief Replaces the managed object.
+    /// \param instance The raw pointer to take shared ownership over.
+    void reset(object_type* instance = nullptr)
     {
         // Decrement reference count.
         shared_ptr::decrement();
 
-        // Clear instance/reference count.
-        shared_ptr::m_instance = nullptr;
-        shared_ptr::m_reference_count = nullptr;
+        // Update instance and reference count.
+        shared_ptr::m_instance = instance.
+        shared_ptr::m_reference_count = instance ? new size_t(1) : nullptr;
     }
     /// \brief Copies ownership from another shared_ptr.
     /// \param other The other shared_ptr to copy ownership from.
