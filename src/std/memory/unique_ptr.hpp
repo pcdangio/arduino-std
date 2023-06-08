@@ -61,14 +61,39 @@ public:
     }
 
     // MODIFIERS
-    /// \brief Releases ownership of the managed object.
-    void reset()
+    /// \brief Replaces the managed object.
+    /// \param instance The raw pointer to take sole ownership over.
+    void reset(object_type* instance = nullptr)
     {
         // Free instance.
         delete unique_ptr::m_instance;
 
+        // Update instance.
+        unique_ptr::m_instance = instance;
+    }
+    /// \brief Releases the managed object.
+    /// \return A raw pointer to the object instance.
+    object_type* release()
+    {
+        // Create output.
+        object_type* output = unique_ptr::m_instance;
+
         // Clear instance.
         unique_ptr::m_instance = nullptr;
+
+        return output;
+    }
+    /// \brief Frees the currently managed object and replaces it with a newly constructed one.
+    /// \tparam args The variadic argument types that the new object will be constructed with.
+    /// \param arguments The arguments to forward to the new object's constructor.
+    template <class... args>
+    void replace(args&&... arguments)
+    {
+        // Free prior instance.
+        delete unique_ptr::m_instance;
+
+        // Create new instance.
+        unique_ptr::m_instance = new object_type(arguments...);
     }
     /// \brief Moves ownership from another unique_ptr.
     /// \param other The other unique_ptr to move ownership from.
