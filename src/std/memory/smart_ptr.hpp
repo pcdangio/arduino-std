@@ -50,7 +50,7 @@ public:
     /// \param other The other smart_ptr.
     /// \return TRUE if both smart_ptrs manage the same object, otherwise FALSE.
     template <class other_type>
-    bool operator==(const smart_ptr<other_type>& other)
+    bool operator==(const smart_ptr<other_type>& other) const
     {
         return smart_ptr::m_instance == other.m_instance;
     }
@@ -59,7 +59,7 @@ public:
     /// \param other The other smart_ptr.
     /// \return TRUE if the smart_ptrs manage different objects, otherwise FALSE.
     template <class other_type>
-    bool operator!=(const smart_ptr<other_type>& other)
+    bool operator!=(const smart_ptr<other_type>& other) const
     {
         return smart_ptr::m_instance != other.m_instance;
     }
