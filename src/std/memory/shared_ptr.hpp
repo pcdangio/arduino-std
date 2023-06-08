@@ -196,7 +196,7 @@ private:
     /// \brief Move assigns another shared_ptr instance.
     /// \param instance The instance from the other shared_ptr.
     /// \param reference_count The reference_ount from the other shared_ptr.
-    void move_assign(object_type*& instance, size_t*& reference_count)
+    void move_assign(object_type*&& instance, size_t*& reference_count)
     {
         // Decrement prior reference count.
         shared_ptr::decrement();
