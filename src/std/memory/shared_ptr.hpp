@@ -108,7 +108,7 @@ public:
     shared_ptr<object_type>& operator=(const shared_ptr& other)
     {
         // Check for difference.
-        if(this != &other)
+        if(shared_ptr::m_instance != other.m_instance)
         {
             // Decrement prior reference count.
             shared_ptr::decrement();
@@ -131,7 +131,7 @@ public:
     shared_ptr<object_type>& operator=(const shared_ptr<other_type>& other)
     {
         // Check for difference.
-        if(this != &other)
+        if(shared_ptr::m_instance != other.m_instance)
         {
             // Decrement prior reference count.
             shared_ptr::decrement();
@@ -152,7 +152,7 @@ public:
     shared_ptr<object_type>& operator=(shared_ptr&& other)
     {
         // Check for difference.
-        if(this != &other)
+        if(shared_ptr::m_instance != other.m_instance)
         {
             // Decrement prior reference count.
             shared_ptr::decrement();
@@ -178,7 +178,7 @@ public:
     shared_ptr<object_type>& operator=(shared_ptr<other_type>&& other)
     {
         // Check for difference.
-        if(this != &other)
+        if(shared_ptr::m_instance != other.m_instance)
         {
             // Decrement prior reference count.
             shared_ptr::decrement();
