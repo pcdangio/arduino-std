@@ -49,17 +49,6 @@ public:
         delete unique_ptr::m_instance;
     }
 
-    // FACTORY
-    /// \brief Creates a new object instance and wraps it in a unique_ptr.
-    /// \tparam args The variadic argument types that the object will be constructed with.
-    /// \param arguments The arguments to forward to the object's constructor.
-    /// \return A unique_ptr that owns the created object instance.
-    template <class... args>
-    static unique_ptr create(args&&... arguments)
-    {
-        return unique_ptr(new object_type(arguments...));
-    }
-
     // MODIFIERS
     /// \brief Replaces the managed object.
     /// \param instance The raw pointer to take sole ownership over.
@@ -138,6 +127,18 @@ private:
         instance = nullptr;
     }
 };
+
+// MAKE_UNIQUE
+/// \brief Creates a new object instance managed by a unique_ptr.
+/// \tparam object_type The managed object's type.
+/// \tparam args The variadic argument types that the object will be constructed with.
+/// \param arguments The arguments to forward to the object's constructor.
+/// \return A unique_ptr that owns the created object instance.
+template <class object_type, class... args>
+unique_ptr<object_type> make_unique(args&&... arguments)
+{
+    return unique_ptr<object_type>(new object_type(arguments...));
+}
 
 }
 

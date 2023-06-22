@@ -79,17 +79,6 @@ public:
         shared_ptr::decrement();
     }
 
-    // FACTORY
-    /// \brief Creates a new object instance and wraps it in a shared_ptr.
-    /// \tparam args The variadic argument types that the object will be constructed with.
-    /// \param arguments The arguments to forward to the object's constructor.
-    /// \return A shared_ptr that owns the created object instance.
-    template <class... args>
-    static shared_ptr create(args&&... arguments)
-    {
-        return shared_ptr(new object_type(arguments...));
-    }
-
     // MODIFIERS
     /// \brief Replaces the managed object.
     /// \param instance The raw pointer to take shared ownership over.
@@ -227,6 +216,18 @@ private:
         }
     }
 };
+
+// MAKE_SHARED
+/// \brief Creates a new object instance managed by a shared_ptr.
+/// \tparam object_type The managed object's type.
+/// \tparam args The variadic argument types that the object will be constructed with.
+/// \param arguments The arguments to forward to the object's constructor.
+/// \return A shared_ptr that owns the created object instance.
+template <class object_type, class... args>
+shared_ptr<object_type> make_shared(args&&... arguments)
+{
+    return shared_ptr<object_type>(new object_type(arguments...));
+}
 
 }
 
