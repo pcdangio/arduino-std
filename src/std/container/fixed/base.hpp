@@ -22,10 +22,13 @@ class base
 {
 public:
     // CONSTRUCTORS
+    /// \brief Constructs a new base fixed container instance.
     base()
         : m_begin(&m_data[0]),
           m_end(m_begin + size_value)
     {}
+    /// \brief Copy constructs a new base fixed container instance from another.
+    /// \param[in] other The other container to copy construct from.
     base(const std::container::fixed::base<object_type,size_value>& other)
         : m_begin(&m_data[0]),
           m_end(m_begin + size_value)
@@ -43,13 +46,13 @@ public:
     // ACCESS
     /// \brief Gets an iterator to the beginning of the container.
     /// \return The begin iterator.
-    std::iterator<object_type> begin() const
+    std::iterator<object_type> begin()
     {
         return base::m_begin;
     }
     /// \brief Gets an iterator to the end of the container.
     /// \return The end iterator.
-    std::iterator<object_type> end() const
+    std::iterator<object_type> end()
     {
         return base::m_end;
     }
