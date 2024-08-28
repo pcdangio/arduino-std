@@ -6,5 +6,6 @@
 // CONTAINER
 #include <std/container/iterator.hpp>
 #include <std/container/fixed/base.hpp>
+#include <std/container/fixed/array.hpp>
 
 #endif
