@@ -8,4 +8,7 @@
 #include <std/container/fixed/base.hpp>
 #include <std/container/fixed/array.hpp>
 
+// UTILITY
+#include <std/utility/move.hpp>
+
 #endif
