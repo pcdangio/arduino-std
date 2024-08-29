@@ -7,6 +7,7 @@
 #include <std/container/iterator.hpp>
 #include <std/container/fixed/base.hpp>
 #include <std/container/fixed/array.hpp>
+#include <std/container/dynamic/base.hpp>
 
 // UTILITY
 #include <std/utility/move.hpp>
