@@ -69,9 +69,13 @@ public:
         return base::m_end;
     }
 
-    // PROPERTIES
-    /// \brief The size of the container.
-    const size_t size = size_value;
+    // CAPACITY
+    /// \brief Gets the size of the container.
+    /// \return The size of the container.
+    size_t size() const
+    {
+        return base::m_end - base::m_begin;
+    }
 
 protected:
     // DATA

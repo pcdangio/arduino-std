@@ -31,7 +31,7 @@ test(container_fixed_array, bracket_operator)
     populate_array(array.begin(), array.end());
 
     // Verify at() at all indices returns the correct value.
-    for(size_t i = 0; i < array.size; ++i)
+    for(size_t i = 0; i < array.size(); ++i)
     {
         assertEqual(array[i], uint8_t(i));
     }
@@ -49,7 +49,7 @@ test(container_fixed_array, bracket_operator_const)
     const std::array<uint8_t,5> const_array(array);
 
     // Verify at() at all indices returns the correct value.
-    for(size_t i = 0; i < const_array.size; ++i)
+    for(size_t i = 0; i < const_array.size(); ++i)
     {
         assertEqual(const_array[i], uint8_t(i));
     }
@@ -64,7 +64,7 @@ test(container_fixed_array, at)
     populate_array(array.begin(), array.end());
     
     // Verify at() at all indices returns the correct value.
-    for(size_t i = 0; i < array.size; ++i)
+    for(size_t i = 0; i < array.size(); ++i)
     {
         assertEqual(array.at(i), uint8_t(i));
     }
@@ -82,7 +82,7 @@ test(container_fixed_array, at_const)
     const std::array<uint8_t,5> const_array(array);
 
     // Verify at() at all indices returns the correct value.
-    for(size_t i = 0; i < const_array.size; ++i)
+    for(size_t i = 0; i < const_array.size(); ++i)
     {
         assertEqual(const_array.at(i), uint8_t(i));
     }
@@ -124,7 +124,7 @@ test(container_fixed_array, back)
     populate_array(array.begin(), array.end());
 
     // Verify back gives size-1.
-    assertEqual(array.back(), uint8_t(array.size-1));
+    assertEqual(array.back(), uint8_t(array.size()-1));
 }
 /// \brief Tests the std::container::fixed::array::back const function.
 test(container_fixed_array, back_const)
@@ -139,7 +139,7 @@ test(container_fixed_array, back_const)
     const std::array<uint8_t,5> const_array(array);
 
     // Verify back gives size-1.
-    assertEqual(const_array.back(), uint8_t(array.size-1));
+    assertEqual(const_array.back(), uint8_t(array.size()-1));
 }
 /// \brief Tests the std::container::fixed::array::data function.
 test(container_fixed_array, data)
