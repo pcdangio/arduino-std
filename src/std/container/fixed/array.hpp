@@ -7,7 +7,6 @@
 #include <std/container/fixed/base.hpp>
 
 namespace std {
-namespace container::fixed {
 
 /// \brief A fixed-size array container.
 /// \tparam object_type The type of object stored in the array container.
@@ -22,10 +21,10 @@ public:
     array() = default;
     /// \brief Copy constructs a new array instance from another.
     /// \param[in] other The other array to copy construct from.
-    array(const std::container::fixed::array<object_type,size_value>& other)
+    array(const std::array<object_type,size_value>& other)
         : std::container::fixed::base<object_type,size_value>(other)
     {}
-    array(std::container::fixed::array<object_type,size_value>&& other) = delete;
+    array(std::array<object_type,size_value>&& other) = delete;
 
     // ACCESS
     /// \brief Gets a reference to the value at a specified index.
@@ -96,7 +95,7 @@ public:
     // MODIFIERS
     /// \brief Deep-copies another array into this array.
     /// \param[in] other The other array to copy from.
-    void operator=(const std::container::fixed::array<object_type,size_value>& other)
+    void operator=(const std::array<object_type,size_value>& other)
     {
         // Iterate through both arrays.
         auto this_entry = array::m_begin;
@@ -119,7 +118,7 @@ public:
     }
     /// \brief Swaps the contents of this array with another array.
     /// \param[in] other The other array to swap contents with.
-    void swap(std::container::fixed::array<object_type,size_value>& other)
+    void swap(std::array<object_type,size_value>& other)
     {
         // Create a temporary for swapping.
         object_type temporary;
@@ -140,11 +139,6 @@ public:
         }
     }
 };
-
-}
-
-template <typename object_type, size_t size_value>
-using array = std::container::fixed::array<object_type,size_value>;
 
 }
 
