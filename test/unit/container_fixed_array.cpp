@@ -164,6 +164,25 @@ test(container_fixed_array, data_const)
 }
 
 // TESTS: OPERATIONS
+/// \brief Tests the std::container::fixed::array::operator= function.
+test(container_fixed_array, assignment_operator)
+{
+    // Create two arrays.
+    std::array<uint8_t,5> array_a, array_b;
+
+    // Populate A.
+    populate_array(array_a.begin(), array_a.end());
+
+    // Assign A to B.
+    array_b = array_a;
+
+    // Verify contents of B.
+    uint8_t i = 0;
+    for(auto entry = array_b.begin(); entry != array_b.end(); ++entry)
+    {
+        assertEqual(*entry, i++);
+    }
+}
 /// \brief Tests the std::container::fixed::array::fill function.
 test(container_fixed_array, fill)
 {

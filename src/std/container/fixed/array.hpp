@@ -93,7 +93,20 @@ public:
         return array::m_begin;
     }
 
-    // OPERATIONS
+    // MODIFIERS
+    /// \brief Deep-copies another array into this array.
+    /// \param[in] other The other array to copy from.
+    void operator=(const std::container::fixed::array<object_type,size_value>& other)
+    {
+        // Iterate through both arrays.
+        auto this_entry = array::m_begin;
+        auto other_entry = other.m_begin;
+        while(this_entry < array::m_end)
+        {
+            // Copy value of other to this array.
+            *this_entry++ = *other_entry++;
+        }
+    }
     /// \brief Assigns a specified value to all elements in the array.
     /// \param[in] value The value to assign.
     void fill(const object_type& value)
