@@ -189,18 +189,18 @@ protected:
     bool shift_left(std::iterator<object_type> position, size_t count)
     {
         // Validate position.
-        if(position <= base::m_begin || position >= base::m_end)
+        if(position < base::m_begin || position >= base::m_end)
         {
             return false;
         }
 
         // Validate count bounds.
-        if(position - count < base::m_begin)
+        if(position - base::m_begin < count)
         {
             return false;
         }
 
-        // Check for count shortcut.
+        // Shortcut if count is zero.
         if(count == 0)
         {
             return true;
@@ -229,31 +229,35 @@ protected:
     bool shift_right(std::iterator<object_type> position, size_t count)
     {
         // Validate position.
-        if(position <= base::m_begin || position >= base::m_end)
+        if(position < base::m_begin || position > base::m_end)
         {
             return false;
         }
 
         // Validate count bounds.
-        if(base::m_end + count > base::m_capacity)
+        if(base::m_capacity - base::m_end < count)
         {
             return false;
         }
 
-        // Check for count shortcut.
+        // Shortcut if count is zero.
         if(count == 0)
         {
             return true;
         }
 
-        // Create source and destination iterators.
-        std::iterator<object_type> source = base::m_end - 1;
-        std::iterator<object_type> destination = base::m_end + count - 1;
-
-        // Shift elements right.
-        while(source >= position)
+        // Shift elements right if container is not empty.
+        if(base::m_end != base::m_begin)
         {
-            *destination-- = *source--;
+            // Create source and destination iterators.
+            std::iterator<object_type> source = base::m_end - 1;
+            std::iterator<object_type> destination = base::m_end + count - 1;
+
+            // Shift elements right.
+            while(source >= position)
+            {
+                *destination-- = *source--;
+            }
         }
 
         // Update container end.
