@@ -5,6 +5,7 @@
 
 // std
 #include <std/container/iterator.hpp>
+#include <std/stddef.hpp>
 
 // arduino
 #include <Arduino.h>
@@ -17,7 +18,7 @@ namespace fixed {
 /// \brief A base fixed-size container.
 /// \tparam object_type The type of object stored in the container.
 /// \tparam size_value The size of the container.
-template <typename object_type, size_t size_value>
+template <typename object_type, std::size_t size_value>
 class base
 {
 public:
@@ -72,7 +73,7 @@ public:
     // CAPACITY
     /// \brief Gets the size of the container.
     /// \return The size of the container.
-    size_t size() const
+    std::size_t size() const
     {
         return base::m_end - base::m_begin;
     }

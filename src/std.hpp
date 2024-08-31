@@ -10,7 +10,8 @@
 #include <std/container/dynamic/base.hpp>
 #include <std/container/dynamic/vector.hpp>
 
-// UTILITY
-#include <std/utility/move.hpp>
+// CORE
+#include <std/stddef.hpp>
+#include <std/utility.hpp>
 
 #endif

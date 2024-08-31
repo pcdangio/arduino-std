@@ -18,7 +18,7 @@ public:
     // CONSTRUCTORS
     /// \brief Constructs a new empty vector.
     /// \param[in] capacity The maximum capacity of this vector.
-    vector(size_t capacity)
+    vector(std::size_t capacity)
         : std::container::dynamic::base<object_type>(capacity)
     {}
     /// \brief Copy-constructs a new vector from another vector.
@@ -36,28 +36,28 @@ public:
     /// \brief Gets a reference to the value at a specified index.
     /// \param[in] index The index of the value to get.
     /// \return A reference to the value.
-    object_type& operator[](size_t index)
+    object_type& operator[](std::size_t index)
     {
         return *(vector::m_begin + index);
     }
     /// \brief Gets a const reference to the value at a specified index.
     /// \param[in] index The index of the value to get.
     /// \return A const reference to the value.
-    const object_type& operator[](size_t index) const
+    const object_type& operator[](std::size_t index) const
     {
         return *(vector::m_begin + index);
     }
     /// \brief Gets a reference to the value at a specified index.
     /// \param[in] index The index of the value to get.
     /// \return A reference to the value.
-    object_type& at(size_t index)
+    object_type& at(std::size_t index)
     {
         return *(vector::m_begin + index);
     }
     /// \brief Gets a const reference to the value at a specified index.
     /// \param[in] index The index of the value to get.
     /// \return A const reference to the value.
-    const object_type& at(size_t index) const
+    const object_type& at(std::size_t index) const
     {
         return *(vector::m_begin + index);
     }
@@ -150,7 +150,7 @@ public:
     /// \param[in] value The value to set all elements to.
     /// \param[in] count The size to set this vector to.
     /// \return TRUE if the assignment succeeded, FALSE if this vector does not have enough capacity.
-    bool assign(const object_type& value, size_t count)
+    bool assign(const object_type& value, std::size_t count)
     {
         // Verify space in the container.
         if(vector::m_capacity - vector::m_begin < count)
@@ -177,7 +177,7 @@ public:
     bool assign(std::const_iterator<object_type> begin, std::const_iterator<object_type> end)
     {
         // Calculate number of elements.
-        size_t count = end - begin;
+        std::size_t count = end - begin;
 
         // Verify space in the container.
         if(vector::m_capacity - vector::m_begin < count)
@@ -202,14 +202,14 @@ public:
     /// \brief Resizes this vector to a specified size, default-constructing additional elements if needed.
     /// \param[in] size The size to set this vector to.
     /// \return TRUE if the resize succeeded, FALSE if this vector does not have enough capacity.
-    bool resize(size_t size)
+    bool resize(std::size_t size)
     {
         return vector::resize(size, object_type());
     }
     /// \brief Resizes this vector to a specified size, using a provided value for additional elements if needed.
     /// \param[in] size The size to set this vector to.
     /// \return TRUE if the resize succeeded, FALSE if this vector does not have enough capacity.
-    bool resize(size_t size, const object_type& value)
+    bool resize(std::size_t size, const object_type& value)
     {
         // Check if size is greater than current size.
         if(size > vector::m_end - vector::m_begin)
@@ -253,7 +253,7 @@ public:
     bool operator=(const std::vector<object_type>& other)
     {
         // Calculate size of other vector.
-        size_t size = other.m_end - other.m_begin;
+        std::size_t size = other.m_end - other.m_begin;
 
         // Verify space in the container.
         if(vector::m_capacity - vector::m_begin < size)

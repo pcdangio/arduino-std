@@ -5,6 +5,7 @@
 
 // std
 #include <std/container/iterator.hpp>
+#include <std/stddef.hpp>
 
 // arduino
 #include <Arduino.h>
@@ -27,7 +28,7 @@ public:
     // CONSTRUCTORS
     /// \brief Constructs a new base container instance.
     /// \param[in] capacity The maximum capacity of the container.
-    base(size_t capacity)
+    base(std::size_t capacity)
         : m_begin(new object_type[capacity]),
           m_end(m_begin),
           m_capacity(m_begin + capacity)
@@ -55,7 +56,7 @@ public:
           m_capacity(other.m_capacity)
     {
         // Reset the other container to a new allocation.
-        size_t capacity = base::m_capacity - base::m_begin;
+        std::size_t capacity = base::m_capacity - base::m_begin;
         other.m_begin = new object_type[capacity];
         other.m_end = other.m_begin;
         other.m_capacity = other.m_begin + capacity;
@@ -149,13 +150,13 @@ public:
     // CAPACITY
     /// \brief Gets the size of the container.
     /// \return The size of the container.
-    size_t size() const
+    std::size_t size() const
     {
         return base::m_end - base::m_begin;
     }
     /// \brief Gets the maximum capacity of the container.
     /// \return The capacity of the container.
-    size_t capacity() const
+    std::size_t capacity() const
     {
         return base::m_capacity - base::m_begin;
     }
@@ -186,7 +187,7 @@ protected:
     /// \param[in] position The position (inclusive) to begin the left-shift.
     /// \param[in] count The number of positions to shift left.
     /// \return TRUE if the shift succeeded, otherwise FALSE.
-    bool shift_left(std::iterator<object_type> position, size_t count)
+    bool shift_left(std::iterator<object_type> position, std::size_t count)
     {
         // Validate position.
         if(position < base::m_begin || position >= base::m_end)
@@ -226,7 +227,7 @@ protected:
     /// \param[in] position The position (inclusive) to begin the right-shift.
     /// \param[in] count The number of positions to shift right.
     /// \return TRUE if the shift succeeded, otherwise FALSE.
-    bool shift_right(std::iterator<object_type> position, size_t count)
+    bool shift_right(std::iterator<object_type> position, std::size_t count)
     {
         // Validate position.
         if(position < base::m_begin || position > base::m_end)

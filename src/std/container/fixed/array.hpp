@@ -11,7 +11,7 @@ namespace std {
 /// \brief A fixed-size array container.
 /// \tparam object_type The type of object stored in the array container.
 /// \tparam size_value The size of the array container.
-template <typename object_type, size_t size_value>
+template <typename object_type, std::size_t size_value>
 class array
     : public std::container::fixed::base<object_type,size_value>
 {
@@ -30,28 +30,28 @@ public:
     /// \brief Gets a reference to the value at a specified index.
     /// \param[in] index The index of the value to get.
     /// \return A reference to the value.
-    object_type& operator[](size_t index)
+    object_type& operator[](std::size_t index)
     {
         return *(array::m_begin + index);
     }
     /// \brief Gets a const reference to the value at a specified index.
     /// \param[in] index The index of the value to get.
     /// \return A const reference to the value.
-    const object_type& operator[](size_t index) const
+    const object_type& operator[](std::size_t index) const
     {
         return *(array::m_begin + index);
     }
     /// \brief Gets a reference to the value at a specified index.
     /// \param[in] index The index of the value to get.
     /// \return A reference to the value.
-    object_type& at(size_t index)
+    object_type& at(std::size_t index)
     {
         return *(array::m_begin + index);
     }
     /// \brief Gets a const reference to the value at a specified index.
     /// \param[in] index The index of the value to get.
     /// \return A const reference to the value.
-    const object_type& at(size_t index) const
+    const object_type& at(std::size_t index) const
     {
         return *(array::m_begin + index);
     }
