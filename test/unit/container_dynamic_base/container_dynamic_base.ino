@@ -4,8 +4,6 @@
 // std
 #include <std.hpp>
 
-namespace test::container::dynamic::base {
-
 // UTILITY
 /// \brief A derived version of the base dynamic container for testing purposes.
 struct derived
@@ -384,6 +382,15 @@ test(container_dynamic_base, shift_left)
         assertEqual(*(container.cbegin() + i), expected[i]);
     }
 }
+/// \brief Tests the std::container::dynamic::base::shift_left function with an empty container.
+test(container_dynamic_base, shift_left_empty)
+{
+    // Create an empty container.
+    derived container(5);
+
+    // Verify left shift fails.
+    assertFalse(container.shift_left(container.begin(), 1));
+}
 /// \brief Tests the std::container::dynamic::base::shift_left function with an invalid position.
 test(container_dynamic_base, shift_left_invalid_position)
 {
@@ -391,7 +398,13 @@ test(container_dynamic_base, shift_left_invalid_position)
     derived container(5);
     container.fill(3);
 
-    // Shift left with invalid position and verify failure.
+    // Shift left with position before begin and verify failure.
+    assertFalse(container.shift_left(container.begin() - 1, 1));
+
+    // Verify size did not change.
+    assertEqual(container.size(), size_t(3));
+
+    // Shift left with position past end and verify failure.
     assertFalse(container.shift_left(container.end(), 1));
 
     // Verify size did not change.
@@ -433,6 +446,22 @@ test(container_dynamic_base, shift_right)
         assertEqual(*(container.cbegin() + i), expected[i]);
     }
 }
+/// \brief Tests the std::container::dynamic::base::shift_right function with an empty container.
+test(container_dynamic_base, shift_right_empty)
+{
+    // Specify capacity and shift size.
+    const size_t capacity = 5;
+    const size_t shift_size = 3;
+
+    // Create an empty container.
+    derived container(capacity);
+
+    // Verify right shift succeeds.
+    assertTrue(container.shift_right(container.begin(), shift_size));
+
+    // Verify increased size.
+    assertEqual(container.size(), shift_size);
+}
 /// \brief Tests the std::container::dynamic::base::shift_right function with an invalid position.
 test(container_dynamic_base, shift_right_invalid_position)
 {
@@ -440,8 +469,14 @@ test(container_dynamic_base, shift_right_invalid_position)
     derived container(5);
     container.fill(3);
 
-    // Shift right with invalid position and verify failure.
-    assertFalse(container.shift_right(container.end(), 1));
+    // Shift right with position before begin and verify failure.
+    assertFalse(container.shift_right(container.begin() - 1, 1));
+
+    // Verify size did not change.
+    assertEqual(container.size(), size_t(3));
+
+    // Shift right with position past end and verify failure.
+    assertFalse(container.shift_right(container.end() + 1, 1));
 
     // Verify size did not change.
     assertEqual(container.size(), size_t(3));
@@ -460,4 +495,19 @@ test(container_dynamic_base, shift_right_invalid_count)
     assertEqual(container.size(), size_t(3));
 }
 
+// Execute setup tasks.
+void setup()
+{
+    // Open serial port.
+    Serial.begin(115200);
+
+    // Wait for board initialization to settle.
+    delay(1000);
+}
+
+// Execute continuous tasks.
+void loop()
+{
+    // Execute unit tests.
+    aunit::TestRunner::run();
 }
