@@ -8,6 +8,7 @@
 #include <std/container/fixed/base.hpp>
 #include <std/container/fixed/array.hpp>
 #include <std/container/dynamic/base.hpp>
+#include <std/container/dynamic/vector.hpp>
 
 // UTILITY
 #include <std/utility/move.hpp>
