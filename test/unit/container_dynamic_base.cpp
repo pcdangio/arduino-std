@@ -1,8 +1,16 @@
+// test_configuration
+#include "test_configuration.hpp"
+
+// Compile only if this test is selected.
+#ifdef TEST_CONTAINER_DYNAMIC_BASE
+
 // aunit
 #include <AUnit.h>
 
 // std
 #include <std.hpp>
+
+namespace test::container::dynamic::base {
 
 // UTILITY
 /// \brief A derived version of the base dynamic container for testing purposes.
@@ -495,19 +503,6 @@ test(container_dynamic_base, shift_right_invalid_count)
     assertEqual(container.size(), size_t(3));
 }
 
-// Execute setup tasks.
-void setup()
-{
-    // Open serial port.
-    Serial.begin(115200);
-
-    // Wait for board initialization to settle.
-    delay(1000);
 }
 
-// Execute continuous tasks.
-void loop()
-{
-    // Execute unit tests.
-    aunit::TestRunner::run();
-}
+#endif

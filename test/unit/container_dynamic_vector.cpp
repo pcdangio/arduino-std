@@ -1,10 +1,21 @@
+// test_configuration
+#include "test_configuration.hpp"
+
+// Compile only if this test is selected.
+#ifdef TEST_CONTAINER_DYNAMIC_VECTOR
+
 // aunit
 #include <AUnit.h>
 
 // std
 #include <std.hpp>
 
+namespace test::container::dynamic::vector {
+
 // UTILITY
+/// \brief Fills a vector with sequential values.
+/// \param[in] vector The vector to fill.
+/// \param[in] size The number of sequential values to append.
 void fill_vector(std::vector<uint8_t>& vector, size_t size)
 {
     for(size_t i = 0; i < size; ++i)
@@ -614,19 +625,6 @@ test(container_dynamic_vector, operator_equal_unequal_values)
     assertFalse(vector_a == vector_b);
 }
 
-// Execute setup tasks.
-void setup()
-{
-    // Open serial port.
-    Serial.begin(115200);
-
-    // Wait for board initialization to settle.
-    delay(1000);
 }
 
-// Execute continuous tasks.
-void loop()
-{
-    // Execute unit tests.
-    aunit::TestRunner::run();
-}
+#endif

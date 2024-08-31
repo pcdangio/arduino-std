@@ -1,7 +1,16 @@
+// test_configuration
+#include "test_configuration.hpp"
+
+// Compile only if this test is selected.
+#ifdef TEST_CONTAINER_FIXED_ARRAY
+
+// aunit
 #include <AUnit.h>
 
 // std
 #include <std.hpp>
+
+namespace test::container::fixed::array {
 
 // UTILITY
 /// \brief Populates an array with incremental values.
@@ -233,19 +242,6 @@ test(container_fixed_array, swap)
     }
 }
 
-// Execute setup tasks.
-void setup()
-{
-    // Open serial port.
-    Serial.begin(115200);
-
-    // Wait for board initialization to settle.
-    delay(1000);
 }
 
-// Execute continuous tasks.
-void loop()
-{
-    // Execute unit tests.
-    aunit::TestRunner::run();
-}
+#endif

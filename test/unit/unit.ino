@@ -1,8 +1,7 @@
 // aunit
 #include <AUnit.h>
 
-// arduino
-#include <Arduino.h>
+// NOTE: Use test_configuration.hpp to define which tests will be compiled/run.
 
 // Execute setup tasks.
 void setup()
