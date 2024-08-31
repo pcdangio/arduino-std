@@ -50,20 +50,20 @@ public:
     /// \brief Move-constructs a new base container instance from another base container.
     /// \param[in] other The other instance to move-construct from.
     base(std::container::dynamic::base<object_type>&& other)
-        : m_begin(new object_type[other.capacity()]),
-          m_end(m_begin + other.size()),
-          m_capacity(m_begin + other.capacity())
+        : m_begin(other.m_begin),
+          m_end(other.m_end),
+          m_capacity(other.m_capacity)
     {
-        // Copy values from other.
-        auto this_entry = base::begin();
-        auto other_entry = other.cbegin();
-        while(other_entry < other.m_end)
-        {
-            *this_entry++ = *other_entry++;
-        }
-
-        // Reset other container's end pointer.
+        // Reset the other container to a new allocation.
+        size_t capacity = base::m_capacity - base::m_begin;
+        other.m_begin = new object_type[capacity];
         other.m_end = other.m_begin;
+        other.m_capacity = other.m_begin + capacity;
+    }
+    ~base()
+    {
+        // Clean up allocated memory.
+        delete [] base::m_begin;
     }
 
     // ACCESS
@@ -175,11 +175,11 @@ public:
 protected:
     // MEMORY
     /// \brief Stores a pointer to the beginning of the container's contiguous memory.
-    object_type* const m_begin;
+    object_type* m_begin;
     /// \brief Stores a pointer to the end of the container's populated contiguous memory.
     object_type* m_end;
     /// \brief Stores a pointer to the capacity limit of the container's contiguous memory.
-    object_type* const m_capacity;
+    object_type* m_capacity;
 
     // SHIFT
     /// \brief Shifts elements in the container left and reduces the size of the container.
