@@ -4,8 +4,6 @@
 // std
 #include <std.hpp>
 
-namespace test::container::fixed::base {
-
 // CONSTRUCTORS
 /// \brief Tests the std::container::fixed::base default constructor.
 test(container_fixed_base, constructor_default)
@@ -111,4 +109,19 @@ test(container_fixed_base, size)
     assertEqual(container.size(), size);
 }
 
+// Execute setup tasks.
+void setup()
+{
+    // Open serial port.
+    Serial.begin(115200);
+
+    // Wait for board initialization to settle.
+    delay(1000);
+}
+
+// Execute continuous tasks.
+void loop()
+{
+    // Execute unit tests.
+    aunit::TestRunner::run();
 }
