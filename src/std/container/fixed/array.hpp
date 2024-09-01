@@ -1,5 +1,5 @@
 /// \file std/container/fixed/array.hpp
-/// \brief Defines the std::container::fixed::array class.
+/// \brief Defines the std::array class.
 #ifndef STD___CONTAINER___FIXED___ARRAY_H
 #define STD___CONTAINER___FIXED___ARRAY_H
 
