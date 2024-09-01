@@ -38,7 +38,7 @@ test(container_fixed_array, bracket_operator)
     populate_array(array.begin(), array.end());
 
     // Verify at() at all indices returns the correct value.
-    for(size_t i = 0; i < array.size(); ++i)
+    for(std::size_t i = 0; i < array.size(); ++i)
     {
         assertEqual(array[i], uint8_t(i));
     }
@@ -56,7 +56,7 @@ test(container_fixed_array, bracket_operator_const)
     const std::array<uint8_t,5> const_array(array);
 
     // Verify at() at all indices returns the correct value.
-    for(size_t i = 0; i < const_array.size(); ++i)
+    for(std::size_t i = 0; i < const_array.size(); ++i)
     {
         assertEqual(const_array[i], uint8_t(i));
     }
@@ -71,7 +71,7 @@ test(container_fixed_array, at)
     populate_array(array.begin(), array.end());
     
     // Verify at() at all indices returns the correct value.
-    for(size_t i = 0; i < array.size(); ++i)
+    for(std::size_t i = 0; i < array.size(); ++i)
     {
         assertEqual(array.at(i), uint8_t(i));
     }
@@ -89,7 +89,7 @@ test(container_fixed_array, at_const)
     const std::array<uint8_t,5> const_array(array);
 
     // Verify at() at all indices returns the correct value.
-    for(size_t i = 0; i < const_array.size(); ++i)
+    for(std::size_t i = 0; i < const_array.size(); ++i)
     {
         assertEqual(const_array.at(i), uint8_t(i));
     }

@@ -17,7 +17,7 @@ namespace test::container::fixed::base {
 test(container_fixed_base, constructor_default)
 {
     // Specify size.
-    const size_t size = 5;
+    const std::size_t size = 5;
 
     // Create container.
     std::container::fixed::base<uint8_t,size> container;
@@ -73,7 +73,7 @@ test(container_fixed_base, begin)
 test(container_fixed_base, end)
 {
     // Specify size.
-    const size_t size = 5;
+    const std::size_t size = 5;
 
     // Create container.
     std::container::fixed::base<uint8_t,size> container;
@@ -94,7 +94,7 @@ test(container_fixed_base, cbegin)
 test(container_fixed_base, cend)
 {
     // Specify size.
-    const size_t size = 5;
+    const std::size_t size = 5;
 
     // Create container.
     std::container::fixed::base<uint8_t,size> container;
@@ -108,7 +108,7 @@ test(container_fixed_base, cend)
 test(container_fixed_base, size)
 {
     // Specify size.
-    const size_t size = 5;
+    const std::size_t size = 5;
 
     // Create container.
     std::container::fixed::base<uint8_t,size> container;
