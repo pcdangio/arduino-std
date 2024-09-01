@@ -15,5 +15,6 @@
 #include <std/stddef.hpp>
 #include <std/utility/forward.hpp>
 #include <std/utility/move.hpp>
+#include <std/utility/pair.hpp>
 
 #endif

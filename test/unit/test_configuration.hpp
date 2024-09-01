@@ -10,4 +10,7 @@
 // #define TEST_CONTAINER_DYNAMIC_VECTOR
 // #define TEST_CONTAINER_DYNAMIC_SET
 
+// std/utility
+// #define TEST_UTILITY_PAIR
+
 #endif
