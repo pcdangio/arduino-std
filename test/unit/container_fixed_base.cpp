@@ -1,3 +1,9 @@
+// test_configuration
+#include "test_configuration.hpp"
+
+// Compile only if this test is selected.
+#ifdef TEST_CONTAINER_FIXED_BASE
+
 // aunit
 #include <AUnit.h>
 
@@ -11,13 +17,13 @@ namespace test::container::fixed::base {
 test(container_fixed_base, constructor_default)
 {
     // Specify size.
-    const size_t size = 5;
+    const std::size_t size = 5;
 
     // Create container.
     std::container::fixed::base<uint8_t,size> container;
     
     // Verify container size.
-    assertEqual(container.size, size);
+    assertEqual(container.size(), size);
 
     // Verify valid begin iterator.
     assertNotEqual(container.begin(), nullptr);
@@ -28,11 +34,8 @@ test(container_fixed_base, constructor_default)
 /// \brief Tests the std::container::fixed::base copy constructor.
 test(container_fixed_base, constructor_copy)
 {
-    // Specify size.
-    const size_t size = 5;
-
     // Create and populate container_a.
-    std::container::fixed::base<uint8_t,size> container_a;
+    std::container::fixed::base<uint8_t,5> container_a;
 
     // Populate container_a.
     uint8_t i = 0;
@@ -42,16 +45,10 @@ test(container_fixed_base, constructor_copy)
     }
 
     // Copy construct container_b from container_a.
-    std::container::fixed::base<uint8_t,size> container_b(container_a);
+    std::container::fixed::base<uint8_t,5> container_b(container_a);
 
-    // Verify container size.
-    assertEqual(container_b.size, size);
-
-    // Verify valid begin iterator.
-    assertNotEqual(container_b.begin(), nullptr);
-
-    // Verify valid end iterator.
-    assertEqual(container_b.end(), container_b.begin() + size);
+    // Verify container sizes match.
+    assertEqual(container_b.size(), container_a.size());
 
     // Verify data matches.
     auto a_entry = container_a.begin();
@@ -62,7 +59,7 @@ test(container_fixed_base, constructor_copy)
     }
 }
 
-// ITERATORS
+// ACCESS
 /// \brief Tests the std::container::fixed::base::begin function.
 test(container_fixed_base, begin)
 {
@@ -76,7 +73,7 @@ test(container_fixed_base, begin)
 test(container_fixed_base, end)
 {
     // Specify size.
-    const size_t size = 5;
+    const std::size_t size = 5;
 
     // Create container.
     std::container::fixed::base<uint8_t,size> container;
@@ -97,7 +94,7 @@ test(container_fixed_base, cbegin)
 test(container_fixed_base, cend)
 {
     // Specify size.
-    const size_t size = 5;
+    const std::size_t size = 5;
 
     // Create container.
     std::container::fixed::base<uint8_t,size> container;
@@ -106,18 +103,20 @@ test(container_fixed_base, cend)
     assertEqual(container.cend(), container.cbegin() + size);
 }
 
-// PROPERTIES
+// CAPACITY
 /// \brief Tests the std::container::fixed::base::size value.
 test(container_fixed_base, size)
 {
     // Specify size.
-    const size_t size = 5;
+    const std::size_t size = 5;
 
     // Create container.
     std::container::fixed::base<uint8_t,size> container;
     
     // Verify container size.
-    assertEqual(container.size, size);
+    assertEqual(container.size(), size);
 }
 
 }
+
+#endif

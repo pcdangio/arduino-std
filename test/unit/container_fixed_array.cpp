@@ -1,3 +1,10 @@
+// test_configuration
+#include "test_configuration.hpp"
+
+// Compile only if this test is selected.
+#ifdef TEST_CONTAINER_FIXED_ARRAY
+
+// aunit
 #include <AUnit.h>
 
 // std
@@ -21,7 +28,7 @@ void populate_array(std::iterator<uint8_t> begin, std::iterator<uint8_t> end, ui
 }
 
 // TESTS: ACCESS
-/// \brief Tests the std::container::fixed::array::operator[] function.
+/// \brief Tests the std::array::operator[] function.
 test(container_fixed_array, bracket_operator)
 {
     // Create array.
@@ -31,12 +38,12 @@ test(container_fixed_array, bracket_operator)
     populate_array(array.begin(), array.end());
 
     // Verify at() at all indices returns the correct value.
-    for(size_t i = 0; i < array.size; ++i)
+    for(std::size_t i = 0; i < array.size(); ++i)
     {
         assertEqual(array[i], uint8_t(i));
     }
 }
-/// \brief Tests the std::container::fixed::array::operator[] const function.
+/// \brief Tests the std::array::operator[] const function.
 test(container_fixed_array, bracket_operator_const)
 {
     // Create array.
@@ -49,12 +56,12 @@ test(container_fixed_array, bracket_operator_const)
     const std::array<uint8_t,5> const_array(array);
 
     // Verify at() at all indices returns the correct value.
-    for(size_t i = 0; i < const_array.size; ++i)
+    for(std::size_t i = 0; i < const_array.size(); ++i)
     {
         assertEqual(const_array[i], uint8_t(i));
     }
 }
-/// \brief Tests the std::container::fixed::array::at function.
+/// \brief Tests the std::array::at function.
 test(container_fixed_array, at)
 {
     // Create array.
@@ -64,12 +71,12 @@ test(container_fixed_array, at)
     populate_array(array.begin(), array.end());
     
     // Verify at() at all indices returns the correct value.
-    for(size_t i = 0; i < array.size; ++i)
+    for(std::size_t i = 0; i < array.size(); ++i)
     {
         assertEqual(array.at(i), uint8_t(i));
     }
 }
-/// \brief Tests the std::container::fixed::array::at const function.
+/// \brief Tests the std::array::at const function.
 test(container_fixed_array, at_const)
 {
     // Create array.
@@ -82,12 +89,12 @@ test(container_fixed_array, at_const)
     const std::array<uint8_t,5> const_array(array);
 
     // Verify at() at all indices returns the correct value.
-    for(size_t i = 0; i < const_array.size; ++i)
+    for(std::size_t i = 0; i < const_array.size(); ++i)
     {
         assertEqual(const_array.at(i), uint8_t(i));
     }
 }
-/// \brief Tests the std::container::fixed::array::front function.
+/// \brief Tests the std::array::front function.
 test(container_fixed_array, front)
 {
     // Create array.
@@ -99,7 +106,7 @@ test(container_fixed_array, front)
     // Verify front gives zero.
     assertEqual(array.front(), uint8_t(0));
 }
-/// \brief Tests the std::container::fixed::array::front const function.
+/// \brief Tests the std::array::front const function.
 test(container_fixed_array, front_const)
 {
     // Create array.
@@ -114,7 +121,7 @@ test(container_fixed_array, front_const)
     // Verify front gives zero.
     assertEqual(const_array.front(), uint8_t(0));
 }
-/// \brief Tests the std::container::fixed::array::back function.
+/// \brief Tests the std::array::back function.
 test(container_fixed_array, back)
 {
     // Create array.
@@ -124,9 +131,9 @@ test(container_fixed_array, back)
     populate_array(array.begin(), array.end());
 
     // Verify back gives size-1.
-    assertEqual(array.back(), uint8_t(array.size-1));
+    assertEqual(array.back(), uint8_t(array.size()-1));
 }
-/// \brief Tests the std::container::fixed::array::back const function.
+/// \brief Tests the std::array::back const function.
 test(container_fixed_array, back_const)
 {
     // Create array.
@@ -139,9 +146,9 @@ test(container_fixed_array, back_const)
     const std::array<uint8_t,5> const_array(array);
 
     // Verify back gives size-1.
-    assertEqual(const_array.back(), uint8_t(array.size-1));
+    assertEqual(const_array.back(), uint8_t(array.size()-1));
 }
-/// \brief Tests the std::container::fixed::array::data function.
+/// \brief Tests the std::array::data function.
 test(container_fixed_array, data)
 {
     // Create array.
@@ -150,7 +157,7 @@ test(container_fixed_array, data)
     // Verify data matches the begin iterator.
     assertEqual(array.data(), array.begin());
 }
-/// \brief Tests the std::container::fixed::array::data const function.
+/// \brief Tests the std::array::data const function.
 test(container_fixed_array, data_const)
 {
     // Create array.
@@ -164,14 +171,33 @@ test(container_fixed_array, data_const)
 }
 
 // TESTS: OPERATIONS
-/// \brief Tests the std::container::fixed::array::fill function.
+/// \brief Tests the std::array::operator= function.
+test(container_fixed_array, assignment_operator)
+{
+    // Create two arrays.
+    std::array<uint8_t,5> array_a, array_b;
+
+    // Populate A.
+    populate_array(array_a.begin(), array_a.end());
+
+    // Assign A to B.
+    array_b = array_a;
+
+    // Verify contents of B.
+    uint8_t i = 0;
+    for(auto entry = array_b.begin(); entry != array_b.end(); ++entry)
+    {
+        assertEqual(*entry, i++);
+    }
+}
+/// \brief Tests the std::array::fill function.
 test(container_fixed_array, fill)
 {
     // Specify fill value.
     const uint8_t value = 0x12;
 
     // Create array.
-    std::container::fixed::array<uint8_t,5> array;
+    std::array<uint8_t,5> array;
 
     // Fill array.
     array.fill(value);
@@ -182,7 +208,7 @@ test(container_fixed_array, fill)
         assertEqual(*entry, value);
     }
 }
-/// \brief Tests the std::container::fixed::array::swap function.
+/// \brief Tests the std::array::swap function.
 test(container_fixed_array, swap)
 {
     // Specify array values.
@@ -217,3 +243,5 @@ test(container_fixed_array, swap)
 }
 
 }
+
+#endif

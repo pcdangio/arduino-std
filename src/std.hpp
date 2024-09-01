@@ -7,5 +7,15 @@
 #include <std/container/iterator.hpp>
 #include <std/container/fixed/base.hpp>
 #include <std/container/fixed/array.hpp>
+#include <std/container/dynamic/base.hpp>
+#include <std/container/dynamic/map.hpp>
+#include <std/container/dynamic/set.hpp>
+#include <std/container/dynamic/vector.hpp>
+
+// CORE
+#include <std/stddef.hpp>
+#include <std/utility/forward.hpp>
+#include <std/utility/move.hpp>
+#include <std/utility/pair.hpp>
 
 #endif
