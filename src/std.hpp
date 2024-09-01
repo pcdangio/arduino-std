@@ -8,8 +8,9 @@
 #include <std/container/fixed/base.hpp>
 #include <std/container/fixed/array.hpp>
 #include <std/container/dynamic/base.hpp>
-#include <std/container/dynamic/vector.hpp>
+#include <std/container/dynamic/map.hpp>
 #include <std/container/dynamic/set.hpp>
+#include <std/container/dynamic/vector.hpp>
 
 // CORE
 #include <std/stddef.hpp>

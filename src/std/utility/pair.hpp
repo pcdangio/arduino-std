@@ -3,6 +3,9 @@
 #ifndef STD___UTILITY___PAIR_H
 #define STD___UTILITY___PAIR_H
 
+// std
+#include <std/utility/forward.hpp>
+
 namespace std {
 
 /// \brief An object which stores two different object types.
