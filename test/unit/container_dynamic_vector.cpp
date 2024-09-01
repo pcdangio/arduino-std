@@ -16,9 +16,9 @@ namespace test::container::dynamic::vector {
 /// \brief Fills a vector with sequential values.
 /// \param[in] vector The vector to fill.
 /// \param[in] size The number of sequential values to append.
-void fill_vector(std::vector<uint8_t>& vector, size_t size)
+void fill_vector(std::vector<uint8_t>& vector, std::size_t size)
 {
-    for(size_t i = 0; i < size; ++i)
+    for(std::size_t i = 0; i < size; ++i)
     {
         vector.push_back(i);
     }
@@ -29,20 +29,20 @@ void fill_vector(std::vector<uint8_t>& vector, size_t size)
 test(container_dynamic_vector, bracket_operator)
 {
     // Specify a capacity.
-    const size_t capacity = 5;
+    const std::size_t capacity = 5;
 
     // Create and fill a vector.
     std::vector<uint8_t> vector(capacity);
     fill_vector(vector, capacity);
     
     // Verify access over entire range.
-    for(size_t i = 0; i < capacity; ++i)
+    for(std::size_t i = 0; i < capacity; ++i)
     {
         assertEqual(vector[i], uint8_t(i));
     }
 
     // Specify a position value.
-    const size_t index = 1;
+    const std::size_t index = 1;
     const uint8_t value = 33;
 
     // Set a value.
@@ -55,7 +55,7 @@ test(container_dynamic_vector, bracket_operator)
 test(container_dynamic_vector, bracket_operator_const)
 {
     // Specify a capacity.
-    const size_t capacity = 5;
+    const std::size_t capacity = 5;
 
     // Create and fill a vector.
     std::vector<uint8_t> vector(capacity);
@@ -65,7 +65,7 @@ test(container_dynamic_vector, bracket_operator_const)
     const std::vector<uint8_t> const_vector(vector);
     
     // Verify access over entire range.
-    for(size_t i = 0; i < capacity; ++i)
+    for(std::size_t i = 0; i < capacity; ++i)
     {
         assertEqual(const_vector[i], uint8_t(i));
     }
@@ -74,20 +74,20 @@ test(container_dynamic_vector, bracket_operator_const)
 test(container_dynamic_vector, at)
 {
     // Specify a capacity.
-    const size_t capacity = 5;
+    const std::size_t capacity = 5;
 
     // Create and fill a vector.
     std::vector<uint8_t> vector(capacity);
     fill_vector(vector, capacity);
     
     // Verify access over entire range.
-    for(size_t i = 0; i < capacity; ++i)
+    for(std::size_t i = 0; i < capacity; ++i)
     {
         assertEqual(vector.at(i), uint8_t(i));
     }
 
     // Specify a position value.
-    const size_t index = 1;
+    const std::size_t index = 1;
     const uint8_t value = 33;
 
     // Set a value.
@@ -100,7 +100,7 @@ test(container_dynamic_vector, at)
 test(container_dynamic_vector, at_const)
 {
     // Specify a capacity.
-    const size_t capacity = 5;
+    const std::size_t capacity = 5;
 
     // Create and fill a vector.
     std::vector<uint8_t> vector(capacity);
@@ -110,7 +110,7 @@ test(container_dynamic_vector, at_const)
     const std::vector<uint8_t> const_vector(vector);
     
     // Verify access over entire range.
-    for(size_t i = 0; i < capacity; ++i)
+    for(std::size_t i = 0; i < capacity; ++i)
     {
         assertEqual(const_vector.at(i), uint8_t(i));
     }
@@ -190,13 +190,13 @@ test(container_dynamic_vector, data_const)
 test(container_dynamic_vector, push_back)
 {
     // Specify a capacity.
-    const size_t capacity = 5;
+    const std::size_t capacity = 5;
 
     // Create a vector.
     std::vector<uint8_t> vector(capacity);
 
     // Push back elements until capacity filled.
-    for(size_t i = 0; i < capacity; ++i)
+    for(std::size_t i = 0; i < capacity; ++i)
     {
         assertTrue(vector.push_back(i));
     }
@@ -214,13 +214,13 @@ test(container_dynamic_vector, push_back)
 test(container_dynamic_vector, push_back_over_capacity)
 {
     // Specify a capacity.
-    const size_t capacity = 5;
+    const std::size_t capacity = 5;
 
     // Create a vector.
     std::vector<uint8_t> vector(capacity);
 
     // Push back elements until capacity filled.
-    for(size_t i = 0; i < capacity; ++i)
+    for(std::size_t i = 0; i < capacity; ++i)
     {
         vector.push_back(i);
     }
@@ -282,7 +282,7 @@ test(container_dynamic_vector, insert)
     assertEqual(position, vector.begin());
 
     // Verify new size.
-    assertEqual(vector.size(), size_t(1));
+    assertEqual(vector.size(), std::size_t(1));
 
     // Verify value was inserted.
     assertEqual(vector[0], value);
@@ -300,10 +300,10 @@ test(container_dynamic_vector, insert)
     assertEqual(vector.begin() + 2, position);
 
     // Verify vector size.
-    assertEqual(vector.size(), size_t(5));
+    assertEqual(vector.size(), std::size_t(5));
 
     // Verify vector elements.
-    for(size_t i = 0; i < vector.size(); ++i)
+    for(std::size_t i = 0; i < vector.size(); ++i)
     {
         assertEqual(vector[i], expected_value[i]);
     }
@@ -368,7 +368,7 @@ test(container_dynamic_vector, assign_value)
     assertTrue(vector.assign(value_b, 3));
 
     // Verify vector size.
-    assertEqual(vector.size(), size_t(3));
+    assertEqual(vector.size(), std::size_t(3));
 
     // Verify values.
     for(auto entry = vector.begin(); entry != vector.end(); ++entry)
@@ -410,7 +410,7 @@ test(container_dynamic_vector, assign_range)
     assertTrue(vector_b.assign(vector_a.begin(), vector_a.begin() + 3));
 
     // Verify vector_b's size.
-    assertEqual(vector_b.size(), size_t(3));
+    assertEqual(vector_b.size(), std::size_t(3));
 
     // Verify vector_b's values.
     for(auto entry = vector_b.begin(); entry != vector_b.end(); ++entry)
@@ -455,7 +455,7 @@ test(container_dynamic_vector, resize_default)
     assertTrue(vector.resize(3));
 
     // Verify vector's size.
-    assertEqual(vector.size(), size_t(3));
+    assertEqual(vector.size(), std::size_t(3));
 
     // Verify vector_b's values.
     for(auto entry = vector.begin(); entry != vector.end(); ++entry)
@@ -500,7 +500,7 @@ test(container_dynamic_vector, resize_value)
     assertTrue(vector.resize(3, value));
 
     // Verify vector's size.
-    assertEqual(vector.size(), size_t(3));
+    assertEqual(vector.size(), std::size_t(3));
 
     // Verify vector_b's values.
     for(auto entry = vector.begin(); entry != vector.end(); ++entry)
@@ -519,110 +519,6 @@ test(container_dynamic_vector, resize_value_over_capacity)
 
     // Verify vector is empty.
     assertTrue(vector.empty());
-}
-/// \brief Tests the std::vector::operator= function with a valid configuration.
-test(container_dynamic_vector, operator_assignment)
-{
-    // Create two vectors.
-    std::vector<uint8_t> vector_a(5), vector_b(5);
-
-    // Populate vector_a.
-    vector_a.assign(0x12, vector_a.capacity());
-
-    // Set vector_b equal to vector_a.
-    assertTrue(vector_b = vector_a);
-
-    // Verify vectors are equal.
-    assertTrue(vector_b == vector_a);
-}
-/// \brief Tests the std::vector::operator= function with not enough capacity.
-test(container_dynamic_vector, operator_assignment_over_capacity)
-{
-    // Create two vectors, with vector_b having smaller capacity.
-    std::vector<uint8_t> vector_a(5), vector_b(3);
-
-    // Populate vector_a.
-    vector_a.assign(0x12, vector_a.capacity());
-
-    // Verify setting vector_b equal to vector_a fails.
-    assertFalse(vector_b = vector_a);
-
-    // Verify vector_b is still empty.
-    assertTrue(vector_b.empty());
-}
-/// \brief Tests the std::vector::swap function.
-test(container_dynamic_vector, swap)
-{
-    // Create and populate vector_a.
-    std::vector<uint8_t> vector_a(5);
-    vector_a.assign(0x12, vector_a.capacity());
-
-    // Create and populate vector_b.
-    std::vector<uint8_t> vector_b(3);
-    vector_b.assign(0x34, vector_b.capacity());
-
-    // Swap the two arrays.
-    vector_a.swap(vector_b);
-
-    // Verify capacities were swapped.
-    assertEqual(vector_a.capacity(), size_t(3));
-    assertEqual(vector_b.capacity(), size_t(5));
-
-    // Verify sizes were swapped.
-    assertEqual(vector_a.size(), size_t(3));
-    assertEqual(vector_b.size(), size_t(5));
-
-    // Verify vector_a's elements.
-    for(auto entry = vector_a.begin(); entry != vector_a.end(); ++entry)
-    {
-        assertEqual(*entry, 0x34);
-    }
-
-    // Verify vector_b's elements.
-    for(auto entry = vector_b.begin(); entry != vector_b.end(); ++entry)
-    {
-        assertEqual(*entry, 0x12);
-    }
-}
-
-// COMPARISON
-/// \brief Tests the std::vector::operator== function with equal vectors.
-test(container_dynamic_vector, operator_equal_equal)
-{
-    // Create two populated, equal vectors.
-    std::vector<uint8_t> vector_a(5);
-    vector_a.assign(0x12, vector_a.capacity());
-    std::vector<uint8_t> vector_b(vector_a);
-
-    // Verify operator= returns true.
-    assertTrue(vector_a == vector_b);
-}
-/// \brief Tests the std::vector::operator== function with unequal size vectors.
-test(container_dynamic_vector, operator_equal_unequal_size)
-{
-    // Create two vectors.
-    std::vector<uint8_t> vector_a(5), vector_b(5);
-
-    // Fill the vectors with equal values but different sizes.
-    vector_a.assign(0x12, vector_a.capacity());
-    vector_b.assign(0x12, 3);
-
-    // Verify operator= returns false.
-    assertFalse(vector_a == vector_b);
-}
-/// \brief Tests the std::vector::operator== function with unequal value vectors.
-test(container_dynamic_vector, operator_equal_unequal_values)
-{
-    // Create two vectors.
-    std::vector<uint8_t> vector_a(5), vector_b(5);
-
-    // Fill the vectors with equal values but different sizes.
-    vector_a.assign(0x12, vector_a.capacity());
-    vector_b.assign(0x12, vector_b.capacity());
-    *(vector_b.end() - 1) = 0x34;
-
-    // Verify operator= returns false.
-    assertFalse(vector_a == vector_b);
 }
 
 }

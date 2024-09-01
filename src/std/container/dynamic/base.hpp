@@ -182,6 +182,82 @@ protected:
     /// \brief Stores a pointer to the capacity limit of the container's contiguous memory.
     object_type* m_capacity;
 
+    // MODIFIERS
+    /// \brief Copy-assigns the contents of this container from another container.
+    /// \param[in] other The other container to copy-assign from.
+    /// \return TRUE if the assignment succeeded, FALSE if this container does not have enough capacity.
+    bool operator=(const std::container::dynamic::base<object_type>& other)
+    {
+        // Calculate size of other container.
+        std::size_t size = other.m_end - other.m_begin;
+
+        // Verify space in the container.
+        if(base::m_capacity - base::m_begin < size)
+        {
+            return false;
+        }
+
+        // Update end.
+        base::m_end = base::m_begin + size;
+
+        // Copy values.
+        auto destination = base::m_begin;
+        auto source = other.m_begin;
+        while(destination < base::m_end)
+        {
+            *destination++ = *source++;
+        }
+
+        // Indicate success.
+        return true;
+    }
+    /// \brief Swaps the contents of this container with another container.
+    /// \param[in] other The other container to swap with.
+    void swap(std::container::dynamic::base<object_type>& other)
+    {
+        // Store this container's pointers in a temporary.
+        auto temp_begin = base::m_begin;
+        auto temp_end = base::m_end;
+        auto temp_capacity = base::m_capacity;
+
+        // Store the other container's pointers in this container.
+        base::m_begin = other.m_begin;
+        base::m_end = other.m_end;
+        base::m_capacity = other.m_capacity;
+
+        // Store this container's original pointers in the other container.
+        other.m_begin = temp_begin;
+        other.m_end = temp_end;
+        other.m_capacity = temp_capacity;
+    }
+
+    // COMPARISON
+    /// \brief Checks if this container is equal to another container.
+    /// \param[in] other The other container to compare with.
+    /// \return TRUE if the two containers are equal, otherwise FALSE.
+    bool operator==(const std::container::dynamic::base<object_type>& other) const
+    {
+        // Verify container sizes match.
+        if(base::m_end - base::m_begin != other.m_end - other.m_begin)
+        {
+            return false;
+        }
+
+        // Compare values.
+        auto this_entry = base::m_begin;
+        auto other_entry = other.m_begin;
+        while(this_entry < base::m_end)
+        {
+            if(*this_entry++ != *other_entry++)
+            {
+                return false;
+            }
+        }
+
+        // Indicate equal.
+        return true;
+    }
+
     // SHIFT
     /// \brief Shifts elements in the container left and reduces the size of the container.
     /// \param[in] position The position (inclusive) to begin the left-shift.

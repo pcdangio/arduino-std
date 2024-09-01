@@ -16,17 +16,17 @@ class vector
 {
 public:
     // CONSTRUCTORS
-    /// \brief Constructs a new empty vector.
+    /// \brief Constructs a new empty vector instance.
     /// \param[in] capacity The maximum capacity of this vector.
     vector(std::size_t capacity)
         : std::container::dynamic::base<object_type>(capacity)
     {}
-    /// \brief Copy-constructs a new vector from another vector.
+    /// \brief Copy-constructs a new vector from an existing vector.
     /// \param[in] other The other vector to copy-construct from.
     vector(const std::vector<object_type>& other)
         : std::container::dynamic::base<object_type>(other)
     {}
-    /// \brief Move-constructs a new vector from another vector.
+    /// \brief Move-constructs a new vector from an existing vector.
     /// \param[in] other The other vector to move-construct from.
     vector(std::vector<object_type>&& other)
         : std::container::dynamic::base<object_type>(other)
@@ -208,6 +208,7 @@ public:
     }
     /// \brief Resizes this vector to a specified size, using a provided value for additional elements if needed.
     /// \param[in] size The size to set this vector to.
+    /// \param[in] value The value to assign to additional elements.
     /// \return TRUE if the resize succeeded, FALSE if this vector does not have enough capacity.
     bool resize(std::size_t size, const object_type& value)
     {
@@ -252,74 +253,25 @@ public:
     /// \return TRUE if the assignment succeeded, FALSE if this vector does not have enough capacity.
     bool operator=(const std::vector<object_type>& other)
     {
-        // Calculate size of other vector.
-        std::size_t size = other.m_end - other.m_begin;
-
-        // Verify space in the container.
-        if(vector::m_capacity - vector::m_begin < size)
-        {
-            return false;
-        }
-
-        // Update end.
-        vector::m_end = vector::m_begin + size;
-
-        // Copy values.
-        auto destination = vector::m_begin;
-        auto source = other.m_begin;
-        while(destination < vector::m_end)
-        {
-            *destination++ = *source++;
-        }
-
-        // Indicate success.
-        return true;
+        // Use base container's operator= method.
+        return std::container::dynamic::base<object_type>::operator=(other);
     }
     /// \brief Swaps the contents of this vector with another vector.
     /// \param[in] other The other vector to swap with.
     void swap(std::vector<object_type>& other)
     {
-        // Store this vector's pointers in a temporary.
-        auto temp_begin = vector::m_begin;
-        auto temp_end = vector::m_end;
-        auto temp_capacity = vector::m_capacity;
-
-        // Store the other vector's pointers in this vector.
-        vector::m_begin = other.m_begin;
-        vector::m_end = other.m_end;
-        vector::m_capacity = other.m_capacity;
-
-        // Store this vector's original pointers in the other vector.
-        other.m_begin = temp_begin;
-        other.m_end = temp_end;
-        other.m_capacity = temp_capacity;
+        // Use base container's swap method.
+        std::container::dynamic::base<object_type>::swap(other);
     }
 
     // COMPARISON
     /// \brief Checks if this vector is equal to another vector.
     /// \param[in] other The other vector to compare with.
     /// \return TRUE if the two vectors are equal, otherwise FALSE.
-    bool operator==(const std::vector<object_type>& other)
+    bool operator==(const std::vector<object_type>& other) const
     {
-        // Verify vector sizes match.
-        if(vector::m_end - vector::m_begin != other.m_end - other.m_begin)
-        {
-            return false;
-        }
-
-        // Compare values.
-        auto this_entry = vector::m_begin;
-        auto other_entry = other.m_begin;
-        while(this_entry < vector::m_end)
-        {
-            if(*this_entry++ != *other_entry++)
-            {
-                return false;
-            }
-        }
-
-        // Indicate equal.
-        return true;
+        // Use base container's operator== method.
+        return std::container::dynamic::base<object_type>::operator==(other);
     }
 };
 
