@@ -13,7 +13,7 @@
 #include <std/container/dynamic/vector.hpp>
 
 // MEMORY
-#include <std/memory/smart_ptr.hpp>
+#include <std/memory/smart_ptr/base.hpp>
 
 // CORE
 #include <std/stddef.hpp>

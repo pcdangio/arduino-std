@@ -12,7 +12,7 @@
 // #define TEST_CONTAINER_DYNAMIC_MAP
 
 // std/memory
-// #define TEST_MEMORY_SMART_PTR
+// #define TEST_MEMORY_SMART_PTR_BASE
 
 // std/utility
 // #define TEST_UTILITY_PAIR
