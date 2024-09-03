@@ -18,6 +18,7 @@
 
 // std/functional
 // #define TEST_FUNCTIONAL_CALLABLE_GLOBAL
+// #define TEST_FUNCTIONAL_CALLABLE_MEMBER
 
 // std/utility
 // #define TEST_UTILITY_PAIR

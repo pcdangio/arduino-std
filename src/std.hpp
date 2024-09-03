@@ -20,6 +20,7 @@
 // FUNCTIONAL
 #include <std/functional/callable/base.hpp>
 #include <std/functional/callable/global.hpp>
+#include <std/functional/callable/member.hpp>
 
 // UTILITY
 #include <std/utility/forward.hpp>
