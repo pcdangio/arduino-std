@@ -24,7 +24,7 @@ void fill_set(std::set<uint8_t>& set, std::size_t size)
     }
 }
 
-// LOOKUP
+// TESTS: LOOKUP
 /// \brief Tests the std::set::find function with a valid configuration.
 test(container_dynamic_set, find)
 {
@@ -90,7 +90,7 @@ test(container_dynamic_set, contains_missing)
     assertFalse(set.contains(0xFF));
 }
 
-// MODIFIERS
+// TESTS: MODIFIERS
 /// \brief Tests the std::set::insert function with a valid configuration.
 test(container_dynamic_set, insert)
 {

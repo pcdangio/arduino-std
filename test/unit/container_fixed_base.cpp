@@ -12,7 +12,7 @@
 
 namespace test::container::fixed::base {
 
-// CONSTRUCTORS
+// TESTS: CONSTRUCTORS
 /// \brief Tests the std::container::fixed::base default constructor.
 test(container_fixed_base, constructor_default)
 {
@@ -59,7 +59,7 @@ test(container_fixed_base, constructor_copy)
     }
 }
 
-// ACCESS
+// TESTS: ACCESS
 /// \brief Tests the std::container::fixed::base::begin function.
 test(container_fixed_base, begin)
 {
@@ -103,7 +103,7 @@ test(container_fixed_base, cend)
     assertEqual(container.cend(), container.cbegin() + size);
 }
 
-// CAPACITY
+// TESTS: CAPACITY
 /// \brief Tests the std::container::fixed::base::size value.
 test(container_fixed_base, size)
 {

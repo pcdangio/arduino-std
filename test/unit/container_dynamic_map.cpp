@@ -24,7 +24,7 @@ void fill_map(std::map<uint8_t,uint8_t>& map, std::size_t size)
     }
 }
 
-// LOOKUP
+// TESTS: LOOKUP
 /// \brief Tests the std::map::find function with an existing key.
 test(container_dynamic_map, find_existing)
 {
@@ -116,7 +116,7 @@ test(container_dynamic_map, contains_missing)
     assertFalse(map.contains(0xFF));
 }
 
-// MODIFIERS
+// TESTS: MODIFIERS
 /// \brief Tests the std::map::insert function with a new key.
 test(container_dynamic_map, insert_new)
 {
