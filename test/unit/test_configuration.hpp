@@ -13,6 +13,7 @@
 
 // std/memory
 // #define TEST_MEMORY_SMART_PTR_BASE
+// #define TEST_MEMORY_SMART_PTR_SHARED_PTR
 
 // std/utility
 // #define TEST_UTILITY_PAIR

@@ -14,6 +14,7 @@
 
 // MEMORY
 #include <std/memory/smart_ptr/base.hpp>
+#include <std/memory/smart_ptr/shared_ptr.hpp>
 
 // CORE
 #include <std/stddef.hpp>
