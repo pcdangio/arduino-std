@@ -69,8 +69,8 @@ test(memory_smart_ptr_base, constructor_raw_pointer)
     // Clean up raw pointer.
     delete raw_pointer;
 }
-/// \brief Tests the std::memory::smart_ptr copy constructor.
-test(memory_smart_ptr_base, constructor_copy)
+/// \brief Tests the std::memory::smart_ptr copy constructor with the same object type.
+test(memory_smart_ptr_base, constructor_copy_same)
 {
     // Create a raw pointer.
     uint8_t* const raw_pointer = new uint8_t(0x12);
@@ -87,8 +87,26 @@ test(memory_smart_ptr_base, constructor_copy)
     // Clean up raw pointer.
     delete raw_pointer;
 }
-/// \brief Tests the std::memory::smart_ptr move constructor.
-test(memory_smart_ptr_base, constructor_move)
+/// \brief Tests the std::memory::smart_ptr copy constructor with a different object type.
+test(memory_smart_ptr_base, constructor_copy_different)
+{
+    // Create a raw pointer.
+    uint8_t* const raw_pointer = new uint8_t(0x12);
+
+    // Construct a smart_ptr from a raw pointer.
+    std::memory::smart_ptr::base<uint8_t> smart_ptr_a(raw_pointer);
+
+    // Copy-construct a new const smart_ptr.
+    std::memory::smart_ptr::base<const uint8_t> smart_ptr_b(smart_ptr_a);
+
+    // Verify the two smart_ptrs are equal.
+    assertEqual(smart_ptr_b.get(), smart_ptr_a.get());
+
+    // Clean up raw pointer.
+    delete raw_pointer;
+}
+/// \brief Tests the std::memory::smart_ptr move constructor with the same object type.
+test(memory_smart_ptr_base, constructor_move_same)
 {
     // Create a raw pointer.
     uint8_t* const raw_pointer = new uint8_t(0x12);
@@ -98,6 +116,27 @@ test(memory_smart_ptr_base, constructor_move)
 
     // Move-construct a new smart_ptr.
     std::memory::smart_ptr::base<uint8_t> smart_ptr_b(std::move(smart_ptr_a));
+
+    // Verify smart_ptr_b now contains the raw_pointer.
+    assertEqual(smart_ptr_b.get(), raw_pointer);
+
+    // Verify smart_ptr_a is now empty.
+    assertFalse(smart_ptr_a);
+
+    // Clean up raw pointer.
+    delete raw_pointer;
+}
+/// \brief Tests the std::memory::smart_ptr move constructor with a different object type..
+test(memory_smart_ptr_base, constructor_move_different)
+{
+    // Create a raw pointer.
+    uint8_t* const raw_pointer = new uint8_t(0x12);
+
+    // Construct a smart_ptr from a raw pointer.
+    std::memory::smart_ptr::base<uint8_t> smart_ptr_a(raw_pointer);
+
+    // Move-construct a new cont smart_ptr.
+    std::memory::smart_ptr::base<const uint8_t> smart_ptr_b(std::move(smart_ptr_a));
 
     // Verify smart_ptr_b now contains the raw_pointer.
     assertEqual(smart_ptr_b.get(), raw_pointer);

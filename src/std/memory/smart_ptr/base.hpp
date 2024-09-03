@@ -35,9 +35,26 @@ public:
     base(const std::memory::smart_ptr::base<object_type>& other)
         : m_instance(other.m_instance)
     {}
+    /// \brief Copy-constructs a base smart_ptr instance from another base smart_ptr.
+    /// \tparam other_type The object type of the other smart_ptr. If different from this smart_ptr, the object type must be implicitly convertible.
+    /// \param[in] other The other base smart_ptr to copy-construct from.
+    template <typename other_type>
+    base(const std::memory::smart_ptr::base<other_type>& other)
+        : m_instance(other.m_instance)
+    {}
     /// \brief Move-constructs a new base smart_ptr instance from another base smart_ptr.
     /// \param[in] other The other base smart_ptr to move-construct from.
     base(std::memory::smart_ptr::base<object_type>&& other)
+        : m_instance(other.m_instance)
+    {
+        // Reset other's instance.
+        other.m_instance = nullptr;
+    }
+    /// \brief Move-constructs a base smart_ptr instance from another base smart_ptr.
+    /// \tparam other_type The object type of the other smart_ptr. If different from this smart_ptr, the object type must be implicitly convertible.
+    /// \param[in] other The other base smart_ptr to move-construct from.
+    template <typename other_type>
+    base(std::memory::smart_ptr::base<other_type>&& other)
         : m_instance(other.m_instance)
     {
         // Reset other's instance.
@@ -71,6 +88,9 @@ public:
     }
     
 protected:
+    template <typename other_type>
+    friend class base;
+
     /// \brief The raw instance managed by this smart_ptr.
     object_type* m_instance;
 
