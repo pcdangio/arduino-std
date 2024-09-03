@@ -61,7 +61,7 @@ public:
     }
     /// \brief Move-constructs a shared_ptr instance from another shared_ptr.
     /// \tparam other_type The object type of the other shared_ptr. If different from this shared_ptr, the object type must be implicitly convertible.
-    /// \param other The other shared_ptr instance to move.
+    /// \param[in] other The other shared_ptr instance to move.
     template <class other_type>
     shared_ptr(std::shared_ptr<other_type>&& other)
         : std::memory::smart_ptr::base<object_type>(std::forward(other)),

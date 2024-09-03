@@ -26,7 +26,7 @@ test(memory_smart_ptr_shared_ptr, constructor_default)
     assertEqual(shared_ptr.use_count(), std::size_t(0));
 }
 /// \brief Tests the std::shared_ptr copy constructor with the same object type.
-test(memory_smart_ptr_shared_ptr, constructor_copy_same)
+test(memory_smart_ptr_shared_ptr, constructor_copy)
 {
     // Specify a raw pointer that will be managed.
     uint8_t* const raw_pointer = new uint8_t(0x12);
@@ -46,7 +46,7 @@ test(memory_smart_ptr_shared_ptr, constructor_copy_same)
     assertEqual(shared_ptr_b.use_count(), std::size_t(2));
 }
 /// \brief Tests the std::shared_ptr copy constructor with different object types.
-test(memory_smart_ptr_shared_ptr, constructor_copy_different)
+test(memory_smart_ptr_shared_ptr, constructor_copy_implicit)
 {
     // Specify a raw pointer that will be managed.
     uint8_t* const raw_pointer = new uint8_t(0x12);
@@ -66,7 +66,7 @@ test(memory_smart_ptr_shared_ptr, constructor_copy_different)
     assertEqual(shared_ptr_b.use_count(), std::size_t(2));
 }
 /// \brief Tests the std::shared_ptr move constructor with the same object type.
-test(memory_smart_ptr_shared_ptr, constructor_move_same)
+test(memory_smart_ptr_shared_ptr, constructor_move)
 {
     // Specify a raw pointer that will be managed.
     uint8_t* const raw_pointer = new uint8_t(0x12);
@@ -86,7 +86,7 @@ test(memory_smart_ptr_shared_ptr, constructor_move_same)
     assertEqual(shared_ptr_b.use_count(), std::size_t(1));
 }
 /// \brief Tests the std::shared_ptr move constructor with a different object type.
-test(memory_smart_ptr_shared_ptr, constructor_move_different)
+test(memory_smart_ptr_shared_ptr, constructor_move_implicit)
 {
     // Specify a raw pointer that will be managed.
     uint8_t* const raw_pointer = new uint8_t(0x12);
@@ -127,7 +127,7 @@ test(memory_smart_ptr_shared_ptr, reset_instance)
     std::shared_ptr<uint8_t> shared_ptr(new uint8_t(0x12));
 
     // Create a new raw_pointer.
-    uint8_t* const raw_pointer = new uint8_t(0x12);
+    uint8_t* const raw_pointer = new uint8_t(0x34);
 
     // Reset the shared_ptr to the new raw pointer.
     shared_ptr.reset(raw_pointer);
@@ -139,18 +139,18 @@ test(memory_smart_ptr_shared_ptr, reset_instance)
 /// \brief Tests the std::shared_ptr::swap function.
 test(memory_smart_ptr_shared_ptr, swap)
 {
-    // Create smart_ptr_a over raw_pointer_a.
+    // Create shared_ptr_a over raw_pointer_a.
     uint8_t* const raw_pointer_a = new uint8_t(0x12);
     std::shared_ptr<uint8_t> shared_ptr_a(raw_pointer_a);
 
-    // Create smart_ptr_b over raw_pointer_b.
+    // Create shared_ptr_b over raw_pointer_b.
     uint8_t* const raw_pointer_b = new uint8_t(0x12);
     std::shared_ptr<uint8_t> shared_ptr_b(raw_pointer_b);
 
-    // Create smart_ptr_c over raw_pointer_c to increase use count.
+    // Create shared_ptr_c over raw_pointer_c to increase use count.
     std::shared_ptr<uint8_t> shared_ptr_c(shared_ptr_b);
 
-    // Swap the two smart_ptrs.
+    // Swap the two shared_ptrs.
     shared_ptr_a.swap(shared_ptr_b);
 
     // Verify shared_ptr_a now manages raw_pointer_b.
@@ -203,7 +203,7 @@ test(memory_smart_ptr_shared_ptr, operator_assign_copy_same)
     assertEqual(shared_ptr_b.use_count(), std::size_t(2));
 }
 /// \brief Tests the std::shared_ptr::operator= other copy function with different instances.
-test(memory_smart_ptr_shared_ptr, operator_assign_copy_other_different)
+test(memory_smart_ptr_shared_ptr, operator_assign_copy_different_implicit)
 {
     // Create raw pointers.
     uint8_t* const raw_pointer_a = new uint8_t(0x12);
@@ -227,7 +227,7 @@ test(memory_smart_ptr_shared_ptr, operator_assign_copy_other_different)
     assertEqual(shared_ptr_b2.use_count(), std::size_t(1));
 }
 /// \brief Tests the std::shared_ptr::operator= other copy function with same instances.
-test(memory_smart_ptr_shared_ptr, operator_assign_copy_other_same)
+test(memory_smart_ptr_shared_ptr, operator_assign_copy_same_implicit)
 {
     // Create raw pointer.
     uint8_t* const raw_pointer = new uint8_t(0x12);
@@ -293,7 +293,7 @@ test(memory_smart_ptr_shared_ptr, operator_assign_move_same)
     assertEqual(shared_ptr_a.use_count(), std::size_t(0));
 }
 /// \brief Tests the std::shared_ptr::operator= other copy function with different instances.
-test(memory_smart_ptr_shared_ptr, operator_assign_move_other_different)
+test(memory_smart_ptr_shared_ptr, operator_assign_move_different_implicit)
 {
     // Create raw pointers.
     uint8_t* const raw_pointer_a = new uint8_t(0x12);
@@ -321,7 +321,7 @@ test(memory_smart_ptr_shared_ptr, operator_assign_move_other_different)
     assertEqual(shared_ptr_b2.use_count(), std::size_t(1));
 }
 /// \brief Tests the std::shared_ptr::operator= other copy function with same instances.
-test(memory_smart_ptr_shared_ptr, operator_assign_move_other_same)
+test(memory_smart_ptr_shared_ptr, operator_assign_move_same_implicit)
 {
     // Create raw pointer.
     uint8_t* const raw_pointer = new uint8_t(0x12);
@@ -359,7 +359,7 @@ test(memory_smart_ptr_shared_ptr, use_count)
     assertEqual(shared_ptr.use_count(), std::size_t(0));
 }
 
-// TESTS: MAKE_PAIR
+// TESTS: MAKE_SHARED
 /// \brief Tests the std::make_shared function.
 test(memory_smart_ptr_shared_ptr, make_shared)
 {
