@@ -12,6 +12,11 @@
 #include <std/container/dynamic/set.hpp>
 #include <std/container/dynamic/vector.hpp>
 
+// MEMORY
+#include <std/memory/smart_ptr/base.hpp>
+#include <std/memory/smart_ptr/unique_ptr.hpp>
+#include <std/memory/smart_ptr/shared_ptr.hpp>
+
 // CORE
 #include <std/stddef.hpp>
 #include <std/utility/forward.hpp>

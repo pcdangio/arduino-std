@@ -24,34 +24,41 @@ Currently, Arduino does not support the Standard Library due to various performa
 **NOTE: Please check the release page for updates on newly-added features**
 
 - [Containers](#21-containers): Data structures that store and manage collections of objects.
-- [Utility](#22-utility): Utility functions and classes.
-- [Definitions](#23-definitions): Type definitions.
+- [Memory](#22-memory): Data structures and functions that provide dynamic memory management.
+- [Utility](#23-utility): Utility functions and classes.
+- [Definitions](#24-definitions): Type definitions.
 
 ### 2.1: Containers
 
 **NOTE: All dynamically-sized containers take a `capacity` at construction, which limit their maximum achievable size to provide better control over usage of Arduino's limited memory.**
 
-- **std::array** A fixed-size array stored sequentially in memory. Closely follows the Standard Library.
+- `std::array`: A fixed-size array stored sequentially in memory. Closely follows the Standard Library.
 
-- **std::iterator and std::const_iterator** An iterator pointing to an element in a container. Currently implemented as typedefs over direct pointers to elements in the container. Reverse iterators are not yet implemented.
+- `std::iterator` and `std::const_iterator`: An iterator pointing to an element in a container. Currently implemented as typedefs over direct pointers to elements in the container. Reverse iterators are not yet implemented.
 
-- **std::map** An associative container mapping keys and values. Currently implemented as key/value pairs stored contiguously in memory, with linear key searching. Maps are not sorted or implemented as trees, and pairs are ordered based on when they were added to the map. Due to the capacity limitation and lack of exceptions, `std::map::at` and `std::map::operator[]` are not implemented.
+- `std::map`: An associative container mapping keys and values. Currently implemented as key/value pairs stored contiguously in memory, with linear key searching. Maps are not sorted or implemented as trees, and pairs are ordered based on when they were added to the map. Due to the capacity limitation and lack of exceptions, `std::map::at` and `std::map::operator[]` are not implemented.
 
-- **std::set** A container of unique values. Currently implemented with values stored contiguously in memory, with linear searching. Values are ordered based on when they were added to the set. Interface closely follows the Standard Library.
+- `std::set`: A container of unique values. Currently implemented with values stored contiguously in memory, with linear searching. Values are ordered based on when they were added to the set. Interface closely follows the Standard Library.
 
-- **std::vector** A dynamically-sized array stored sequentially in memory. Closely follows the Standard Library, with the exception of capacity specification and handling when adding elements to the vector (e.g. `std::vector::push_back` returns a boolean).
+- `std::vector`: A dynamically-sized array stored sequentially in memory. Closely follows the Standard Library, with the exception of capacity specification and handling when adding elements to the vector (e.g. `std::vector::push_back` returns a boolean).
 
-### 2.2: Utility
+### 2.2 Memory
 
-- **std::forward** Preserves the lvalue/rvalue category for arguments passed to another function. Minimal functional implementation.
+- `std::unique_ptr`: A smart pointer with sole ownership over a managed object. Closely follows the Standard Library.
 
-- **std::move** Indicates that an object should be moved. Minimal functional implementation.
+- `std::shared_ptr`: A smart pointer with shared ownership over a managed object. Closely follows the Standard Library.
 
-- **std::pair** A pair of heterogeneous objects. Closely follows the Standard Library. `std::make_pair` not yet implemented due to lack of `std::decay`.
+### 2.3: Utility
 
-### 2.3: Definitions
+- `std::forward`: Preserves the lvalue/rvalue category for arguments passed to another function. Minimal functional implementation.
 
-- **std::size_t** The type used for sizes and counts of objects in memory.
+- `std::move`: Indicates that an object should be moved. Minimal functional implementation.
+
+- `std::pair`: A pair of heterogeneous objects. Closely follows the Standard Library. `std::make_pair` not yet implemented due to lack of `std::decay`.
+
+### 2.4: Definitions
+
+- `std::size_t`: The type used for sizes and counts of objects in memory.
 
 ## 3: Installation
 
