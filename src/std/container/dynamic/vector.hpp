@@ -5,6 +5,7 @@
 
 // std
 #include <std/container/dynamic/base.hpp>
+#include <std/utility/forward.hpp>
 
 namespace std {
 
@@ -29,7 +30,7 @@ public:
     /// \brief Move-constructs a new vector from an existing vector.
     /// \param[in] other The other vector to move-construct from.
     vector(std::vector<object_type>&& other)
-        : std::container::dynamic::base<object_type>(other)
+        : std::container::dynamic::base<object_type>(std::forward(other))
     {}
 
     // ACCESS

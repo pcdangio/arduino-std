@@ -5,6 +5,7 @@
 
 // std
 #include <std/container/dynamic/base.hpp>
+#include <std/utility/forward.hpp>
 #include <std/utility/pair.hpp>
 
 namespace std {
@@ -31,7 +32,7 @@ public:
     /// \brief Move-constructs a map instance from another map.
     /// \param[in] other The other map to move-construct from.
     map(std::map<key_type,value_type>&& other)
-        : std::container::dynamic::base<std::pair<key_type,value_type>>(other)
+        : std::container::dynamic::base<std::pair<key_type,value_type>>(std::forward(other))
     {}
 
     // LOOKUP

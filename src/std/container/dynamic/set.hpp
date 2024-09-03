@@ -5,6 +5,7 @@
 
 // std
 #include <std/container/dynamic/base.hpp>
+#include <std/utility/forward.hpp>
 
 namespace std {
 
@@ -29,7 +30,7 @@ public:
     /// \brief Move-constructs a new set from an existing set.
     /// \param[in] other The other set to move-construct from.
     set(std::set<object_type>&& other)
-        : std::container::dynamic::base<object_type>(other)
+        : std::container::dynamic::base<object_type>(std::forward(other))
     {}
 
     // LOOKUP
