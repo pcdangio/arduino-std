@@ -19,6 +19,7 @@
 
 // FUNCTIONAL
 #include <std/functional/callable/base.hpp>
+#include <std/functional/callable/global.hpp>
 
 // UTILITY
 #include <std/utility/forward.hpp>

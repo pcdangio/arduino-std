@@ -16,6 +16,9 @@
 // #define TEST_MEMORY_SMART_PTR_UNIQUE_PTR
 // #define TEST_MEMORY_SMART_PTR_SHARED_PTR
 
+// std/functional
+// #define TEST_FUNCTIONAL_CALLABLE_GLOBAL
+
 // std/utility
 // #define TEST_UTILITY_PAIR
 
