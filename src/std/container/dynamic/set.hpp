@@ -111,6 +111,29 @@ public:
         // Return iterator to entry and false for existing value.
         return std::pair<std::iterator<object_type>,bool>(entry, true);
     }
+    /// \brief Erases a value from the set.
+    /// \param[in] value The value to erase.
+    /// \return TRUE if the value was erased, FALSE if the set did not contain the value.
+    bool erase(const object_type& value)
+    {
+        // Try to find the value in the set.
+        for(auto entry = set::m_begin; entry != set::m_end; ++entry)
+        {
+            // Check if entry equals the value.
+            if(*entry == value)
+            {
+                // Erase at the entry's position.
+                std::container::dynamic::base<object_type>::erase(entry);
+
+                // Indicate success.
+                return true;
+            }
+        }
+
+        // Indicate failure; entry was not found.
+        return false;
+    }
+    using std::container::dynamic::base<object_type>::erase;
     /// \brief Copy-assigns the contents of this set from another set.
     /// \param[in] other The other set to copy-assign from.
     /// \return TRUE if the assignment succeeded, otherwise FALSE.

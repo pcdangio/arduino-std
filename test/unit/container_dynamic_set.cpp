@@ -152,6 +152,42 @@ test(container_dynamic_set, insert_over_capacity)
         assertTrue(set.contains(i));
     }
 }
+/// \brief Tests the std::set::erase key function with an existing key.
+test(container_dynamic_set, erase_key_existing)
+{
+    // Create and populate a set.
+    std::set<uint8_t> set(5);
+    fill_set(set, set.capacity());
+
+    // Erase value 2 from the set.
+    assertTrue(set.erase(2));
+
+    // Verify set contents after erase.
+    assertEqual(set.size(), std::size_t(4));
+    assertTrue(set.contains(0));
+    assertTrue(set.contains(1));
+    assertFalse(set.contains(2));
+    assertTrue(set.contains(3));
+    assertTrue(set.contains(4));
+}
+/// \brief Tests the std::set::erase key function with a nonexisting key.
+test(container_dynamic_set, erase_key_nonexisting)
+{
+    // Create and populate a set.
+    std::set<uint8_t> set(5);
+    fill_set(set, set.capacity());
+
+    // Erase nonexistent from the set.
+    assertFalse(set.erase(0xFF));
+
+    // Verify set contents after erase.
+    assertEqual(set.size(), std::size_t(5));
+    assertTrue(set.contains(0));
+    assertTrue(set.contains(1));
+    assertTrue(set.contains(2));
+    assertTrue(set.contains(3));
+    assertTrue(set.contains(4));
+}
 
 }
 
