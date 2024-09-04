@@ -274,6 +274,14 @@ public:
         // Use base container's operator== method.
         return std::container::dynamic::base<object_type>::operator==(other);
     }
+    /// \brief Checks if this vector is unequal with another vector.
+    /// \param[in] other The other vector to compare with.
+    /// \return TRUE if the two vectors are unequal, otherwise FALSE.
+    bool operator!=(const std::vector<object_type>& other) const
+    {
+        // Use base container's operator!= method.
+        return std::container::dynamic::base<object_type>::operator!=(other);
+    }
 };
 
 }

@@ -124,6 +124,14 @@ public:
         // Use base container's operator== function.
         return std::container::dynamic::base<std::pair<key_type,value_type>>::operator==(other);
     }
+    /// \brief Checks if this map is unequal with another map.
+    /// \param[in] other The other map to compare with.
+    /// \return TRUE if the two maps are unequal, otherwise FALSE.
+    bool operator!=(const std::map<key_type,value_type>& other) const
+    {
+        // Use base container's operator!= function.
+        return std::container::dynamic::base<std::pair<key_type,value_type>>::operator!=(other);
+    }
 
 private:
     // LOOKUP

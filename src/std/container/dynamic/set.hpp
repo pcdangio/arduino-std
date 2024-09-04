@@ -130,6 +130,14 @@ public:
         // Use base container's operator== function.
         return std::container::dynamic::base<object_type>::operator==(other);
     }
+    /// \brief Checks if this set is unequal with another set.
+    /// \param[in] other The other set to compare with.
+    /// \return TRUE if the two sets are unequal, otherwise FALSE.
+    bool operator!=(const std::set<object_type>& other) const
+    {
+        // Use base container's operator!= function.
+        return std::container::dynamic::base<object_type>::operator!=(other);
+    }
 };
 
 }
