@@ -85,6 +85,14 @@ struct pair
         // Compare both values.
         return (pair::first == other.first) && (pair::second == other.second);
     }
+    /// \brief Checks if this pair's values are unequal with another pair's values.
+    /// \param[in] other The other pair to compare values with.
+    /// \return TRUE if the pairs have unequal values, otherwise FALSE.
+    bool operator!=(const std::pair<first_type,second_type>& other)
+    {
+        // Compare both values.
+        return (pair::first != other.first) || (pair::second != other.second);
+    }
 };
 
 }
