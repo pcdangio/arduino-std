@@ -99,6 +99,29 @@ public:
         // Output entry position and true for new insertion.
         return std::pair<std::iterator<std::pair<key_type,value_type>>,bool>(entry, true);
     }
+    /// \brief Erases a mapping from the map.
+    /// \param[in] key The key of the mapping to erase.
+    /// \return TRUE if the mapping was erased, FALSE if the map did not contain the key.
+    bool erase(const key_type& key)
+    {
+        // Try to find the key in the map.
+        for(auto entry = map::m_begin; entry != map::m_end; ++entry)
+        {
+            // Check if entry's key equals the key.
+            if(entry->first == key)
+            {
+                // Erase at the entry's position.
+                std::container::dynamic::base<std::pair<key_type,value_type>>::erase(entry);
+
+                // Indicate success.
+                return true;
+            }
+        }
+
+        // Indicate failure; entry was not found.
+        return false;
+    }
+    using std::container::dynamic::base<std::pair<key_type,value_type>>::erase;
     /// \brief Copy-assigns the contents of this map from another map.
     /// \param[in] other The other map to copy-assign from.
     /// \return TRUE if the assignment succeeded, otherwise FALSE.
@@ -123,6 +146,14 @@ public:
     {
         // Use base container's operator== function.
         return std::container::dynamic::base<std::pair<key_type,value_type>>::operator==(other);
+    }
+    /// \brief Checks if this map is unequal with another map.
+    /// \param[in] other The other map to compare with.
+    /// \return TRUE if the two maps are unequal, otherwise FALSE.
+    bool operator!=(const std::map<key_type,value_type>& other) const
+    {
+        // Use base container's operator!= function.
+        return std::container::dynamic::base<std::pair<key_type,value_type>>::operator!=(other);
     }
 
 private:

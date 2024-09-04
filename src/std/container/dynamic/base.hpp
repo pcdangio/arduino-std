@@ -257,6 +257,31 @@ protected:
         // Indicate equal.
         return true;
     }
+    /// \brief Checks if this container is unequal with another container.
+    /// \param[in] other The other container to compare with.
+    /// \return TRUE if the two containers are unequal, otherwise FALSE.
+    bool operator!=(const std::container::dynamic::base<object_type>& other) const
+    {
+        // Check for size difference shortcut.
+        if(base::m_end - base::m_begin != other.m_end - other.m_begin)
+        {
+            return true;
+        }
+
+        // Compare values.
+        auto this_entry = base::m_begin;
+        auto other_entry = other.m_begin;
+        while(this_entry < base::m_end)
+        {
+            if(*this_entry++ != *other_entry++)
+            {
+                return true;
+            }
+        }
+
+        // Indicate equal.
+        return false;
+    }
 
     // SHIFT
     /// \brief Shifts elements in the container left and reduces the size of the container.

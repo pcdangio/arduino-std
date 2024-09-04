@@ -165,6 +165,26 @@ test(utility_pair, operator_equal_unequal)
     // Verify the two pairs return as not equal.
     assertFalse(pair_a == pair_b);
 }
+/// \brief Tests the std::pair::operator!= function with unequal pairs.
+test(utility_pair, operator_unequal_unequal)
+{
+    // Create two unequal pairs.
+    std::pair<uint8_t,uint8_t> pair_a(0x12,0x34);
+    std::pair<uint8_t,uint8_t> pair_b(0x34,0x56);
+
+    // Verify the two pairs are unequal.
+    assertTrue(pair_a != pair_b);
+}
+/// \brief Tests the std::pair::operator!= function with equal pairs.
+test(utility_pair, operator_unequal_equal)
+{
+    // Create two equal pairs.
+    std::pair<uint8_t,uint8_t> pair_a(0x12,0x34);
+    std::pair<uint8_t,uint8_t> pair_b(0x12,0x34);
+
+    // Verify the two pairs are equal.
+    assertFalse(pair_a != pair_b);
+}
 
 }
 

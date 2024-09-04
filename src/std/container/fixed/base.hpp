@@ -88,6 +88,48 @@ protected:
     object_type* const m_begin;
     /// \brief An iterator to the end of the data array.
     object_type* const m_end;
+
+    // COMPARISON
+    /// \brief Checks if this container is equal to another container.
+    /// \param[in] other The other array to compare with.
+    /// \return TRUE if the two containers are equal, otherwise FALSE.
+    bool operator==(const std::container::fixed::base<object_type,size_value>& other) const
+    {
+        // Iterate through both containers.
+        auto this_entry = base::m_begin;
+        auto other_entry = other.m_begin;
+        while(this_entry != base::m_end)
+        {
+            // Compare the two entries.
+            if(*this_entry++ != *other_entry++)
+            {
+                return false;
+            }
+        }
+
+        // Indicate equal.
+        return true;
+    }
+    /// \brief Checks if this container is not equal to another container.
+    /// \param[in] other The other array to compare with.
+    /// \return TRUE if the two containers are not equal, otherwise FALSE.
+    bool operator!=(const std::container::fixed::base<object_type,size_value>& other) const
+    {
+        // Iterate through both containers.
+        auto this_entry = base::m_begin;
+        auto other_entry = other.m_begin;
+        while(this_entry != base::m_end)
+        {
+            // Compare the two entries.
+            if(*this_entry++ != *other_entry++)
+            {
+                return true;
+            }
+        }
+
+        // Indicate equal.
+        return false;
+    }
 };
 
 }}
