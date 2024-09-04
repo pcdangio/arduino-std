@@ -100,7 +100,9 @@ test(container_dynamic_set, insert)
     // Iteratively add unique values and verify success.
     for(uint8_t i = 0; i < set.capacity(); ++i)
     {
-        assertTrue(set.insert(i));
+        auto result = set.insert(i);
+        assertEqual(result.first, set.end() - 1);
+        assertTrue(result.second);
     }
 
     // Verify set contains all values.
@@ -119,7 +121,9 @@ test(container_dynamic_set, insert_duplicate_value)
     set.insert(0xFF);
 
     // Verify inserting the same value fails.
-    assertFalse(set.insert(0xFF));
+    auto result = set.insert(0xFF);
+    assertEqual(result.first, set.begin());
+    assertFalse(result.second);
 
     // Verify set size is still only one.
     assertEqual(set.size(), std::size_t(1));
@@ -135,7 +139,9 @@ test(container_dynamic_set, insert_over_capacity)
     fill_set(set, set.capacity());
 
     // Verify inserting another unique value fails due to over-capacity.
-    assertFalse(set.insert(0xFF));
+    auto result = set.insert(0xFF);
+    assertEqual(result.first, set.end());
+    assertFalse(result.second);
 
     // Verify set size is still at capacity.
     assertEqual(set.size(), set.capacity());

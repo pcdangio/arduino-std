@@ -6,6 +6,7 @@
 // std
 #include <std/container/dynamic/base.hpp>
 #include <std/utility/forward.hpp>
+#include <std/utility/pair.hpp>
 
 namespace std {
 
@@ -79,31 +80,36 @@ public:
     // MODIFIERS
     /// \brief Inserts a new unique value into this set.
     /// \param[in] value The value to insert.
-    /// \return TRUE if the value was newly inserted, FALSE if the value already existed in the set or if the set is at capacity.
-    bool insert(const object_type& value)
+    /// \return A pair containing an iterator to the inserted value, and a boolean indicating if the value was newly inserted.
+    /// Returns set::end() and false if the set is at capacity.
+    std::pair<std::iterator<object_type>,bool> insert(const object_type& value)
     {
-        // Verify capacity.
-        if(set::m_end == set::m_capacity)
-        {
-            return false;
-        }
-
         // Check if set already contains value.
         for(auto entry = set::m_begin; entry != set::m_end; ++entry)
         {
             // Check if value matches the new value.
             if(*entry == value)
             {
-                // Indicate failure.
-                return false;
+                // Return iterator to entry and false for existing value.
+                return std::pair<std::iterator<object_type>,bool>(entry, false);
             }
         }
 
-        // Add value at end and increment end pointer.
-        *set::m_end++ = value;
+        // Verify capacity.
+        if(set::m_end == set::m_capacity)
+        {
+            // Return iterator to end and false for existing value.
+            return std::pair<std::iterator<object_type>,bool>(set::m_end, false);
+        }
 
-        // Indicate success.
-        return true;
+        // Get iterator to new position and increment end.
+        std::iterator<object_type> entry = set::m_end++;
+
+        // Set value at new position.
+        *entry = value;
+
+        // Return iterator to entry and false for existing value.
+        return std::pair<std::iterator<object_type>,bool>(entry, true);
     }
     /// \brief Copy-assigns the contents of this set from another set.
     /// \param[in] other The other set to copy-assign from.
