@@ -25,8 +25,9 @@ Currently, Arduino does not support the Standard Library due to various performa
 
 - [Containers](#21-containers): Data structures that store and manage collections of objects.
 - [Memory](#22-memory): Data structures and functions that provide dynamic memory management.
-- [Utility](#23-utility): Utility functions and classes.
-- [Definitions](#24-definitions): Type definitions.
+- [Functional](#23-functional): Function objects.
+- [Utility](#24-utility): Utility functions and classes.
+- [Definitions](#25-definitions): Type definitions.
 
 ### 2.1: Containers
 
@@ -48,7 +49,11 @@ Currently, Arduino does not support the Standard Library due to various performa
 
 - `std::shared_ptr`: A smart pointer with shared ownership over a managed object. Closely follows the Standard Library.
 
-### 2.3: Utility
+### 2.3 Functional
+
+- `std::function`: A polymorphic function wrapper. Closely follows the standard library, but is missing comparison operators due to implementation constraints.
+
+### 2.4: Utility
 
 - `std::forward`: Preserves the lvalue/rvalue category for arguments passed to another function. Minimal functional implementation.
 
@@ -56,7 +61,7 @@ Currently, Arduino does not support the Standard Library due to various performa
 
 - `std::pair`: A pair of heterogeneous objects. Closely follows the Standard Library. `std::make_pair` not yet implemented due to lack of `std::decay`.
 
-### 2.4: Definitions
+### 2.5: Definitions
 
 - `std::size_t`: The type used for sizes and counts of objects in memory.
 
