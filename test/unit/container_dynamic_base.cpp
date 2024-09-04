@@ -99,7 +99,7 @@ struct derived
     using std::container::dynamic::base<uint8_t>::shift_right;
 };
 
-// CONSTRUCTORS
+// TESTS: CONSTRUCTORS
 /// \brief Tests the std::container::dynamic::base default constructor.
 test(container_dynamic_base, constructor_default)
 {
@@ -170,7 +170,7 @@ test(container_dynamic_base, constructor_move)
     }
 }
 
-// ACCESS
+// TESTS: ACCESS
 /// \brief Tests the std::container::dynamic::base::begin function.
 test(container_dynamic_base, begin)
 {
@@ -222,7 +222,7 @@ test(container_dynamic_base, cend)
     assertEqual(container.cend(), container.cbegin() + size);
 }
 
-// MODIFIERS
+// TESTS: MODIFIERS
 /// \brief Tests the std::container::dynamic::base::erase function with a single iterator.
 test(container_dynamic_base, erase_value)
 {
@@ -405,7 +405,7 @@ test(container_dynamic_base, swap)
     }
 }
 
-// COMPARISON
+// TESTS: COMPARISON
 /// \brief Tests the std::container::dynamic::base::operator== function with equal containers.
 test(container_dynamic_base, operator_equal_equal)
 {
@@ -445,7 +445,7 @@ test(container_dynamic_base, operator_equal_unequal_values)
     assertFalse(container_a == container_b);
 }
 
-// CAPACITY
+// TESTS: CAPACITY
 /// \brief Tests the std::container::dynamic::base::size function.
 test(container_dynamic_base, size)
 {
@@ -514,7 +514,7 @@ test(container_dynamic_base, full)
     assertFalse(container.full());
 }
 
-// SHIFT
+// TESTS: SHIFT
 /// \brief Tests the std::container::dynamic::base::shift_left function with a valid configuration.
 test(container_dynamic_base, shift_left)
 {
