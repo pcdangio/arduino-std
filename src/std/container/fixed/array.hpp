@@ -95,7 +95,8 @@ public:
     // MODIFIERS
     /// \brief Deep-copies another array into this array.
     /// \param[in] other The other array to copy from.
-    void operator=(const std::array<object_type,size_value>& other)
+    /// \return A reference to this array.
+    std::array<object_type,size_value>& operator=(const std::array<object_type,size_value>& other)
     {
         // Iterate through both arrays.
         auto this_entry = array::m_begin;
@@ -105,6 +106,8 @@ public:
             // Copy value of other to this array.
             *this_entry++ = *other_entry++;
         }
+
+        return *this;
     }
     /// \brief Assigns a specified value to all elements in the array.
     /// \param[in] value The value to assign.
