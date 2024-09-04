@@ -166,6 +166,42 @@ test(container_dynamic_map, insert_at_capacity)
     assertEqual(result.first, map.end());
     assertFalse(result.second);
 }
+/// \brief Tests the std::map::erase key function with an existing key.
+test(container_dynamic_map, erase_key_existing)
+{
+    // Create and populate a map.
+    std::map<uint8_t,uint8_t> map(5);
+    fill_map(map, map.capacity());
+
+    // Erase key 2 from the map.
+    assertTrue(map.erase(2));
+
+    // Verify map contents after erase.
+    assertEqual(map.size(), std::size_t(4));
+    assertTrue(map.contains(0));
+    assertTrue(map.contains(1));
+    assertFalse(map.contains(2));
+    assertTrue(map.contains(3));
+    assertTrue(map.contains(4));
+}
+/// \brief Tests the std::map::erase key function with a nonexisting key.
+test(container_dynamic_map, erase_key_nonexisting)
+{
+    // Create and populate a map.
+    std::map<uint8_t,uint8_t> map(5);
+    fill_map(map, map.capacity());
+
+    // Erase nonexistent from the map.
+    assertFalse(map.erase(0xFF));
+
+    // Verify map contents after erase.
+    assertEqual(map.size(), std::size_t(5));
+    assertTrue(map.contains(0));
+    assertTrue(map.contains(1));
+    assertTrue(map.contains(2));
+    assertTrue(map.contains(3));
+    assertTrue(map.contains(4));
+}
 
 }
 

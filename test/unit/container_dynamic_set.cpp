@@ -100,7 +100,9 @@ test(container_dynamic_set, insert)
     // Iteratively add unique values and verify success.
     for(uint8_t i = 0; i < set.capacity(); ++i)
     {
-        assertTrue(set.insert(i));
+        auto result = set.insert(i);
+        assertEqual(result.first, set.end() - 1);
+        assertTrue(result.second);
     }
 
     // Verify set contains all values.
@@ -119,7 +121,9 @@ test(container_dynamic_set, insert_duplicate_value)
     set.insert(0xFF);
 
     // Verify inserting the same value fails.
-    assertFalse(set.insert(0xFF));
+    auto result = set.insert(0xFF);
+    assertEqual(result.first, set.begin());
+    assertFalse(result.second);
 
     // Verify set size is still only one.
     assertEqual(set.size(), std::size_t(1));
@@ -135,7 +139,9 @@ test(container_dynamic_set, insert_over_capacity)
     fill_set(set, set.capacity());
 
     // Verify inserting another unique value fails due to over-capacity.
-    assertFalse(set.insert(0xFF));
+    auto result = set.insert(0xFF);
+    assertEqual(result.first, set.end());
+    assertFalse(result.second);
 
     // Verify set size is still at capacity.
     assertEqual(set.size(), set.capacity());
@@ -145,6 +151,42 @@ test(container_dynamic_set, insert_over_capacity)
     {
         assertTrue(set.contains(i));
     }
+}
+/// \brief Tests the std::set::erase key function with an existing key.
+test(container_dynamic_set, erase_key_existing)
+{
+    // Create and populate a set.
+    std::set<uint8_t> set(5);
+    fill_set(set, set.capacity());
+
+    // Erase value 2 from the set.
+    assertTrue(set.erase(2));
+
+    // Verify set contents after erase.
+    assertEqual(set.size(), std::size_t(4));
+    assertTrue(set.contains(0));
+    assertTrue(set.contains(1));
+    assertFalse(set.contains(2));
+    assertTrue(set.contains(3));
+    assertTrue(set.contains(4));
+}
+/// \brief Tests the std::set::erase key function with a nonexisting key.
+test(container_dynamic_set, erase_key_nonexisting)
+{
+    // Create and populate a set.
+    std::set<uint8_t> set(5);
+    fill_set(set, set.capacity());
+
+    // Erase nonexistent from the set.
+    assertFalse(set.erase(0xFF));
+
+    // Verify set contents after erase.
+    assertEqual(set.size(), std::size_t(5));
+    assertTrue(set.contains(0));
+    assertTrue(set.contains(1));
+    assertTrue(set.contains(2));
+    assertTrue(set.contains(3));
+    assertTrue(set.contains(4));
 }
 
 }

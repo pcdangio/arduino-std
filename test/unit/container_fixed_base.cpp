@@ -12,6 +12,26 @@
 
 namespace test::container::fixed::base {
 
+// UTILITY
+/// \brief A derived fixed::base class for testing protected members.
+class derived
+    : public std::container::fixed::base<uint8_t,5>
+{
+public:
+    // FUNCTIONS
+    /// \brief Fills the array with incremental values starting at zero.
+    void fill()
+    {
+        uint8_t i = 0;
+        for(auto entry = derived::m_begin; entry != derived::m_end; ++entry)
+        {
+            *entry = i++;
+        }
+    }
+    using std::container::fixed::base<uint8_t,5>::operator==;
+    using std::container::fixed::base<uint8_t,5>::operator!=;
+};
+
 // TESTS: CONSTRUCTORS
 /// \brief Tests the std::container::fixed::base default constructor.
 test(container_fixed_base, constructor_default)
@@ -115,6 +135,58 @@ test(container_fixed_base, size)
     
     // Verify container size.
     assertEqual(container.size(), size);
+}
+
+// TESTS: COMPARISON
+/// \brief Tests the std::container::fixed::base::operator== function with equal arrays.
+test(container_fixed_base, operater_equal_equal)
+{
+    // Create and populate two containers.
+    derived container_a, container_b;
+    container_a.fill();
+    container_b.fill();
+
+    // Verify containers are equal.
+    assertTrue(container_a == container_b);
+}
+/// \brief Tests the std::container::fixed::base::operator== function with unequal arrays.
+test(container_fixed_base, operater_equal_unequal)
+{
+    // Create and populate two containers.
+    derived container_a, container_b;
+    container_a.fill();
+    container_b.fill();
+
+    // Change a value in container_b.
+    *(container_b.end() - 1) = 0xFF;
+
+    // Verify containers are not equal.
+    assertFalse(container_a == container_b);
+}
+/// \brief Tests the std::container::fixed::base::operator!= function with unequal arrays.
+test(container_fixed_base, operater_unequal_unequal)
+{
+    // Create and populate two containers.
+    derived container_a, container_b;
+    container_a.fill();
+    container_b.fill();
+
+    // Change a value in container_b.
+    *(container_b.end() - 1) = 0xFF;
+
+    // Verify containers are not equal.
+    assertTrue(container_a != container_b);
+}
+/// \brief Tests the std::container::fixed::base::operator!= function with equal arrays.
+test(container_fixed_base, operater_unequal_equal)
+{
+    // Create and populate two containers.
+    derived container_a, container_b;
+    container_a.fill();
+    container_b.fill();
+
+    // Verify containers are not unequal.
+    assertFalse(container_a != container_b);
 }
 
 }

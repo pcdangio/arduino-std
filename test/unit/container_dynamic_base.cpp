@@ -86,13 +86,8 @@ struct derived
     }
 
     // COMPARISON
-    /// \brief Exposes the underlying operator== function.
-    /// \param[in] other The other derived instance to compare with.
-    /// \return TRUE if the two instances are equal, otherwise FALSE.
-    bool operator==(const derived& other)
-    {
-        return std::container::dynamic::base<uint8_t>::operator==(other);
-    }
+    using std::container::dynamic::base<uint8_t>::operator==;
+    using std::container::dynamic::base<uint8_t>::operator!=;
 
     // SHIFT
     using std::container::dynamic::base<uint8_t>::shift_left;
@@ -436,13 +431,51 @@ test(container_dynamic_base, operator_equal_unequal_values)
     // Create two containers.
     derived container_a(5), container_b(5);
 
-    // Fill the containers with equal values but different sizes.
+    // Fill the containers with unequal values.
     container_a.fill(container_a.capacity());
     container_b.fill(container_b.capacity());
-    *(container_b.end() - 1) = 0x34;
+    *(container_b.end() - 1) = 0xFF;
 
-    // Verify operator= returns false.
+    // Verify operator== returns false.
     assertFalse(container_a == container_b);
+}
+/// \brief Tests the std::container::dynamic::base::operator!= function with unequal size containers.
+test(container_dynamic_base, operator_unequal_unequal_size)
+{
+    // Create two containers.
+    derived container_a(5), container_b(5);
+
+    // Fill the containers with equal values but different sizes.
+    container_a.fill(container_a.capacity());
+    container_a.fill(3);
+
+    // Verify operator!= returns true.
+    assertTrue(container_a != container_b);
+}
+/// \brief Tests the std::container::dynamic::base::operator!= function with unequal value containers.
+test(container_dynamic_base, operator_unequal_unequal_values)
+{
+    // Create two containers.
+    derived container_a(5), container_b(5);
+
+    // Fill the containers with equal values.
+    container_a.fill(container_a.capacity());
+    container_b.fill(container_b.capacity());
+    *(container_b.end() - 1) = 0xFF;
+
+    // Verify operator!= returns true.
+    assertTrue(container_a != container_b);
+}
+/// \brief Tests the std::container::dynamic::base::operator!= function with equal containers.
+test(container_dynamic_base, operator_unequal_equal)
+{
+    // Create two populated, equal containers.
+    derived container_a(5);
+    container_a.fill(container_a.capacity());
+    derived container_b(container_a);
+
+    // Verify operator!= returns false.
+    assertFalse(container_a != container_b);
 }
 
 // TESTS: CAPACITY
