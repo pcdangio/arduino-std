@@ -24,7 +24,7 @@ void fill_vector(std::vector<uint8_t>& vector, std::size_t size)
     }
 }
 
-// ACCESS
+// TESTS: ACCESS
 /// \brief Tests the std::vector::operator[] function.
 test(container_dynamic_vector, bracket_operator)
 {
@@ -185,7 +185,7 @@ test(container_dynamic_vector, data_const)
     assertEqual(*const_vector.data(), uint8_t(0));
 }
 
-// MODIFIERS
+// TESTS: MODIFIERS
 /// \brief Tests the std::vector::push_back function with a valid configuration.
 test(container_dynamic_vector, push_back)
 {

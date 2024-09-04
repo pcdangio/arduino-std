@@ -17,10 +17,18 @@
 #include <std/memory/smart_ptr/unique_ptr.hpp>
 #include <std/memory/smart_ptr/shared_ptr.hpp>
 
-// CORE
-#include <std/stddef.hpp>
+// FUNCTIONAL
+#include <std/functional/callable/base.hpp>
+#include <std/functional/callable/global.hpp>
+#include <std/functional/callable/member.hpp>
+#include <std/functional/function.hpp>
+
+// UTILITY
 #include <std/utility/forward.hpp>
 #include <std/utility/move.hpp>
 #include <std/utility/pair.hpp>
+
+// DEFINITIONS
+#include <std/stddef.hpp>
 
 #endif
