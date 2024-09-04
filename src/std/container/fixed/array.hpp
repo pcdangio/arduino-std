@@ -138,6 +138,22 @@ public:
             *this_entry++ = temporary;
         }
     }
+
+    // COMPARISON
+    /// \brief Checks if this array is equal to another array.
+    /// \param[in] other The other array to compare with.
+    /// \return TRUE if the two arrays are equal, otherwise FALSE.
+    bool operator==(const std::array<object_type,size_value>& other) const
+    {
+        return std::container::fixed::base<object_type,size_value>::operator==(other);
+    }
+    /// \brief Checks if this array is not equal to another array.
+    /// \param[in] other The other array to compare with.
+    /// \return TRUE if the two arrays are not equal, otherwise FALSE.
+    bool operator!=(const std::array<object_type,size_value>& other) const
+    {
+        return std::container::fixed::base<object_type,size_value>::operator!=(other);
+    }
 };
 
 }
