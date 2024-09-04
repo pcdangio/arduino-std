@@ -49,7 +49,7 @@ test(functional_callable_global, operator_invoke)
     assertEqual(output, value);
 }
 
-// TESTS: PROPERTIES
+// TESTS: COMPARISON
 /// \brief Tests the std::functional::callable::global::operator_bool function.
 test(functional_callable_global, operator_bool)
 {
@@ -64,6 +64,26 @@ test(functional_callable_global, operator_bool)
 
     // Verify operator_bool returns true with valid global.
     assertTrue(global_valid);
+}
+
+// TESTS: CLONE
+/// \brief Tests the std::functional::callable::global::clone function.
+test(functional_callable_global, clone)
+{
+    // Create a global callback instance with the test_function.
+    std::functional::callable::global<uint8_t,uint8_t> global(&test_function);
+
+    // Clone the global into a new base callable pointer:
+    std::functional::callable::base<uint8_t,uint8_t>* clone = global.clone();
+
+    // Create an expected argument/return value:
+    const uint8_t value = 0x12;
+
+    // Invoke the clone and capture the output.
+    const uint8_t output = clone->operator()(value);
+
+    // Verify output.
+    assertEqual(output, value);
 }
 
 }

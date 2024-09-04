@@ -24,10 +24,15 @@ public:
     /// \return The return value of the callable.
     virtual return_type operator()(const argument_types&... arguments) const = 0;
 
-    // PROPERTIES
+    // COMPARISON
     /// \brief Indicates if this callable can be called.
     /// \return TRUE if the callable points to a valid function, otherwise FALSE.
     virtual operator bool() const = 0;
+
+    // CLONE
+    /// \brief Creates a deep copy of the derived callable and returns it as a base callable.
+    /// \return The copied derived callable as a base callable pointer.
+    virtual std::functional::callable::base<return_type,argument_types...>* clone() const = 0;
 };
 
 }}}

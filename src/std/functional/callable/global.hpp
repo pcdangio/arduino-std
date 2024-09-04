@@ -34,6 +34,11 @@ public:
         // Verify the function is a valid pointer.
         return global::m_function != nullptr;
     }
+    std::functional::callable::base<return_type,argument_types...>* clone() const override
+    {
+        // Return a deep copy of this global callback.
+        return new std::functional::callable::global<return_type,argument_types...>(global::m_function);
+    }
 
 private:
     // FUNCTION

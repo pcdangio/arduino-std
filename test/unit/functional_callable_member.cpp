@@ -78,7 +78,7 @@ test(functional_callable_member, operator_invoke)
     assertEqual(class_instance.captured_value, value);
 }
 
-// TESTS: PROPERTIES
+// TESTS: COMPARISON
 /// \brief Tests the std::functional::callable::member::operator_bool function.
 test(functional_callable_member, operator_bool)
 {
@@ -96,6 +96,32 @@ test(functional_callable_member, operator_bool)
 
     // Verify operator_bool returns true with valid member.
     assertTrue(member_valid);
+}
+
+// TESTS: CLONE
+/// \brief Tests the std::functional::callable::member::clone function.
+test(functional_callable_member, clone)
+{
+    // Create a test_class instance.
+    test_class class_instance;
+
+    // Create a member callback instance with the test_function.
+    std::functional::callable::member<test_class, uint8_t,uint8_t> member(&test_class::test_function, &class_instance);
+
+    // Clone the member into a new base callable pointer:
+    std::functional::callable::base<uint8_t,uint8_t>* clone = member.clone();
+
+    // Create an expected argument/return value:
+    const uint8_t value = 0x12;
+
+    // Invoke the member and capture the output.
+    const uint8_t output = clone->operator()(value);
+
+    // Verify output.
+    assertEqual(output, value);
+
+    // Verify class instance captured value.
+    assertEqual(class_instance.captured_value, value);
 }
 
 }

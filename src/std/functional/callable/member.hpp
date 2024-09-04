@@ -37,6 +37,11 @@ public:
         // Verify function and class instance are valid pointers.
         return (member::m_function != nullptr) && (member::m_instance != nullptr);
     }
+    std::functional::callable::base<return_type,argument_types...>* clone() const override
+    {
+        // Return a deep copy of this member callback.
+        return new std::functional::callable::member<class_type,return_type,argument_types...>(member::m_function, member::m_instance);
+    }
 
 private:
     // FUNCTION
