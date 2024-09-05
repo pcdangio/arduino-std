@@ -571,6 +571,29 @@ test(container_dynamic_base, shift_left)
         assertEqual(*(container.cbegin() + i), expected[i]);
     }
 }
+/// \brief Tests the std::container::dynamic::base::shift_left function with an end() position.
+test(container_dynamic_base, shift_left_end)
+{
+    // Specify container elements after shift.
+    // Assumes original container is {0,1,2,3,4}, with position = end, count = 3.
+    uint8_t expected[2] = {0,1};
+
+    // Create and fill a container.
+    derived container(5);
+    container.fill(container.capacity());
+
+    // Shift the end position left.
+    assertTrue(container.shift_left(container.end(), 3));
+
+    // Verify reduced size.
+    assertEqual(container.size(), std::size_t(2));
+
+    // Verify container contents after shift.
+    for(uint8_t i = 0; i < container.size(); ++i)
+    {
+        assertEqual(*(container.cbegin() + i), expected[i]);
+    }
+}
 /// \brief Tests the std::container::dynamic::base::shift_left function with an empty container.
 test(container_dynamic_base, shift_left_empty)
 {
@@ -594,7 +617,7 @@ test(container_dynamic_base, shift_left_invalid_position)
     assertEqual(container.size(), std::size_t(3));
 
     // Shift left with position past end and verify failure.
-    assertFalse(container.shift_left(container.end(), 1));
+    assertFalse(container.shift_left(container.end() + 1, 1));
 
     // Verify size did not change.
     assertEqual(container.size(), std::size_t(3));
@@ -633,6 +656,30 @@ test(container_dynamic_base, shift_right)
     for(uint8_t i = 0; i < container.size(); ++i)
     {
         assertEqual(*(container.cbegin() + i), expected[i]);
+    }
+}
+/// \brief Tests the std::container::dynamic::base::shift_right function with an end() position.
+test(container_dynamic_base, shift_right_end)
+{
+    // Specify capacity and original size.
+    const std::size_t capacity = 10;
+    const std::size_t original_size = 5;
+    const std::size_t shift_size = 3;
+
+    // Create and fill a container partway.
+    derived container(capacity);
+    container.fill(original_size);
+
+    // Shift the end position right.
+    assertTrue(container.shift_right(container.end(), shift_size));
+
+    // Verify increased size.
+    assertEqual(container.size(), original_size + shift_size);
+
+    // Verify original container contents after shift.
+    for(uint8_t i = 0; i < original_size; ++i)
+    {
+        assertEqual(*(container.cbegin() + i), i);
     }
 }
 /// \brief Tests the std::container::dynamic::base::shift_right function with an empty container.

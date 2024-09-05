@@ -291,7 +291,7 @@ protected:
     bool shift_left(std::iterator<object_type> position, std::size_t count)
     {
         // Validate position.
-        if(position < base::m_begin || position >= base::m_end)
+        if(position < base::m_begin || position > base::m_end)
         {
             return false;
         }
