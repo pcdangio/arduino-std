@@ -31,7 +31,7 @@ public:
     /// \brief Move-constructs a new set from an existing set.
     /// \param[in] other The other set to move-construct from.
     set(std::set<object_type>&& other)
-        : std::container::dynamic::base<object_type>(std::forward(other))
+        : std::container::dynamic::base<object_type>(std::forward<std::set<object_type>>(other))
     {}
 
     // LOOKUP
@@ -134,13 +134,25 @@ public:
         return false;
     }
     using std::container::dynamic::base<object_type>::erase;
-    /// \brief Copy-assigns the contents of this set from another set.
+    /// \brief Copy-assigns the contents of another set to this set.
     /// \param[in] other The other set to copy-assign from.
-    /// \return TRUE if the assignment succeeded, otherwise FALSE.
-    bool operator=(const std::set<object_type>& other)
+    /// \return A reference to this set.
+    std::set<object_type>& operator=(const std::set<object_type>& other)
     {
         // Use base container's operator= function.
-        return std::container::dynamic::base<object_type>::operator=(other);
+        std::container::dynamic::base<object_type>::operator=(other);
+
+        return *this;
+    }
+    /// \brief Move-assigns the contents of another set to this set.
+    /// \param[in] other The other set to move-assign from.
+    /// \return A reference to this set.
+    std::set<object_type>& operator=(std::set<object_type>&& other)
+    {
+        // Use base container's operator= function.
+        std::container::dynamic::base<object_type>::operator=(std::forward<std::set<object_type>>(other));
+
+        return *this;
     }
     /// \brief Swaps the contents of this set with another set.
     /// \param[in] other The other set to swap with.

@@ -32,7 +32,7 @@ public:
     /// \brief Move-constructs a map instance from another map.
     /// \param[in] other The other map to move-construct from.
     map(std::map<key_type,value_type>&& other)
-        : std::container::dynamic::base<std::pair<key_type,value_type>>(std::forward(other))
+        : std::container::dynamic::base<std::pair<key_type,value_type>>(std::forward<std::map<key_type,value_type>>(other))
     {}
 
     // LOOKUP
@@ -122,13 +122,25 @@ public:
         return false;
     }
     using std::container::dynamic::base<std::pair<key_type,value_type>>::erase;
-    /// \brief Copy-assigns the contents of this map from another map.
+    /// \brief Copy-assigns the contents of another map to this map.
     /// \param[in] other The other map to copy-assign from.
-    /// \return TRUE if the assignment succeeded, otherwise FALSE.
-    bool operator=(const std::map<key_type,value_type>& other)
+    /// \return A reference to this map.
+    std::map<key_type,value_type>& operator=(const std::map<key_type,value_type>& other)
     {
         // Use base container's operator= function.
-        return std::container::dynamic::base<std::pair<key_type,value_type>>::operator=(other);
+        std::container::dynamic::base<std::pair<key_type,value_type>>::operator=(other);
+
+        return *this;
+    }
+    /// \brief Move-assigns the contents of another map to this map.
+    /// \param[in] other The other map to move-assign from.
+    /// \return A reference to this map.
+    std::map<key_type,value_type>& operator=(std::map<key_type,value_type>&& other)
+    {
+        // Use base container's operator= function.
+        std::container::dynamic::base<std::pair<key_type,value_type>>::operator=(std::forward<std::map<key_type,value_type>>(other));
+
+        return *this;
     }
     /// \brief Swaps the contents of this map with another map.
     /// \param[in] other The other map to swap with.

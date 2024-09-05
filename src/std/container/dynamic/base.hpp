@@ -35,14 +35,15 @@ public:
     {}
     /// \brief Copy-constructs a new base container instance from another base container.
     /// \param[in] other The other instance to copy-construct from.
+    /// \note This performs a deep copy.
     base(const std::container::dynamic::base<object_type>& other)
         : m_begin(new object_type[other.capacity()]),
-          m_end(m_begin + other.size()),
-          m_capacity(m_begin + other.capacity())
+          m_end(m_begin + (other.m_end - other.m_begin)),
+          m_capacity(m_begin + (other.m_capacity - other.m_begin))
     {
         // Copy values from other.
-        auto this_entry = base::begin();
-        auto other_entry = other.cbegin();
+        auto this_entry = base::m_begin;
+        auto other_entry = other.m_begin;
         while(other_entry < other.m_end)
         {
             *this_entry++ = *other_entry++;
@@ -183,33 +184,50 @@ protected:
     object_type* m_capacity;
 
     // MODIFIERS
-    /// \brief Copy-assigns the contents of this container from another container.
+    /// \brief Copy-assigns the contents of another container to this container.
     /// \param[in] other The other container to copy-assign from.
-    /// \return TRUE if the assignment succeeded, FALSE if this container does not have enough capacity.
-    bool operator=(const std::container::dynamic::base<object_type>& other)
+    /// \return A reference to this container.
+    /// \note This performs a deep copy.
+    std::container::dynamic::base<object_type>& operator=(const std::container::dynamic::base<object_type>& other)
     {
-        // Calculate size of other container.
-        std::size_t size = other.m_end - other.m_begin;
+        // Free this container's memory.
+        delete [] base::m_begin;
 
-        // Verify space in the container.
-        if(base::m_capacity - base::m_begin < size)
+        // Create new memory based on the other container's capacity.
+        base::m_begin = new object_type[other.m_capacity - other.m_begin];
+        base::m_end = base::m_begin + (other.m_end - other.m_begin);
+        base::m_capacity = base::m_begin + (other.m_capacity - other.m_begin);
+
+        // Copy values from other.
+        auto this_entry = base::m_begin;
+        auto other_entry = other.m_begin;
+        while(other_entry < other.m_end)
         {
-            return false;
+            *this_entry++ = *other_entry++;
         }
 
-        // Update end.
-        base::m_end = base::m_begin + size;
+        return *this;
+    }
+    /// \brief Move-assigns the contents of another container to this container.
+    /// \param[in] other The other container to move-assign from.
+    /// \return A reference to this container.
+    std::container::dynamic::base<object_type>& operator=(std::container::dynamic::base<object_type>&& other)
+    {
+        // Free this container's memory.
+        delete [] base::m_begin;
 
-        // Copy values.
-        auto destination = base::m_begin;
-        auto source = other.m_begin;
-        while(destination < base::m_end)
-        {
-            *destination++ = *source++;
-        }
+        // Copy other container's memory into this container.
+        base::m_begin = other.m_begin;
+        base::m_end = other.m_end;
+        base::m_capacity = other.m_capacity;
 
-        // Indicate success.
-        return true;
+        // Reset the other container's memory to a new allocation.
+        std::size_t capacity = base::m_capacity - base::m_begin;
+        other.m_begin = new object_type[capacity];
+        other.m_end = other.m_begin;
+        other.m_capacity = other.m_begin + capacity;
+
+        return *this;
     }
     /// \brief Swaps the contents of this container with another container.
     /// \param[in] other The other container to swap with.
