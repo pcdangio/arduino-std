@@ -134,6 +134,13 @@ public:
         return false;
     }
     using std::container::dynamic::base<object_type>::erase;
+    /// \brief Swaps the contents of this set with another set.
+    /// \param[in] other The other set to swap with.
+    void swap(std::set<object_type>* other)
+    {
+        // Use base container's swap function.
+        std::container::dynamic::base<object_type>::swap(other);
+    }
     /// \brief Copy-assigns the contents of another set to this set.
     /// \param[in] other The other set to copy-assign from.
     /// \return A reference to this set.
@@ -153,13 +160,6 @@ public:
         std::container::dynamic::base<object_type>::operator=(std::forward<std::set<object_type>>(other));
 
         return *this;
-    }
-    /// \brief Swaps the contents of this set with another set.
-    /// \param[in] other The other set to swap with.
-    void swap(std::set<object_type>* other)
-    {
-        // Use base container's swap function.
-        std::container::dynamic::base<object_type>::swap(other);
     }
 
     // COMPARISON

@@ -122,6 +122,13 @@ public:
         return false;
     }
     using std::container::dynamic::base<std::pair<key_type,value_type>>::erase;
+    /// \brief Swaps the contents of this map with another map.
+    /// \param[in] other The other map to swap with.
+    void swap(std::map<key_type,value_type>* other)
+    {
+        // Use base container's swap function.
+        std::container::dynamic::base<std::pair<key_type,value_type>>::swap(other);
+    }
     /// \brief Copy-assigns the contents of another map to this map.
     /// \param[in] other The other map to copy-assign from.
     /// \return A reference to this map.
@@ -141,13 +148,6 @@ public:
         std::container::dynamic::base<std::pair<key_type,value_type>>::operator=(std::forward<std::map<key_type,value_type>>(other));
 
         return *this;
-    }
-    /// \brief Swaps the contents of this map with another map.
-    /// \param[in] other The other map to swap with.
-    void swap(std::map<key_type,value_type>* other)
-    {
-        // Use base container's swap function.
-        std::container::dynamic::base<std::pair<key_type,value_type>>::swap(other);
     }
 
     // COMPARISON

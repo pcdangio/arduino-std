@@ -29,7 +29,7 @@ public:
     /// \brief Move-constructs a unique_ptr instance from another unique_ptr.
     /// \param[in] other The other unique_ptr instance to move.
     unique_ptr(std::unique_ptr<object_type>&& other)
-        : std::memory::smart_ptr::base<object_type>(std::forward<std::unique_ptr<object_type>>(other.m_instance))
+        : std::memory::smart_ptr::base<object_type>(std::forward<std::unique_ptr<object_type>>(other))
     {
         // Remove instance from other.
         other.m_instance = nullptr;
@@ -39,7 +39,7 @@ public:
     /// \param[in] other The other unique_ptr instance to move.
     template <class other_type>
     unique_ptr(std::unique_ptr<other_type>&& other)
-        : std::memory::smart_ptr::base<object_type>(std::forward<std::unique_ptr<other_type>>(other.m_instance))
+        : std::memory::smart_ptr::base<object_type>(std::forward<std::unique_ptr<other_type>>(other))
     {
         // Remove instance from other.
         other.m_instance = nullptr;

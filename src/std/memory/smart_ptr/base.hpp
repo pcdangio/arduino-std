@@ -87,13 +87,6 @@ public:
         return base::m_instance != nullptr;
     }
     
-protected:
-    template <typename other_type>
-    friend class base;
-
-    /// \brief The raw instance managed by this smart_ptr.
-    object_type* m_instance;
-
     // COMPARISON
     /// \brief Checks if this smart_ptr manages the same object as another smart_ptr.
     /// \tparam other_type The object type of the other smart_ptr. If different from this smart_ptr, the object type must be implicitly convertible.
@@ -113,6 +106,13 @@ protected:
     {
         return base::m_instance != other.m_instance;
     }
+    
+protected:
+    template <typename other_type>
+    friend class base;
+
+    /// \brief The raw instance managed by this smart_ptr.
+    object_type* m_instance;
 };
 
 }}}

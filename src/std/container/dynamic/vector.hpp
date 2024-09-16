@@ -249,6 +249,13 @@ public:
         // Indicate success.
         return true;
     }
+    /// \brief Swaps the contents of this vector with another vector.
+    /// \param[in] other The other vector to swap with.
+    void swap(std::vector<object_type>& other)
+    {
+        // Use base container's swap method.
+        std::container::dynamic::base<object_type>::swap(other);
+    }
     /// \brief Copy-assigns the contents of another vector to this vector.
     /// \param[in] other The other vector to copy-assign from.
     /// \return A reference to this vector.
@@ -269,14 +276,7 @@ public:
 
         return *this;
     }
-    /// \brief Swaps the contents of this vector with another vector.
-    /// \param[in] other The other vector to swap with.
-    void swap(std::vector<object_type>& other)
-    {
-        // Use base container's swap method.
-        std::container::dynamic::base<object_type>::swap(other);
-    }
-
+    
     // COMPARISON
     /// \brief Checks if this vector is equal to another vector.
     /// \param[in] other The other vector to compare with.

@@ -147,43 +147,25 @@ public:
         // Reset end iterator.
         base::m_end = base::m_begin;
     }
+    /// \brief Swaps the contents of this container with another container.
+    /// \param[in] other The other container to swap with.
+    void swap(std::container::dynamic::base<object_type>& other)
+    {
+        // Store this container's pointers in a temporary.
+        auto temp_begin = base::m_begin;
+        auto temp_end = base::m_end;
+        auto temp_capacity = base::m_capacity;
 
-    // CAPACITY
-    /// \brief Gets the size of the container.
-    /// \return The size of the container.
-    std::size_t size() const
-    {
-        return base::m_end - base::m_begin;
-    }
-    /// \brief Gets the maximum capacity of the container.
-    /// \return The capacity of the container.
-    std::size_t capacity() const
-    {
-        return base::m_capacity - base::m_begin;
-    }
-    /// \brief Checks if the container is empty.
-    /// \return TRUE if the container is empty, otherwise FALSE.
-    bool empty() const
-    {
-        return base::m_end == base::m_begin;
-    }
-    /// \brief Checks if the container is at capacity.
-    /// \return TRUE if the container is at capacity, otherwise FALSE.
-    bool full() const
-    {
-        return base::m_end == base::m_capacity;
-    }
+        // Store the other container's pointers in this container.
+        base::m_begin = other.m_begin;
+        base::m_end = other.m_end;
+        base::m_capacity = other.m_capacity;
 
-protected:
-    // MEMORY
-    /// \brief Stores a pointer to the beginning of the container's contiguous memory.
-    object_type* m_begin;
-    /// \brief Stores a pointer to the end of the container's populated contiguous memory.
-    object_type* m_end;
-    /// \brief Stores a pointer to the capacity limit of the container's contiguous memory.
-    object_type* m_capacity;
-
-    // MODIFIERS
+        // Store this container's original pointers in the other container.
+        other.m_begin = temp_begin;
+        other.m_end = temp_end;
+        other.m_capacity = temp_capacity;
+    }
     /// \brief Copy-assigns the contents of another container to this container.
     /// \param[in] other The other container to copy-assign from.
     /// \return A reference to this container.
@@ -229,24 +211,31 @@ protected:
 
         return *this;
     }
-    /// \brief Swaps the contents of this container with another container.
-    /// \param[in] other The other container to swap with.
-    void swap(std::container::dynamic::base<object_type>& other)
+
+    // CAPACITY
+    /// \brief Gets the size of the container.
+    /// \return The size of the container.
+    std::size_t size() const
     {
-        // Store this container's pointers in a temporary.
-        auto temp_begin = base::m_begin;
-        auto temp_end = base::m_end;
-        auto temp_capacity = base::m_capacity;
-
-        // Store the other container's pointers in this container.
-        base::m_begin = other.m_begin;
-        base::m_end = other.m_end;
-        base::m_capacity = other.m_capacity;
-
-        // Store this container's original pointers in the other container.
-        other.m_begin = temp_begin;
-        other.m_end = temp_end;
-        other.m_capacity = temp_capacity;
+        return base::m_end - base::m_begin;
+    }
+    /// \brief Gets the maximum capacity of the container.
+    /// \return The capacity of the container.
+    std::size_t capacity() const
+    {
+        return base::m_capacity - base::m_begin;
+    }
+    /// \brief Checks if the container is empty.
+    /// \return TRUE if the container is empty, otherwise FALSE.
+    bool empty() const
+    {
+        return base::m_end == base::m_begin;
+    }
+    /// \brief Checks if the container is at capacity.
+    /// \return TRUE if the container is at capacity, otherwise FALSE.
+    bool full() const
+    {
+        return base::m_end == base::m_capacity;
     }
 
     // COMPARISON
@@ -301,6 +290,15 @@ protected:
         return false;
     }
 
+protected:
+    // MEMORY
+    /// \brief Stores a pointer to the beginning of the container's contiguous memory.
+    object_type* m_begin;
+    /// \brief Stores a pointer to the end of the container's populated contiguous memory.
+    object_type* m_end;
+    /// \brief Stores a pointer to the capacity limit of the container's contiguous memory.
+    object_type* m_capacity;
+    
     // SHIFT
     /// \brief Shifts elements in the container left and reduces the size of the container.
     /// \param[in] position The position (inclusive) to begin the left-shift.
