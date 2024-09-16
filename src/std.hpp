@@ -27,6 +27,7 @@
 #include <std/utility/forward.hpp>
 #include <std/utility/move.hpp>
 #include <std/utility/pair.hpp>
+#include <std/utility/remove_reference.hpp>
 
 // DEFINITIONS
 #include <std/stddef.hpp>

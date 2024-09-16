@@ -3,6 +3,9 @@
 #ifndef STD___UTILITY___FORWARD_H
 #define STD___UTILITY___FORWARD_H
 
+// std
+#include <std/utility/remove_reference.hpp>
+
 namespace std {
 
 /// \brief Forwards a value while maintaining its value category.
@@ -10,10 +13,10 @@ namespace std {
 /// \param[in] object The object to forward.
 /// \return The value with it's value category preserved.
 template <typename object_type>
-object_type&& forward(object_type& object)
+typename std::remove_reference<object_type>::type&& forward(object_type& object)
 {
     // Convert the object to an r_value reference.
-    return static_cast<object_type&&>(object);
+    return static_cast<typename std::remove_reference<object_type>::type&&>(object);
 }
 
 }

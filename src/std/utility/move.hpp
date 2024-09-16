@@ -3,6 +3,9 @@
 #ifndef STD___UTILITY___MOVE_H
 #define STD___UTILITY___MOVE_H
 
+// std
+#include <std/utility/remove_reference.hpp>
+
 namespace std {
 
 /// \brief Converts an object to an r_value reference to be moved.
@@ -10,10 +13,10 @@ namespace std {
 /// \param[in] object The object to convert to an r_value reference.
 /// \return An r_value reference to the object.
 template <typename object_type>
-object_type&& move(object_type& object)
+typename std::remove_reference<object_type>::type&& move(object_type& object)
 {
     // Convert the object to an r_value reference.
-    return static_cast<object_type&&>(object);
+    return static_cast<typename std::remove_reference<object_type>::type&&>(object);
 }
 
 }
