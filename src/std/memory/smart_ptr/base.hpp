@@ -97,6 +97,13 @@ public:
     {
         return base::m_instance == other.m_instance;
     }
+    /// \brief Checks if this smart_ptr's internally managed pointer is equal to nullptr.
+    /// \return TRUE if this smart_ptr's internal pointer is equal to nullptr, otherwise FALSE.
+    bool operator==(decltype(nullptr)) const
+    {
+        // Compare managed pointer with raw pointer.
+        return base::m_instance == nullptr;
+    }
     /// \brief Checks if this smart_ptr manages a different object from another smart_ptr.
     /// \tparam other_type The object type of the other smart_ptr. If different from this smart_ptr, the object type must be implicitly convertible.
     /// \param[in] other The other smart_ptr.
@@ -105,6 +112,13 @@ public:
     bool operator!=(const std::memory::smart_ptr::base<other_type>& other) const
     {
         return base::m_instance != other.m_instance;
+    }
+    /// \brief Checks if this smart_ptr's internally managed pointer is not equal to nullptr.
+    /// \return TRUE if this smart_ptr's internal pointer is not equal to nullptr, otherwise FALSE.
+    bool operator!=(decltype(nullptr)) const
+    {
+        // Compare managed pointer with raw pointer.
+        return base::m_instance != nullptr;
     }
     
 protected:

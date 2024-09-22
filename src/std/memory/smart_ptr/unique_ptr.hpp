@@ -124,6 +124,42 @@ public:
         return *this;
     }
 
+    // COMPARISON
+    /// \brief Checks if this unique_ptr is equal to another unique_ptr.
+    /// \tparam other_type The object type of the other unique_ptr. If different from this unique_ptr, the object must be implicitly convertible.
+    /// \param[in] other The other unique_ptr to compare with.
+    /// \return TRUE if the two unique_ptrs are equal, otherwise FALSE.
+    template <class other_type>
+    bool operator==(const std::unique_ptr<other_type>& other) const
+    {
+        // Use base smart_ptr comparison.
+        return std::memory::smart_ptr::base<object_type>::operator==(other);
+    }
+    /// \brief Checks if this unique_ptr's internally managed pointer is equal to nullptr.
+    /// \return TRUE if this unique_ptr's internal pointer is equal to nullptr, otherwise FALSE.
+    bool operator==(decltype(nullptr)) const
+    {
+        // Use base smart_ptr comparison.
+        return std::memory::smart_ptr::base<object_type>::operator==(nullptr);
+    }
+    /// \brief Checks if this unique_ptr is not equal to another unique_ptr.
+    /// \tparam other_type The object type of the other unique_ptr. If different from this unique_ptr, the object must be implicitly convertible.
+    /// \param[in] other The other unique_ptr to compare with.
+    /// \return TRUE if the two unique_ptrs are not equal, otherwise FALSE.
+    template <class other_type>
+    bool operator!=(const std::unique_ptr<other_type>& other) const
+    {
+        // Use base smart_ptr comparison.
+        return std::memory::smart_ptr::base<object_type>::operator!=(other);
+    }
+    /// \brief Checks if this unique_ptr's internally managed pointer is not equal to nullptr.
+    /// \return TRUE if this unique_ptr's internal pointer is not equal to nullptr, otherwise FALSE.
+    bool operator!=(decltype(nullptr)) const
+    {
+        // Use base smart_ptr comparison.
+        return std::memory::smart_ptr::base<object_type>::operator!=(nullptr);
+    }
+
 private:
     // FRIENDSHIP
     template <class other_type>
