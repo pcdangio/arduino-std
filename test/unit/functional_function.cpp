@@ -156,6 +156,24 @@ test(functional_function, operator_assign_copy)
     // Verify function_b is now valid.
     assertTrue(function_b);
 }
+/// \brief Tests the std::function::operator= copy function with an empty function.
+test(functional_function, operator_assign_copy_empty)
+{
+    // Construct an empty function.
+    std::function<uint8_t(uint8_t)> function_a;
+
+    // Construct an std::function with a global function pointer.
+    std::function<uint8_t(uint8_t)> function_b(&test_function);
+
+    // Copy assign function_a to function_b.
+    function_b = function_a;
+
+    // Verify function_a is invalid.
+    assertFalse(function_a);
+
+    // Verify function_b is now invalid.
+    assertFalse(function_b);
+}
 /// \brief Tests the std::function::operator= move function.
 test(functional_function, operator_assign_move)
 {

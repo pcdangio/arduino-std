@@ -87,8 +87,17 @@ public:
             delete function::m_callable;
         }
 
-        // Clone other function's callable into this function's callable.
-        function::m_callable = other.m_callable->clone();
+        // Check if other function's callable is valid.
+        if(other.m_callable)
+        {
+            // Clone other function's callable into this function's callable.
+            function::m_callable = other.m_callable->clone();
+        }
+        else
+        {
+            // Assign nullptr to this function's callable.
+            function::m_callable = nullptr;
+        }
 
         return *this;
     }

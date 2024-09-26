@@ -51,7 +51,7 @@ public:
     /// \brief Move-constructs a shared_ptr instance from another shared_ptr.
     /// \param[in] other The other shared_ptr instance to move.
     shared_ptr(std::shared_ptr<object_type>&& other)
-        : std::memory::smart_ptr::base<object_type>(std::forward(other)),
+        : std::memory::smart_ptr::base<object_type>(std::forward<std::shared_ptr<object_type>>(other)),
           m_reference_count(other.m_reference_count)
     {
         // Remove reference count from other.
@@ -64,7 +64,7 @@ public:
     /// \param[in] other The other shared_ptr instance to move.
     template <class other_type>
     shared_ptr(std::shared_ptr<other_type>&& other)
-        : std::memory::smart_ptr::base<object_type>(std::forward(other)),
+        : std::memory::smart_ptr::base<object_type>(std::forward<std::shared_ptr<other_type>>(other)),
           m_reference_count(other.m_reference_count)
     {
         // Remove reference count from other.
@@ -210,6 +210,42 @@ public:
 
         // Return the current reference count.
         return *shared_ptr::m_reference_count;
+    }
+
+    // COMPARISON
+    /// \brief Checks if this shared_ptr is equal to another shared_ptr.
+    /// \tparam other_type The object type of the other shared_ptr. If different from this shared_ptr, the object must be implicitly convertible.
+    /// \param[in] other The other shared_ptr to compare with.
+    /// \return TRUE if the two shared_ptrs are equal, otherwise FALSE.
+    template <class other_type>
+    bool operator==(const std::shared_ptr<other_type>& other) const
+    {
+        // Use base smart_ptr comparison.
+        return std::memory::smart_ptr::base<object_type>::operator==(other);
+    }
+    /// \brief Checks if this shared_ptr's internally managed pointer is equal to nullptr.
+    /// \return TRUE if this shared_ptr's internal pointer is equal to nullptr, otherwise FALSE.
+    bool operator==(decltype(nullptr)) const
+    {
+        // Use base smart_ptr comparison.
+        return std::memory::smart_ptr::base<object_type>::operator==(nullptr);
+    }
+    /// \brief Checks if this shared_ptr is not equal to another shared_ptr.
+    /// \tparam other_type The object type of the other shared_ptr. If different from this shared_ptr, the object must be implicitly convertible.
+    /// \param[in] other The other shared_ptr to compare with.
+    /// \return TRUE if the two shared_ptrs are not equal, otherwise FALSE.
+    template <class other_type>
+    bool operator!=(const std::shared_ptr<other_type>& other) const
+    {
+        // Use base smart_ptr comparison.
+        return std::memory::smart_ptr::base<object_type>::operator!=(other);
+    }
+    /// \brief Checks if this shared_ptr's internally managed pointer is not equal to nullptr.
+    /// \return TRUE if this shared_ptr's internal pointer is not equal to nullptr, otherwise FALSE.
+    bool operator!=(decltype(nullptr)) const
+    {
+        // Use base smart_ptr comparison.
+        return std::memory::smart_ptr::base<object_type>::operator!=(nullptr);
     }
 
 private:

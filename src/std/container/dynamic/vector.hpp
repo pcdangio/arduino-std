@@ -30,7 +30,7 @@ public:
     /// \brief Move-constructs a new vector from an existing vector.
     /// \param[in] other The other vector to move-construct from.
     vector(std::vector<object_type>&& other)
-        : std::container::dynamic::base<object_type>(std::forward(other))
+        : std::container::dynamic::base<object_type>(std::forward<std::vector<object_type>>(other))
     {}
 
     // ACCESS
@@ -249,14 +249,6 @@ public:
         // Indicate success.
         return true;
     }
-    /// \brief Copy-assigns the contents of this vector from another vector.
-    /// \param[in] other The other vector to copy-assign from.
-    /// \return TRUE if the assignment succeeded, FALSE if this vector does not have enough capacity.
-    bool operator=(const std::vector<object_type>& other)
-    {
-        // Use base container's operator= method.
-        return std::container::dynamic::base<object_type>::operator=(other);
-    }
     /// \brief Swaps the contents of this vector with another vector.
     /// \param[in] other The other vector to swap with.
     void swap(std::vector<object_type>& other)
@@ -264,7 +256,27 @@ public:
         // Use base container's swap method.
         std::container::dynamic::base<object_type>::swap(other);
     }
+    /// \brief Copy-assigns the contents of another vector to this vector.
+    /// \param[in] other The other vector to copy-assign from.
+    /// \return A reference to this vector.
+    std::vector<object_type>& operator=(const std::vector<object_type>& other)
+    {
+        // Use base container's operator= method.
+        std::container::dynamic::base<object_type>::operator=(other);
 
+        return *this;
+    }
+    /// \brief Move-assigns the contents of another vector to this vector.
+    /// \param[in] other The other vector to move-assign from.
+    /// \return A reference to this vector.
+    std::vector<object_type>& operator=(std::vector<object_type>&& other)
+    {
+        // Use base container's operator= method.
+        std::container::dynamic::base<object_type>::operator=(std::forward<std::vector<object_type>>(other));
+
+        return *this;
+    }
+    
     // COMPARISON
     /// \brief Checks if this vector is equal to another vector.
     /// \param[in] other The other vector to compare with.
