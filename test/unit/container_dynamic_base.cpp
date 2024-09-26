@@ -71,12 +71,23 @@ struct derived
             *entry = value;
         }
     }
-    /// \brief Exposes the underlying base::operator= function.
-    /// \param[in] other The other derived instance to assign from.
-    /// \return TRUE if the assignment succeeded, otherwise FALSE.
-    bool operator=(const derived& other)
+    /// \brief Exposes the underlying base::operator= copy function.
+    /// \param[in] other The other derived instance to copy-assign from.
+    /// \return A reference to this derived container.
+    derived& operator=(const derived& other)
     {
-        return std::container::dynamic::base<uint8_t>::operator=(other);
+        std::container::dynamic::base<uint8_t>::operator=(other);
+
+        return *this;
+    }
+    /// \brief Exposes the underlying base::operator= move function.
+    /// \param[in] other The other derived instance to move-assign from.
+    /// \return A reference to this derived container.
+    derived& operator=(derived&& other)
+    {
+        std::container::dynamic::base<uint8_t>::operator=(std::forward<derived>(other));
+
+        return *this;
     }
     /// \brief Exposes the underlying base::swap function.
     /// \param[in] other The other derived instance to swap with.
@@ -335,35 +346,36 @@ test(container_dynamic_base, clear)
     // Verify container is empty.
     assertTrue(container.empty());
 }
-/// \brief Tests the std::container::dynamic::base::operator= function with a valid configuration.
-test(container_dynamic_base, operator_assignment)
+/// \brief Tests the std::container::dynamic::base::operator= copy function.
+test(container_dynamic_base, operator_assign_copy)
 {
     // Create two containers.
-    derived container_a(5), container_b(5);
+    derived container_a(10), container_b(5);
 
     // Populate container_a.
     container_a.fill(container_a.capacity());
 
-    // Set container_b equal to container_a.
-    assertTrue(container_b = container_a);
+    // Copy-assign container_a to container_b.
+    container_b = container_a;
 
     // Verify containers are equal.
     assertTrue(container_b == container_a);
 }
-/// \brief Tests the std::container::dynamic::base::operator= function with not enough capacity.
-test(container_dynamic_base, operator_assignment_over_capacity)
+/// \brief Tests the std::container::dynamic::base::operator= move function.
+test(container_dynamic_base, operator_assign_move)
 {
-    // Create two containers, with container_b having smaller capacity.
-    derived container_a(5), container_b(3);
+    // Create two containers.
+    derived container_a(10), container_b(5);
 
     // Populate container_a.
     container_a.fill(container_a.capacity());
 
-    // Verify setting container_b equal to container_a fails.
-    assertFalse(container_b = container_a);
+    // Move-assign container_a into container_b
+    container_b = std::move(container_a);
 
-    // Verify container_b is still empty.
-    assertTrue(container_b.empty());
+    // Verify container_b is now populated.
+    assertEqual(container_b.capacity(), std::size_t(10));
+    assertEqual(container_b.size(), std::size_t(10));
 }
 /// \brief Tests the std::container::dynamic::base::swap function.
 test(container_dynamic_base, swap)
@@ -571,6 +583,29 @@ test(container_dynamic_base, shift_left)
         assertEqual(*(container.cbegin() + i), expected[i]);
     }
 }
+/// \brief Tests the std::container::dynamic::base::shift_left function with an end() position.
+test(container_dynamic_base, shift_left_end)
+{
+    // Specify container elements after shift.
+    // Assumes original container is {0,1,2,3,4}, with position = end, count = 3.
+    uint8_t expected[2] = {0,1};
+
+    // Create and fill a container.
+    derived container(5);
+    container.fill(container.capacity());
+
+    // Shift the end position left.
+    assertTrue(container.shift_left(container.end(), 3));
+
+    // Verify reduced size.
+    assertEqual(container.size(), std::size_t(2));
+
+    // Verify container contents after shift.
+    for(uint8_t i = 0; i < container.size(); ++i)
+    {
+        assertEqual(*(container.cbegin() + i), expected[i]);
+    }
+}
 /// \brief Tests the std::container::dynamic::base::shift_left function with an empty container.
 test(container_dynamic_base, shift_left_empty)
 {
@@ -594,7 +629,7 @@ test(container_dynamic_base, shift_left_invalid_position)
     assertEqual(container.size(), std::size_t(3));
 
     // Shift left with position past end and verify failure.
-    assertFalse(container.shift_left(container.end(), 1));
+    assertFalse(container.shift_left(container.end() + 1, 1));
 
     // Verify size did not change.
     assertEqual(container.size(), std::size_t(3));
@@ -633,6 +668,30 @@ test(container_dynamic_base, shift_right)
     for(uint8_t i = 0; i < container.size(); ++i)
     {
         assertEqual(*(container.cbegin() + i), expected[i]);
+    }
+}
+/// \brief Tests the std::container::dynamic::base::shift_right function with an end() position.
+test(container_dynamic_base, shift_right_end)
+{
+    // Specify capacity and original size.
+    const std::size_t capacity = 10;
+    const std::size_t original_size = 5;
+    const std::size_t shift_size = 3;
+
+    // Create and fill a container partway.
+    derived container(capacity);
+    container.fill(original_size);
+
+    // Shift the end position right.
+    assertTrue(container.shift_right(container.end(), shift_size));
+
+    // Verify increased size.
+    assertEqual(container.size(), original_size + shift_size);
+
+    // Verify original container contents after shift.
+    for(uint8_t i = 0; i < original_size; ++i)
+    {
+        assertEqual(*(container.cbegin() + i), i);
     }
 }
 /// \brief Tests the std::container::dynamic::base::shift_right function with an empty container.

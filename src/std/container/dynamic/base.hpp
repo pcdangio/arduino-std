@@ -35,14 +35,15 @@ public:
     {}
     /// \brief Copy-constructs a new base container instance from another base container.
     /// \param[in] other The other instance to copy-construct from.
+    /// \note This performs a deep copy.
     base(const std::container::dynamic::base<object_type>& other)
         : m_begin(new object_type[other.capacity()]),
-          m_end(m_begin + other.size()),
-          m_capacity(m_begin + other.capacity())
+          m_end(m_begin + (other.m_end - other.m_begin)),
+          m_capacity(m_begin + (other.m_capacity - other.m_begin))
     {
         // Copy values from other.
-        auto this_entry = base::begin();
-        auto other_entry = other.cbegin();
+        auto this_entry = base::m_begin;
+        auto other_entry = other.m_begin;
         while(other_entry < other.m_end)
         {
             *this_entry++ = *other_entry++;
@@ -146,6 +147,70 @@ public:
         // Reset end iterator.
         base::m_end = base::m_begin;
     }
+    /// \brief Swaps the contents of this container with another container.
+    /// \param[in] other The other container to swap with.
+    void swap(std::container::dynamic::base<object_type>& other)
+    {
+        // Store this container's pointers in a temporary.
+        auto temp_begin = base::m_begin;
+        auto temp_end = base::m_end;
+        auto temp_capacity = base::m_capacity;
+
+        // Store the other container's pointers in this container.
+        base::m_begin = other.m_begin;
+        base::m_end = other.m_end;
+        base::m_capacity = other.m_capacity;
+
+        // Store this container's original pointers in the other container.
+        other.m_begin = temp_begin;
+        other.m_end = temp_end;
+        other.m_capacity = temp_capacity;
+    }
+    /// \brief Copy-assigns the contents of another container to this container.
+    /// \param[in] other The other container to copy-assign from.
+    /// \return A reference to this container.
+    /// \note This performs a deep copy.
+    std::container::dynamic::base<object_type>& operator=(const std::container::dynamic::base<object_type>& other)
+    {
+        // Free this container's memory.
+        delete [] base::m_begin;
+
+        // Create new memory based on the other container's capacity.
+        base::m_begin = new object_type[other.m_capacity - other.m_begin];
+        base::m_end = base::m_begin + (other.m_end - other.m_begin);
+        base::m_capacity = base::m_begin + (other.m_capacity - other.m_begin);
+
+        // Copy values from other.
+        auto this_entry = base::m_begin;
+        auto other_entry = other.m_begin;
+        while(other_entry < other.m_end)
+        {
+            *this_entry++ = *other_entry++;
+        }
+
+        return *this;
+    }
+    /// \brief Move-assigns the contents of another container to this container.
+    /// \param[in] other The other container to move-assign from.
+    /// \return A reference to this container.
+    std::container::dynamic::base<object_type>& operator=(std::container::dynamic::base<object_type>&& other)
+    {
+        // Free this container's memory.
+        delete [] base::m_begin;
+
+        // Copy other container's memory into this container.
+        base::m_begin = other.m_begin;
+        base::m_end = other.m_end;
+        base::m_capacity = other.m_capacity;
+
+        // Reset the other container's memory to a new allocation.
+        std::size_t capacity = base::m_capacity - base::m_begin;
+        other.m_begin = new object_type[capacity];
+        other.m_end = other.m_begin;
+        other.m_capacity = other.m_begin + capacity;
+
+        return *this;
+    }
 
     // CAPACITY
     /// \brief Gets the size of the container.
@@ -171,64 +236,6 @@ public:
     bool full() const
     {
         return base::m_end == base::m_capacity;
-    }
-
-protected:
-    // MEMORY
-    /// \brief Stores a pointer to the beginning of the container's contiguous memory.
-    object_type* m_begin;
-    /// \brief Stores a pointer to the end of the container's populated contiguous memory.
-    object_type* m_end;
-    /// \brief Stores a pointer to the capacity limit of the container's contiguous memory.
-    object_type* m_capacity;
-
-    // MODIFIERS
-    /// \brief Copy-assigns the contents of this container from another container.
-    /// \param[in] other The other container to copy-assign from.
-    /// \return TRUE if the assignment succeeded, FALSE if this container does not have enough capacity.
-    bool operator=(const std::container::dynamic::base<object_type>& other)
-    {
-        // Calculate size of other container.
-        std::size_t size = other.m_end - other.m_begin;
-
-        // Verify space in the container.
-        if(base::m_capacity - base::m_begin < size)
-        {
-            return false;
-        }
-
-        // Update end.
-        base::m_end = base::m_begin + size;
-
-        // Copy values.
-        auto destination = base::m_begin;
-        auto source = other.m_begin;
-        while(destination < base::m_end)
-        {
-            *destination++ = *source++;
-        }
-
-        // Indicate success.
-        return true;
-    }
-    /// \brief Swaps the contents of this container with another container.
-    /// \param[in] other The other container to swap with.
-    void swap(std::container::dynamic::base<object_type>& other)
-    {
-        // Store this container's pointers in a temporary.
-        auto temp_begin = base::m_begin;
-        auto temp_end = base::m_end;
-        auto temp_capacity = base::m_capacity;
-
-        // Store the other container's pointers in this container.
-        base::m_begin = other.m_begin;
-        base::m_end = other.m_end;
-        base::m_capacity = other.m_capacity;
-
-        // Store this container's original pointers in the other container.
-        other.m_begin = temp_begin;
-        other.m_end = temp_end;
-        other.m_capacity = temp_capacity;
     }
 
     // COMPARISON
@@ -283,6 +290,15 @@ protected:
         return false;
     }
 
+protected:
+    // MEMORY
+    /// \brief Stores a pointer to the beginning of the container's contiguous memory.
+    object_type* m_begin;
+    /// \brief Stores a pointer to the end of the container's populated contiguous memory.
+    object_type* m_end;
+    /// \brief Stores a pointer to the capacity limit of the container's contiguous memory.
+    object_type* m_capacity;
+    
     // SHIFT
     /// \brief Shifts elements in the container left and reduces the size of the container.
     /// \param[in] position The position (inclusive) to begin the left-shift.
@@ -291,7 +307,7 @@ protected:
     bool shift_left(std::iterator<object_type> position, std::size_t count)
     {
         // Validate position.
-        if(position < base::m_begin || position >= base::m_end)
+        if(position < base::m_begin || position > base::m_end)
         {
             return false;
         }

@@ -250,6 +250,30 @@ test(memory_smart_ptr_base, operator_equal_unequal)
     // Clean up raw pointer.
     delete raw_pointer;
 }
+/// \brief Tests the std::memory::smart_ptr::operator== function when equal to nullptr.
+test(memory_smart_ptr_base, operator_equal_nullptr_equal)
+{
+    // Construct an empty smart_ptr.
+    derived smart_ptr(nullptr);
+
+    // Verify operator== returns true.
+    assertTrue(smart_ptr == nullptr);
+}
+/// \brief Tests the std::memory::smart_ptr::operator== function when not equal to nullptr.
+test(memory_smart_ptr_base, operator_equal_nullptr_unequal)
+{
+    // Create a raw pointer.
+    uint8_t* const raw_pointer = new uint8_t(0x12);
+
+    // Construct a smart_ptr from the raw pointer.
+    derived smart_ptr(raw_pointer);
+
+    // Verify operator== returns false.
+    assertFalse(smart_ptr == nullptr);
+
+    // Clean up raw pointer.
+    delete raw_pointer;
+}
 /// \brief Tests the std::memory::smart_ptr::operator!= function with equal smart_ptrs.
 test(memory_smart_ptr_base, operator_not_equal_equal)
 {
@@ -276,6 +300,30 @@ test(memory_smart_ptr_base, operator_not_equal_unequal)
 
     // Verify operator!= returns true.
     assertTrue(smart_ptr_a != smart_ptr_b);
+
+    // Clean up raw pointer.
+    delete raw_pointer;
+}
+/// \brief Tests the std::memory::smart_ptr::operator!= function when equal to nullptr.
+test(memory_smart_ptr_base, operator_not_equal_nullptr_equal)
+{
+    // Construct an empty smart_ptr.
+    derived smart_ptr(nullptr);
+
+    // Verify operator!= returns false.
+    assertFalse(smart_ptr != nullptr);
+}
+/// \brief Tests the std::memory::smart_ptr::operator!= function when not equal to nullptr.
+test(memory_smart_ptr_base, operator_not_equal_nullptr_unequal)
+{
+    // Create a raw pointer.
+    uint8_t* const raw_pointer = new uint8_t(0x12);
+
+    // Construct a smart_ptr from the raw pointer.
+    derived smart_ptr(raw_pointer);
+
+    // Verify operator!= returns true.
+    assertTrue(smart_ptr != nullptr);
 
     // Clean up raw pointer.
     delete raw_pointer;

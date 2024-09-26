@@ -93,22 +93,6 @@ public:
     }
 
     // MODIFIERS
-    /// \brief Deep-copies another array into this array.
-    /// \param[in] other The other array to copy from.
-    /// \return A reference to this array.
-    std::array<object_type,size_value>& operator=(const std::array<object_type,size_value>& other)
-    {
-        // Iterate through both arrays.
-        auto this_entry = array::m_begin;
-        auto other_entry = other.m_begin;
-        while(this_entry < array::m_end)
-        {
-            // Copy value of other to this array.
-            *this_entry++ = *other_entry++;
-        }
-
-        return *this;
-    }
     /// \brief Assigns a specified value to all elements in the array.
     /// \param[in] value The value to assign.
     void fill(const object_type& value)
@@ -140,6 +124,22 @@ public:
             // Store temporary into this and increment this.
             *this_entry++ = temporary;
         }
+    }
+    /// \brief Deep-copies another array into this array.
+    /// \param[in] other The other array to copy from.
+    /// \return A reference to this array.
+    std::array<object_type,size_value>& operator=(const std::array<object_type,size_value>& other)
+    {
+        // Iterate through both arrays.
+        auto this_entry = array::m_begin;
+        auto other_entry = other.m_begin;
+        while(this_entry < array::m_end)
+        {
+            // Copy value of other to this array.
+            *this_entry++ = *other_entry++;
+        }
+
+        return *this;
     }
 
     // COMPARISON

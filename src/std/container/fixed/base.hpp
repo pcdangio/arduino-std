@@ -78,17 +78,6 @@ public:
         return base::m_end - base::m_begin;
     }
 
-protected:
-    // DATA
-    /// \brief Stores the container's data in a fixed size/location array.
-    object_type m_data[size_value];
-
-    // ITERATORS
-    /// \brief An iterator to the beginning of the data array.
-    object_type* const m_begin;
-    /// \brief An iterator to the end of the data array.
-    object_type* const m_end;
-
     // COMPARISON
     /// \brief Checks if this container is equal to another container.
     /// \param[in] other The other array to compare with.
@@ -130,6 +119,17 @@ protected:
         // Indicate equal.
         return false;
     }
+    
+protected:
+    // DATA
+    /// \brief Stores the container's data in a fixed size/location array.
+    object_type m_data[size_value];
+
+    // ITERATORS
+    /// \brief An iterator to the beginning of the data array.
+    object_type* const m_begin;
+    /// \brief An iterator to the end of the data array.
+    object_type* const m_end;
 };
 
 }}
